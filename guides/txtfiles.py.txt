@@ -1,0 +1,11 @@
+import os
+
+# Get all files in current directory
+for filename in os.listdir('.'):
+    # Skip directories, only process files
+    if os.path.isfile(filename):
+        # Check if file doesn't already end with .txt
+        if not filename.endswith('.txt'):
+            new_name = filename + '.txt'
+            os.rename(filename, new_name)
+            print(f"Renamed: {filename} -> {new_name}")

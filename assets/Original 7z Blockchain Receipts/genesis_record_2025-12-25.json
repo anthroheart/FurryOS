@@ -1,0 +1,27 @@
+{
+  "file_info": {
+    "filename": "The_AnthroHeart_Collection_Bundle.7z",
+    "hashes": {
+      "sha256": "18884a99279ec922dcb1d95e72d05ebda1940d348a3bd48d862303582b1de356",
+      "sha512": "22c7e169fc9a0638f8b5cb5853ef954da67e0b58f01c31ff2ea0665df95af955190c5dbe575354f0c99fb787380b2175466a7e620cf3ce69f4695100a8fa2963"
+    },
+    "size_bytes": 5334249499
+  },
+  "identity": {
+    "algorithm": "Ed25519",
+    "public_key": "8a2dc93b3a798221947c178e6f1a154946f012ebdbc7e50d0c52ba0e882b2efa",
+    "signature_of_sha512": "8e6f2363e27857656ea9741b68ca3298336c26ecfbebf9c123ad6c5366c6f23d1067390944a81b203f63a6960b63015e4e785afebe5a80c3c7007db8d85e9d02"
+  },
+  "manifest_version": "1.0",
+  "metadata": {
+    "author": "Thomas B. Sweet",
+    "license": "CC0-1.0",
+    "notes": "Genesis record. Hash-only notarization anchored via OpenTimestamps.",
+    "organization": "Anthro Entertainment LLC",
+    "publication_date": "2025-12-25",
+    "website": "https://anthroentertainment.com"
+  },
+  "previous_record": null,
+  "sequence": 0,
+  "timestamp_claim": "2025-12-25T20:58:43.050837Z"
+}

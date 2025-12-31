@@ -1,0 +1,379 @@
+# 🔧 FurryOS Partition Creator - Usage Guide
+
+## ✅ WHAT THIS FIXES
+
+**Problem:** Raw ISO copy doesn't create boot partitions → BIOS doesn't see USB
+
+**Solution:** Proper partitioned USB with GRUB bootloader
+
+---
+
+## 📦 **WHAT IT CREATES**
+
+### **Partition Layout:**
+```
+/dev/sdb
+├── /dev/sdb1 - BIOS Boot (1MB) - for Legacy BIOS
+├── /dev/sdb2 - EFI System (512MB, FAT32) - for UEFI
+├── /dev/sdb3 - SWAP (2GB) - for performance
+└── /dev/sdb4 - Root (remaining, ext4) - FurryOS system
+```
+
+### **Bootloaders:**
+- ✅ GRUB UEFI (modern computers)
+- ✅ GRUB Legacy (older BIOS)
+- ✅ Works on ANY computer!
+
+### **GRUB Menu:**
+```
+┌─────────────────────────────────────┐
+│ FurryOS 8.0.0 - The Origin          │ ← Main boot
+│ FurryOS 8.0.0 - Recovery Mode       │ ← If issues
+│ FurryOS 8.0.0 - Safe Mode           │ ← Minimal drivers
+│ Memory Test (memtest86+)            │
+│ Reboot                              │
+│ Shutdown                            │
+└─────────────────────────────────────┘
+```
+
+**This menu shows "FurryOS", NOT "Debian"!**
+
+---
+
+## 🚀 **USAGE**
+
+### **Step 1: Make sure ISO is built**
+```bash
+# Check if ISO exists
+ls -lh /TOP/output/furryos-*.iso
+
+# If not found, build it:
+cd /TOP
+sudo python3 assets/deploy_iso.py
+```
+
+### **Step 2: Plug in USB drive (16GB+)**
+```bash
+# Find your USB device
+lsblk
+
+# Example output:
+# sdb      8:16   1  14.9G  0 disk   ← This is your USB
+# └─sdb1   8:17   1  14.9G  0 part
+```
+
+### **Step 3: Run partition creator**
+```bash
+# Run as root
+sudo python3 /TOP/assets/create_partitions.py
+
+# It will:
+# 1. List available devices
+# 2. Ask you to select USB device (e.g., /dev/sdb)
+# 3. Warn about data erasure
+# 4. Create partitions
+# 5. Format partitions
+# 6. Extract ISO
+# 7. Install GRUB
+# 8. Configure boot
+# 9. Done!
+```
+
+### **Step 4: Eject and boot**
+```bash
+# Safely eject
+sync
+sudo eject /dev/sdb
+
+# Physically remove USB
+# Boot from USB in BIOS
+```
+
+---
+
+## ⏱️  **TIMELINE**
+
+```
+Total time: 20-40 minutes
+
+[0-2 min]    Partitioning and formatting
+[2-25 min]   Extracting ISO contents (9GB)
+[25-27 min]  Installing GRUB
+[27-28 min]  Configuration
+[28-30 min]  Finalization
+```
+
+**Go touch grass during the ISO extraction phase!** 🌱
+
+---
+
+## 📊 **EXAMPLE OUTPUT**
+
+```
+================================================================================
+   🔧 FURRYOS USB PARTITION CREATOR 🔧
+   Version: 8.0.0-origin
+   Creates: UEFI + Legacy bootable USB with proper partitions
+================================================================================
+
+🔍 Checking dependencies...
+  ✓ All dependencies found
+
+📀 Found ISO: furryos-8.0.0-origin-x86_64.iso
+   Size: 8.84 GB
+
+📀 Available Storage Devices:
+
+NAME  SIZE   TYPE  MODEL
+sda   500G   disk  Samsung SSD 850
+sdb   14.9G  disk  SanDisk Cruzer
+
+📌 Enter target USB device (e.g., /dev/sdb): sdb
+
+📊 Selected device:
+NAME  SIZE   TYPE  MODEL
+sdb   14.9G  disk  SanDisk Cruzer
+
+⚠️  ALL DATA ON /dev/sdb WILL BE ERASED! Continue? [y/N]: y
+
+⏱️  This process will take 20-40 minutes
+🐾 Go touch grass! 🌱
+
+Press Enter to begin or Ctrl+C to cancel...
+
+🔓 Unmounting /dev/sdb...
+  ✓ Device unmounted
+
+🔧 Creating partitions on /dev/sdb...
+  📝 Wiping partition table...
+  📝 Creating GPT partition table...
+  📝 Creating BIOS boot partition (1MB)...
+  📝 Creating EFI partition (512MB)...
+  📝 Creating SWAP partition (2GB)...
+  📝 Creating Root partition (remaining space)...
+  ✓ Partitions created
+
+💾 Formatting partitions...
+  ⏭️  Skipping /dev/sdb1 (BIOS boot partition)
+  💾 Formatting /dev/sdb2 as FAT32 (EFI)...
+  💾 Creating SWAP on /dev/sdb3...
+  💾 Formatting /dev/sdb4 as ext4 (Root)...
+  ✓ All partitions formatted
+
+📂 Mounting partitions...
+  ✓ Mounted /dev/sdb4 → /mnt/furryos_install
+  ✓ Mounted /dev/sdb2 → /mnt/furryos_install/boot/efi
+
+📦 Extracting ISO contents...
+  ✓ ISO mounted at /mnt/furryos_iso
+  📂 Copying files (this may take 10-20 minutes)...
+  [████████████████████████████] 100%
+  ✓ ISO contents extracted
+
+🔥 Installing GRUB bootloader...
+  🔥 Installing GRUB for UEFI...
+  🔥 Installing GRUB for Legacy BIOS...
+  ✓ GRUB installed (UEFI + Legacy)
+
+📝 Creating GRUB configuration...
+  ✓ GRUB config created
+
+📝 Creating /etc/fstab...
+  ✓ fstab created
+
+✨ Finalizing installation...
+  💾 Syncing filesystem...
+  🔓 Unmounting...
+  ✓ Installation finalized
+
+================================================================================
+   🎉 FURRYOS USB CREATED SUCCESSFULLY! 🎉
+================================================================================
+
+📀 Device: /dev/sdb
+⏱️  Time: 23m 45s
+
+✅ Partitions Created:
+   1. /dev/sdb1 - BIOS Boot (1MB)
+   2. /dev/sdb2 - EFI System (512MB, FAT32)
+   3. /dev/sdb3 - SWAP (2GB)
+   4. /dev/sdb4 - Root (ext4, LABEL=FURRYOS)
+
+✅ Bootloaders Installed:
+   • GRUB UEFI (for modern systems)
+   • GRUB Legacy (for older BIOS)
+
+🔥 GRUB Menu Will Show:
+   • FurryOS 8.0.0 - The Origin
+   • FurryOS 8.0.0 - Recovery Mode
+   • FurryOS 8.0.0 - Safe Mode
+   • Memory Test
+
+🚀 Next Steps:
+   1. Safely eject USB: sync && sudo eject /dev/sdb
+   2. Boot from USB
+   3. Select 'FurryOS 8.0.0 - The Origin'
+   4. Enjoy! 🐾
+
+🐾 The Origin is ready to boot! 🌱
+```
+
+---
+
+## 🎯 **WHAT CHANGED FROM ISO WRITE**
+
+### **Before (BalenaEtcher/dd):**
+```
+❌ No partition table
+❌ No GRUB bootloader
+❌ BIOS doesn't see USB
+❌ Shows as "not bootable"
+```
+
+### **After (create_partitions.py):**
+```
+✅ Proper GPT partition table
+✅ GRUB installed (UEFI + Legacy)
+✅ BIOS sees USB as bootable
+✅ Shows "FurryOS" in boot menu
+✅ SWAP enabled
+✅ Proper filesystem labels
+```
+
+---
+
+## 🔍 **VERIFICATION**
+
+### **After creation, verify:**
+
+```bash
+# Check partitions
+lsblk /dev/sdb
+
+# Should show:
+# NAME   SIZE  TYPE LABEL
+# sdb    14.9G disk
+# ├─sdb1   1M  part          ← BIOS Boot
+# ├─sdb2 512M  part FURRYOS_EFI ← EFI
+# ├─sdb3   2G  part FURRYOS_SWAP ← SWAP
+# └─sdb4 12.4G part FURRYOS   ← Root
+
+# Check filesystems
+sudo blkid /dev/sdb*
+
+# Should show:
+# /dev/sdb2: LABEL="FURRYOS_EFI" TYPE="vfat"
+# /dev/sdb3: LABEL="FURRYOS_SWAP" TYPE="swap"
+# /dev/sdb4: LABEL="FURRYOS" TYPE="ext4"
+```
+
+---
+
+## 🐾 **TROUBLESHOOTING**
+
+### **Error: "No FurryOS ISO found"**
+```bash
+# Build ISO first:
+cd /TOP
+sudo python3 assets/deploy_iso.py
+```
+
+### **Error: "Device /dev/sdb not found"**
+```bash
+# Check device name:
+lsblk
+
+# Use correct name (might be sdc, sdd, etc.)
+```
+
+### **Error: "Permission denied"**
+```bash
+# Run as root:
+sudo python3 /TOP/assets/create_partitions.py
+```
+
+### **GRUB doesn't show in BIOS**
+```bash
+# Check BIOS settings:
+# 1. Disable Secure Boot
+# 2. Enable CSM/Legacy Boot
+# 3. Enable USB Boot
+# 4. Try different USB port (USB 2.0)
+```
+
+### **SWAP not active after boot**
+```bash
+# Check swap status:
+swapon --show
+
+# If not active, activate:
+sudo swapon LABEL=FURRYOS_SWAP
+
+# Make permanent (already in fstab):
+cat /etc/fstab | grep SWAP
+```
+
+---
+
+## 📋 **DEPENDENCIES**
+
+### **Required packages:**
+```bash
+sudo apt-get install \
+    parted \
+    dosfstools \
+    e2fsprogs \
+    grub-pc-bin \
+    grub-efi-amd64-bin \
+    rsync
+```
+
+### **Auto-checked by script:**
+- `parted` - partition management
+- `mkfs.vfat` - FAT32 formatting
+- `mkfs.ext4` - ext4 formatting
+- `mkswap` - SWAP creation
+- `grub-install` - bootloader installation
+- `rsync` - file copying with progress
+
+---
+
+## ✅ **COMPARISON: ISO vs PARTITIONS**
+
+| Feature | ISO Write (dd/Etcher) | Partition Creator |
+|---------|----------------------|-------------------|
+| **Boot Partition** | ❌ No | ✅ Yes (BIOS + EFI) |
+| **SWAP** | ❌ No | ✅ Yes (2GB) |
+| **GRUB Menu** | ❌ No | ✅ Yes (FurryOS branding) |
+| **BIOS Detection** | ❌ Sometimes fails | ✅ Always works |
+| **UEFI Support** | ⚠️ Limited | ✅ Full |
+| **Legacy BIOS** | ⚠️ Limited | ✅ Full |
+| **Filesystem Labels** | ❌ No | ✅ Yes |
+| **fstab** | ❌ No | ✅ Yes |
+| **Persistence** | ⚠️ Manual setup | ✅ Ready |
+
+---
+
+## 🎉 **SUMMARY**
+
+**Use this when:**
+- ✅ BIOS doesn't see ISO-written USB
+- ✅ Want proper partitions with SWAP
+- ✅ Want "FurryOS" to show in boot menu
+- ✅ Need UEFI + Legacy support
+- ✅ Building final production USB
+
+**Use ISO write (dd/Etcher) when:**
+- ✅ Quick testing
+- ✅ Single live session
+- ✅ Your BIOS accepts raw ISO format
+
+---
+
+**For production/distribution: Use create_partitions.py** 🔥
+
+**It creates a REAL bootable USB that works everywhere!** 🚀
+
+---
+
+🐾 **From The Origin, all things boot!** 🌱

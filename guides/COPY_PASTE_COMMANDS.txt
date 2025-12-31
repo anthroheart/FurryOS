@@ -1,0 +1,69 @@
+# ⚡ COPY-PASTE THESE COMMANDS
+
+## Run These Commands in Order
+
+```bash
+# Navigate to /TOP
+cd /TOP
+
+# Move files to correct locations
+mv smart_tree.py assets/
+mv assets/genesis_record_2025-12-25.json .
+mv assets/genesis_record_2025-12-25.json.ots .
+mv assets/release_proof_20251225.json .
+mv assets/release_proof_20251225.json.ots .
+
+# Make Python scripts executable
+chmod +x assets/*.py
+
+# Install cryptography in venv
+source furryos_venv/bin/activate
+pip install cryptography
+python3 -c "import cryptography; print('✓ cryptography installed!')"
+deactivate
+
+# Make shell scripts executable (if they exist)
+chmod +x *.sh 2>/dev/null || true
+
+# Run build (after you download quick_start.sh)
+./quick_start.sh
+```
+
+---
+
+## Before Running Above Commands
+
+**Download these 2 files from this chat and save to /TOP/:**
+
+1. **quick_start.sh** (the updated version with venv Python)
+2. **setup_venv.sh** (creates venv with packages)
+
+Then run the commands above.
+
+---
+
+## What Each Command Does
+
+1. `cd /TOP` - Go to correct directory
+2. `mv smart_tree.py assets/` - Move Python script to assets/
+3. `mv assets/*.json .` - Move blockchain proofs to /TOP
+4. `mv assets/*.ots .` - Move blockchain timestamps to /TOP
+5. `chmod +x assets/*.py` - Make Python scripts executable
+6. `source furryos_venv/bin/activate` - Activate venv
+7. `pip install cryptography` - Install signing package
+8. `deactivate` - Exit venv
+9. `chmod +x *.sh` - Make shell scripts executable
+10. `./quick_start.sh` - Build FurryOS!
+
+---
+
+## Expected Result
+
+After running these commands:
+- ✅ Files in correct locations
+- ✅ cryptography installed in venv  
+- ✅ No PEP 668 errors
+- ✅ Build starts and completes
+- ✅ ISO created in output/ directory
+
+🐾 **Go build The Origin!** 🌱

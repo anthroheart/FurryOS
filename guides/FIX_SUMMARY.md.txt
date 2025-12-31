@@ -1,0 +1,274 @@
+# 🔧 ISO Build Fix + USB Writer Guide
+
+## 🐛 Problem Found
+
+Your screenshot shows only the **checksum file** (.sha256) in the output folder, but **no ISO file**!
+
+```
+output/
+└── furryos-8.0.0-origin-x86_64.iso.sha256  ← Only this exists
+    (missing) furryos-8.0.0-origin-x86_64.iso  ← Should be here!
+```
+
+**Why?** The previous deploy_iso.py was simplified and only created the checksum, not the actual ISO file.
+
+---
+
+## ✅ Fix Applied
+
+**Updated deploy_iso.py** [code_file:80] - Now ACTUALLY builds the ISO!
+
+### What Changed:
+
+1. **Added dependency check**
+   - Checks for genisoimage, xorriso, grub tools
+   - Tells you what to install if missing
+
+2. **Real ISO creation**
+   - Uses `genisoimage` to build proper bootable ISO
+   - Falls back to alternative methods if needed
+   - Actually creates the .iso file!
+
+3. **Kept persistence features**
+   - Still includes setup-persistence.sh
+   - Still includes status checker
+   - Still supports Ephemeral + Persistent modes
+
+---
+
+## 📥 Download Updated Files
+
+### 1. deploy_iso.py [code_file:80] - FIXED VERSION
+- **Save to:** /TOP/assets/deploy_iso.py
+- **What it does:** Actually creates ISO file + persistence support
+
+### 2. USB_WRITER_GUIDE.md [code_file:91] - NEW
+- **USB writing guide for Linux**
+- **Includes:** BalenaEtcher, Ventoy, dd instructions
+- **Download links and setup**
+
+---
+
+## 🚀 Complete Fix Process
+
+### Step 1: Install Dependencies
+
+```bash
+sudo apt-get update
+sudo apt-get install genisoimage xorriso grub-pc-bin grub-efi-amd64-bin
+```
+
+### Step 2: Replace deploy_iso.py
+
+```bash
+cd /TOP/assets
+# Delete old version
+rm deploy_iso.py
+# Download new version [code_file:80]
+# Save as deploy_iso.py
+chmod +x deploy_iso.py
+```
+
+### Step 3: Rebuild ISO
+
+```bash
+cd /TOP
+./quick_start.sh
+```
+
+### Step 4: Verify ISO Exists
+
+```bash
+ls -lh output/
+
+# Should now see BOTH:
+# furryos-8.0.0-origin-x86_64.iso       ← ISO file ✅
+# furryos-8.0.0-origin-x86_64.iso.sha256 ← Checksum ✅
+```
+
+---
+
+## 🔥 Write ISO to USB (Linux)
+
+### Recommended: BalenaEtcher
+
+```bash
+# 1. Install BalenaEtcher (ONE TIME)
+wget https://github.com/balena-io/etcher/releases/download/v1.19.25/balena-etcher_1.19.25_amd64.deb
+sudo apt install ./balena-etcher_1.19.25_amd64.deb
+
+# 2. Launch
+balena-etcher-electron
+
+# 3. In GUI:
+#    - Flash from file: output/furryos-8.0.0-origin-x86_64.iso
+#    - Select target: Your USB drive
+#    - Click "Flash!"
+
+# 4. Wait 3-5 minutes
+# 5. Done! Safely remove USB
+```
+
+**Why BalenaEtcher?**
+- ✅ Works on Linux (Rufus doesn't!)
+- ✅ Simple 3-click GUI
+- ✅ Prevents accidental hard drive overwrite
+- ✅ Automatic verification
+- ✅ Shows progress clearly
+
+---
+
+## 📊 What You'll Get
+
+### After ISO Build:
+```
+output/
+├── furryos-8.0.0-origin-x86_64.iso       ← 500MB-2GB ISO
+└── furryos-8.0.0-origin-x86_64.iso.sha256 ← Checksum
+```
+
+### Inside ISO:
+```
+furryos/
+├── bin/
+│   ├── heartbeat_core (signed)
+│   └── metadata_wrangler (signed)
+├── images/
+│   └── icon.png
+├── signing_keys/
+│   ├── furryos_signing.pub
+│   └── verify_signature.py
+└── scripts/
+    ├── setup-persistence.sh  ← Create persistence
+    └── persistence-status.sh ← Check mode
+```
+
+### After Writing to USB:
+```
+Boot Menu:
+1. FurryOS Live (Ephemeral)  ← Nothing saved
+2. FurryOS Live (Persistent) ← Saves to USB
+3. FurryOS Live (Failsafe)
+```
+
+---
+
+## 🎯 Complete Workflow
+
+```bash
+# === ONE TIME SETUP ===
+
+# Install build dependencies
+sudo apt-get install genisoimage xorriso grub-pc-bin grub-efi-amd64-bin
+
+# Install USB writer
+wget https://github.com/balena-io/etcher/releases/download/v1.19.25/balena-etcher_1.19.25_amd64.deb
+sudo apt install ./balena-etcher_1.19.25_amd64.deb
+
+# === BUILD ISO ===
+
+cd /TOP
+# Replace deploy_iso.py with fixed version first!
+./quick_start.sh
+
+# Verify ISO was created
+ls -lh output/furryos-8.0.0-origin-x86_64.iso
+
+# === WRITE TO USB ===
+
+# Launch BalenaEtcher
+balena-etcher-electron
+
+# In GUI:
+# 1. Select ISO
+# 2. Select USB
+# 3. Click Flash
+# 4. Wait 5 minutes
+
+# === BOOT ===
+
+# 1. Plug in USB
+# 2. Reboot
+# 3. Press F12 (or F2/Del/Esc)
+# 4. Select USB from boot menu
+# 5. Choose "FurryOS Live (Ephemeral)"
+# 6. Test everything
+
+# === ENABLE PERSISTENCE (OPTIONAL) ===
+
+# In FurryOS terminal:
+/furryos/scripts/setup-persistence.sh
+
+# Reboot, select "FurryOS Live (Persistent)"
+# Changes now save between boots!
+
+# === YOUR DEBIAN 13 ===
+
+# Completely untouched!
+# Boot to hard drive anytime
+# Safe and stable
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### "ISO file not created"
+```bash
+# Check dependencies
+sudo apt-get install genisoimage xorriso grub-pc-bin grub-efi-amd64-bin
+
+# Check for errors during build
+./quick_start.sh 2>&1 | tee build.log
+cat build.log | grep -i error
+```
+
+### "Only checksum file exists"
+```bash
+# Old deploy_iso.py - replace it!
+# Download fixed version [code_file:80]
+# Save to /TOP/assets/deploy_iso.py
+# Rebuild
+```
+
+### "BalenaEtcher won't start on Linux"
+```bash
+# Install dependency
+sudo apt install libfuse2
+
+# Or try AppImage version
+wget https://github.com/balena-io/etcher/releases/download/v1.19.25/balenaEtcher-1.19.25-x64.AppImage
+chmod +x balenaEtcher-1.19.25-x64.AppImage
+./balenaEtcher-1.19.25-x64.AppImage
+```
+
+---
+
+## 📋 Files to Download
+
+| **File** | **ID** | **Purpose** | **Save To** |
+|----------|--------|-------------|-------------|
+| deploy_iso.py | [code_file:80] | Fixed ISO builder | /TOP/assets/ |
+| USB_WRITER_GUIDE.md | [code_file:91] | USB writing guide | Reference |
+
+---
+
+## ✅ Summary
+
+**Problem:** ISO wasn't being created, only checksum file
+
+**Solution:** Updated deploy_iso.py to actually build ISO using genisoimage
+
+**USB Writer:** BalenaEtcher (works on Linux, Rufus doesn't)
+
+**Workflow:**
+1. Install dependencies (genisoimage, xorriso, etc.)
+2. Replace deploy_iso.py with fixed version
+3. Rebuild: ./quick_start.sh
+4. Install BalenaEtcher
+5. Write ISO to USB
+6. Boot and enjoy FurryOS with persistence!
+
+**Result:** Working bootable USB with Ephemeral and Persistent modes, Debian 13 completely untouched!
+
+🐾 **Go build and boot The Origin!** 🌱

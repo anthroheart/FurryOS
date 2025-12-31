@@ -1,0 +1,315 @@
+# 💾 FurryOS Persistence Guide
+
+## What Is Persistence?
+
+**Persistence** = Your changes, files, and settings **save between reboots** without installing to hard drive!
+
+---
+
+## 🎯 Two Modes Available
+
+### Mode 1: Ephemeral (Default)
+```
+Boot → Use FurryOS → Reboot
+Everything resets. Like Tails OS.
+
+✅ Perfect for:
+• Privacy/security
+• Testing
+• Clean slate every time
+```
+
+### Mode 2: Persistent  
+```
+Boot → Use FurryOS → Save files → Reboot → Boot again
+Files and settings persist!
+
+✅ Perfect for:
+• Daily use from USB
+• Keeping your work
+• Settings that stick
+• Never installing to hard drive
+```
+
+---
+
+## 📊 How It Works
+
+### USB Drive Layout After Setup:
+
+```
+Your USB Drive (e.g., 32GB):
+┌─────────────────────────────────────┐
+│ Partition 1: FurryOS System (2GB)  │ ← The OS (read-only)
+├─────────────────────────────────────┤
+│ Partition 2: EFI Boot (512MB)      │ ← Bootloader
+├─────────────────────────────────────┤
+│ Partition 3: Persistence (29GB)    │ ← YOUR DATA (read/write)
+│                                     │   • Files you create
+│                                     │   • Settings you change
+│                                     │   • Apps you install
+│                                     │   • Everything persists here!
+└─────────────────────────────────────┘
+```
+
+---
+
+## 🚀 Setup Instructions
+
+### Step 1: Write ISO to USB
+
+```bash
+# Use Rufus, BalenaEtcher, or dd
+# This creates partitions 1 and 2
+```
+
+### Step 2: Boot to FurryOS
+
+```
+1. Plug in USB
+2. Reboot
+3. Select USB from boot menu
+4. Choose "FurryOS Live (Ephemeral)" first time
+```
+
+### Step 3: Create Persistence Partition
+
+```bash
+# In FurryOS, open terminal:
+/furryos/scripts/setup-persistence.sh
+
+# This creates partition 3 for your data
+# Only needs to be done ONCE
+```
+
+### Step 4: Reboot and Select Persistent Mode
+
+```
+1. Reboot
+2. Boot from USB again
+3. Choose "FurryOS Live (Persistent)"  ← Important!
+4. Now your changes save!
+```
+
+---
+
+## 🎯 Boot Menu Explained
+
+When you boot from USB, you see:
+
+```
+╔══════════════════════════════════════╗
+║   🐾 FurryOS 8.0.0-origin 🐾        ║
+╠══════════════════════════════════════╣
+║ 1. FurryOS Live (Ephemeral)         ║ ← Nothing saved
+║ 2. FurryOS Live (Persistent) ★      ║ ← Changes saved
+║ 3. FurryOS Live (Failsafe)          ║ ← Safe mode
+╚══════════════════════════════════════╝
+
+Use ↑↓ arrows to select, Enter to boot
+```
+
+### Which Mode Should You Choose?
+
+**Ephemeral (Mode 1):**
+- First boot (before setup)
+- Testing something risky
+- You want a clean slate
+- Maximum privacy
+
+**Persistent (Mode 2):**
+- After running setup-persistence.sh
+- Daily use
+- You want to keep your files
+- Settings should stick
+
+---
+
+## 📝 What Gets Saved (Persistent Mode)
+
+### ✅ Saved Between Reboots:
+- Files in /home/
+- Desktop icons and wallpaper
+- Browser bookmarks and history
+- Application settings
+- Installed packages (apt install)
+- Network WiFi passwords
+- Custom configurations
+
+### ❌ NOT Saved (Both Modes):
+- Nothing in /tmp/
+- RAM contents
+- Kernel state
+
+---
+
+## 🔍 Check Your Mode
+
+Run this anytime to see which mode you're in:
+
+```bash
+/furryos/scripts/persistence-status.sh
+```
+
+Output in Ephemeral mode:
+```
+📊 FurryOS Persistence Status 📊
+
+⚠️  Persistence is NOT active
+💨 Changes will NOT be saved (Ephemeral mode)
+
+To enable persistence:
+  1. Run: /furryos/scripts/setup-persistence.sh
+  2. Reboot
+  3. Select 'FurryOS Live (Persistent)'
+```
+
+Output in Persistent mode:
+```
+📊 FurryOS Persistence Status 📊
+
+✅ Persistence is ACTIVE
+💾 Changes WILL be saved between reboots
+
+Persistence partition:
+/dev/sdb3   29G  512M   28G   2% /lib/live/mount/persistence
+```
+
+---
+
+## 🗑️ Reset Persistence (Start Fresh)
+
+If you want to wipe all saved data:
+
+```bash
+/furryos/scripts/reset-persistence.sh
+
+# WARNING: This deletes EVERYTHING in persistence!
+# You'll be asked to confirm
+```
+
+---
+
+## 💡 Common Scenarios
+
+### Scenario 1: Daily Driver (No Installation)
+
+```
+1. Write ISO to USB
+2. Run setup-persistence.sh
+3. Always boot to "Persistent" mode
+4. Use FurryOS like it's installed
+5. Your Debian 13 is never touched!
+```
+
+### Scenario 2: Testing/Privacy (Like Tails)
+
+```
+1. Write ISO to USB
+2. Don't run setup-persistence.sh
+3. Always boot to "Ephemeral" mode
+4. Everything resets on reboot
+5. Maximum privacy
+```
+
+### Scenario 3: Hybrid (Best of Both)
+
+```
+1. Write ISO to USB
+2. Run setup-persistence.sh
+3. Boot to "Persistent" for daily use
+4. Boot to "Ephemeral" for private browsing
+5. Choose at boot menu!
+```
+
+---
+
+## 🎯 Advantages Over Installing
+
+| **Aspect** | **Installed to Hard Drive** | **Persistent USB** |
+|------------|------------------------------|---------------------|
+| Debian 13 | ❌ Replaced or dual-boot | ✅ Completely untouched |
+| Risk | 🔴 High | 🟢 Zero |
+| Portable | ❌ No | ✅ Yes - use on any PC! |
+| Reversible | ⚠️ Hard to undo | ✅ Just unplug USB |
+| Speed | ⚡ Fast (SSD) | 🐢 Slower (USB) |
+| Testing | 🔴 Risky | 🟢 Completely safe |
+
+---
+
+## ⚡ Performance Notes
+
+### USB Speed Matters:
+- **USB 2.0**: Usable but slow (~30 MB/s)
+- **USB 3.0**: Good performance (~100 MB/s) ✅ Recommended
+- **USB 3.1/3.2**: Best performance (~500+ MB/s)
+
+### Tips for Better Performance:
+1. Use USB 3.0 or faster drive
+2. Use high-quality USB drive (not cheap ones)
+3. Keep free space on persistence partition
+4. Consider USB flash drive vs. external SSD
+
+---
+
+## 🐛 Troubleshooting
+
+### "Persistence partition not found"
+```bash
+# Check if partition exists:
+lsblk
+
+# If missing, run setup again:
+/furryos/scripts/setup-persistence.sh
+```
+
+### "Changes aren't saving"
+```bash
+# Make sure you booted to Persistent mode:
+/furryos/scripts/persistence-status.sh
+
+# Should show: "Persistence is ACTIVE"
+# If not, reboot and select option 2
+```
+
+### "USB drive is full"
+```bash
+# Check space:
+df -h | grep persistence
+
+# Delete old files or reset:
+/furryos/scripts/reset-persistence.sh
+```
+
+---
+
+## 🎉 Summary
+
+**With FurryOS Persistence:**
+- ✅ Run from USB forever
+- ✅ Never install to hard drive
+- ✅ Keep Debian 13 safe and untouched
+- ✅ Save your work between boots
+- ✅ Switch between Ephemeral and Persistent anytime
+- ✅ Portable - use on any computer
+- ✅ Zero risk to your main system
+
+**Your Debian 13 never knows FurryOS exists!**
+
+---
+
+## 📋 Quick Reference
+
+| **Task** | **Command** |
+|----------|-------------|
+| Setup persistence | `/furryos/scripts/setup-persistence.sh` |
+| Check status | `/furryos/scripts/persistence-status.sh` |
+| Reset (wipe data) | `/furryos/scripts/reset-persistence.sh` |
+| Boot ephemeral | Select option 1 at boot menu |
+| Boot persistent | Select option 2 at boot menu |
+
+---
+
+**TL;DR**: Setup persistence once, then boot to "Persistent" mode. Your files and settings save to USB. Your Debian 13 hard drive is never touched. You can use FurryOS forever from USB!
+
+🐾 **Go build The Origin with persistence!** 🌱

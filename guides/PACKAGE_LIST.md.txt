@@ -1,0 +1,251 @@
+# 📦 FurryOS Complete Package List
+
+## Python Packages (Installed in venv)
+
+### Core Framework (4 packages)
+1. **PyYAML** (>=6.0.1)
+   - Purpose: Parse GENOME.yaml and USER_CONFIG.yaml
+   - Used by: launcher.py, deploy_iso.py
+   - Size: ~1 MB
+
+2. **requests** (>=2.31.0)
+   - Purpose: HTTP downloads (Debian ISO, packages)
+   - Used by: Net installer
+   - Size: ~500 KB
+
+3. **urllib3** (>=2.0.0)
+   - Purpose: HTTP connection pooling
+   - Dependency of: requests
+   - Size: ~300 KB
+
+4. **jinja2** (>=3.1.2)
+   - Purpose: Template engine for code generation
+   - Used by: Future modules
+   - Size: ~500 KB
+
+### Media Processing (2 packages)
+5. **Pillow** (>=10.0.0)
+   - Purpose: Image processing (icon.png, splash screens)
+   - Used by: deploy_iso.py, installer
+   - Size: ~3 MB
+
+6. **mutagen** (>=1.47.0)
+   - Purpose: Audio metadata (MP3, WAV, OGG tagging)
+   - Used by: metadata_wrangler, future modules
+   - Size: ~1 MB
+
+### Cryptography & Signing (1 package)
+7. **cryptography** (>=41.0.0) ⭐
+   - Purpose: Ed25519 binary signing
+   - Used by: generate_signing_keys.py, launcher.py, verify_signature.py
+   - Size: ~3 MB
+   - **This was missing and caused the error!**
+
+### Build Tools (1 package)
+8. **pipreqs** (>=0.5.0)
+   - Purpose: Automatic dependency scanning
+   - Used by: Development and auditing
+   - Size: ~100 KB
+
+### Optional (2 packages)
+9. **python-magic-bin** (>=0.4.14) [Windows]
+   - Purpose: File type detection
+   - Used by: Asset management
+   - Size: ~500 KB
+
+10. **python-magic** (>=0.4.27) [Linux/Mac]
+    - Purpose: File type detection
+    - Used by: Asset management
+    - Size: ~50 KB
+
+---
+
+## Total venv Size
+
+- **Installed packages**: 10-12 packages
+- **Total size**: ~10-15 MB
+- **Compressed (.tar.gz)**: ~5-8 MB
+- **With venv overhead**: ~50 MB total
+
+---
+
+## System Packages (via apt)
+
+### Build Essentials
+```bash
+build-essential g++ gcc make cmake
+```
+Purpose: C++ compilation for heartbeat_core, metadata_wrangler
+
+### Development Libraries
+```bash
+libssl-dev          # OpenSSL for cryptography
+libsqlite3-dev      # Database support
+libcurl4-openssl-dev # HTTP client
+```
+
+### Utilities
+```bash
+git wget curl rsync
+```
+
+### ISO Creation Tools
+```bash
+genisoimage         # ISO generation
+mkisofs            # Alternative ISO tool
+xorriso            # Another alternative
+grub-pc-bin        # BIOS bootloader
+grub-efi-amd64-bin # UEFI bootloader
+```
+
+---
+
+## Installation Methods
+
+### Method 1: venv (Recommended)
+```bash
+cd /TOP
+./setup_venv.sh
+```
+**Installs all Python packages in isolated environment**
+
+### Method 2: requirements.txt
+```bash
+cd /TOP
+python3 -m venv furryos_venv
+source furryos_venv/bin/activate
+pip install -r requirements.txt
+deactivate
+```
+
+### Method 3: System-wide (Not Recommended)
+```bash
+sudo rm -f /usr/lib/python3.*/EXTERNALLY-MANAGED
+sudo pip3 install --break-system-packages pyyaml requests pillow mutagen cryptography jinja2
+```
+
+---
+
+## Verification Commands
+
+### Check All Packages in venv
+```bash
+source furryos_venv/bin/activate
+
+# Core
+python3 -c "import yaml; print('✓ pyyaml')"
+python3 -c "import requests; print('✓ requests')"
+python3 -c "import jinja2; print('✓ jinja2')"
+
+# Media
+python3 -c "import PIL; print('✓ pillow')"
+python3 -c "import mutagen; print('✓ mutagen')"
+
+# Crypto (MOST IMPORTANT)
+python3 -c "import cryptography; print('✓ cryptography')"
+
+# Build tools
+python3 -c "import pipreqs; print('✓ pipreqs')"
+
+deactivate
+```
+
+### List All Installed Packages
+```bash
+source furryos_venv/bin/activate
+pip list
+deactivate
+```
+
+### Check venv Size
+```bash
+du -sh furryos_venv/
+```
+
+---
+
+## Package Usage Map
+
+| **Package** | **Used By** | **Critical?** |
+|-------------|-------------|---------------|
+| PyYAML | launcher.py, deploy_iso.py | ✅ YES |
+| requests | Net installer, downloads | ✅ YES |
+| Pillow | Icon embedding, splash | ⚠️ Optional |
+| mutagen | metadata_wrangler | ⚠️ Optional |
+| cryptography | Binary signing | ✅ YES |
+| jinja2 | Template generation | ⚠️ Optional |
+| pipreqs | Development only | ❌ No |
+
+---
+
+## What Was Fixed
+
+### Before (Broken)
+```python
+# generate_signing_keys.py tried to install system-wide
+def install_cryptography():
+    os.system("pip3 install cryptography")  # ❌ Fails with PEP 668
+```
+
+### After (Fixed)
+```python
+# generate_signing_keys.py just checks if available
+def check_cryptography():
+    try:
+        import cryptography
+        return True
+    except ImportError:
+        print("Run ./setup_venv.sh first")
+        return False
+```
+
+### setup_venv.sh now includes:
+```bash
+# Install IN the venv
+source furryos_venv/bin/activate
+pip install cryptography  # ✅ Works in venv!
+deactivate
+```
+
+---
+
+## Dependency Tree
+
+```
+FurryOS Build System
+│
+├── Core Dependencies (Required)
+│   ├── PyYAML (config parsing)
+│   ├── requests (downloads)
+│   └── cryptography (signing) ⭐
+│
+├── Media Dependencies (Optional)
+│   ├── Pillow (images)
+│   └── mutagen (audio)
+│
+├── Template Dependencies (Optional)
+│   └── jinja2 (code generation)
+│
+└── Development Tools (Optional)
+    └── pipreqs (dependency scanning)
+```
+
+---
+
+## Future Additions
+
+As FurryOS grows, these may be added:
+
+- **docker** - Container support
+- **ansible** - Configuration management
+- **pytest** - Testing framework
+- **black** - Code formatting
+- **mypy** - Type checking
+
+Run `pipreqs /TOP/assets` to automatically detect new dependencies as you add code.
+
+---
+
+**Summary**: The venv now includes cryptography and all other needed packages. No more PEP 668 errors!
+
+🐾 **Go touch grass; all packages are installed!** 🌱

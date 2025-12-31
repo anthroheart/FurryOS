@@ -1,0 +1,262 @@
+# 🔐 FurryOS Binary Signing Guide
+
+## What is Binary Signing?
+
+Self-signing ensures:
+- ✅ **Authenticity** - Proves binaries came from you
+- ✅ **Integrity** - Detects tampering or corruption
+- ✅ **Trust** - Users can verify official builds
+- ✅ **Blockchain ready** - Sign before anchoring
+
+---
+
+## 🚀 Quick Start
+
+### Step 1: Generate Signing Keys (One-Time)
+
+```bash
+cd /TOP
+python3 generate_signing_keys.py
+```
+
+**Output:**
+```
+🔐 FURRYOS SIGNING KEY GENERATOR 🔐
+
+🔑 Generating Ed25519 keypair...
+
+💾 Saving keys to signing_keys/
+✓ Private key: signing_keys/furryos_signing.key
+✓ Public key: signing_keys/furryos_signing.pub
+
+🎉 SIGNING KEYS GENERATED! 🎉
+
+📁 Location: signing_keys/
+🔐 furryos_signing.key (PRIVATE - KEEP SECRET!)
+🔓 furryos_signing.pub (PUBLIC - DISTRIBUTE)
+```
+
+### Step 2: Build with Auto-Signing
+
+Binaries are **automatically signed** during build:
+
+```bash
+./quick_start.sh
+```
+
+**What happens:**
+- Compiles `heartbeat_core`, `metadata_wrangler`, etc.
+- **Automatically signs** each binary with your private key
+- Creates `.sig` signature files alongside binaries
+- Includes public key in ISO for verification
+
+---
+
+## 📁 File Structure After Signing
+
+```
+/TOP/
+├── signing_keys/
+│   ├── furryos_signing.key     ← Private key (NEVER share!)
+│   ├── furryos_signing.pub     ← Public key (distribute)
+│   └── README.txt              ← Metadata
+│
+├── furryos_build/
+│   └── bin/
+│       ├── heartbeat_core          ← Binary
+│       ├── heartbeat_core.sig      ← Signature
+│       ├── metadata_wrangler       ← Binary
+│       └── metadata_wrangler.sig   ← Signature
+│
+└── output/
+    └── furryos-8.0.0-x86_64.iso    ← Contains signed binaries + public key
+```
+
+---
+
+## 🔍 Manual Signing (Optional)
+
+If you want to sign binaries manually:
+
+```bash
+# Sign a binary
+python3 signing_keys/sign_binary.py furryos_build/bin/heartbeat_core
+
+# Output:
+# 🔐 Signing: furryos_build/bin/heartbeat_core
+# ✓ Signature: furryos_build/bin/heartbeat_core.sig
+# ✓ Size: 64 bytes
+```
+
+---
+
+## ✅ Verifying Signatures
+
+Users can verify binaries with your public key:
+
+```bash
+# From ISO or installed system
+python3 /furryos/signing_keys/verify_signature.py /furryos/bin/heartbeat_core
+
+# Output:
+# 🔍 Verifying: /furryos/bin/heartbeat_core
+# ✅ SIGNATURE VALID - Binary is authentic!
+```
+
+---
+
+## 🔐 Security Best Practices
+
+### Private Key Protection
+```bash
+# Check permissions
+ls -l signing_keys/furryos_signing.key
+# Should show: -rw------- (600)
+
+# If wrong, fix:
+chmod 600 signing_keys/furryos_signing.key
+```
+
+### Backup Private Key
+```bash
+# Encrypted backup
+gpg -c signing_keys/furryos_signing.key
+# Creates: furryos_signing.key.gpg
+
+# Store offline (USB drive, paper backup, etc.)
+```
+
+### Distribute Public Key
+```bash
+# Public key is safe to share
+# Already included in ISO automatically
+
+# Also publish at:
+# - GitHub repo
+# - furry-os.com/signing_key.pub
+# - README.md
+```
+
+---
+
+## 🎯 What Gets Signed
+
+### Automatically Signed During Build
+- ✅ `heartbeat_core` - Central orchestrator
+- ✅ `metadata_wrangler` - Media file tagger
+- ✅ All future C++ modules
+- ✅ Python helper scripts (optional)
+- ✅ Installer wizard (optional)
+
+### ISO Includes
+- ✅ All signed binaries with `.sig` files
+- ✅ Public key in `/furryos/signing_keys/`
+- ✅ Verification script
+- ✅ README with instructions
+
+---
+
+## 🌐 Blockchain Integration
+
+Sign binaries **before** anchoring to blockchain:
+
+```bash
+# 1. Build and sign
+./quick_start.sh
+
+# 2. Verify all signatures
+for binary in furryos_build/bin/*; do
+    if [ -f "$binary" ] && [ ! -d "$binary" ]; then
+        python3 signing_keys/verify_signature.py "$binary"
+    fi
+done
+
+# 3. Anchor to blockchain
+cd output
+python3 ../ANCHOR-TO-BITCOIN.py furryos-8.0.0-x86_64.iso
+
+# Now the blockchain proof includes signed binaries!
+```
+
+---
+
+## 🔧 Troubleshooting
+
+### "Permission denied: furryos_signing.key"
+```bash
+chmod 600 signing_keys/furryos_signing.key
+```
+
+### "Signature verification failed"
+Possible causes:
+- Binary was modified after signing
+- Wrong public key used
+- Signature file corrupted
+
+**Solution:** Re-sign the binary:
+```bash
+python3 signing_keys/sign_binary.py path/to/binary
+```
+
+### "Private key not found during build"
+```bash
+# Generate keys first
+python3 generate_signing_keys.py
+
+# Then rebuild
+./quick_start.sh
+```
+
+---
+
+## 📊 Signature Format
+
+- **Algorithm**: Ed25519 (256-bit elliptic curve)
+- **Signature size**: 64 bytes
+- **Key size**: 32 bytes (private), 32 bytes (public)
+- **Format**: Raw binary (not base64 or hex)
+
+### Why Ed25519?
+- ✅ **Fast**: Sign/verify in microseconds
+- ✅ **Small**: 64-byte signatures
+- ✅ **Secure**: 256-bit security level
+- ✅ **Standard**: Used by SSH, Signal, Bitcoin
+- ✅ **No entropy issues**: Deterministic signatures
+
+---
+
+## 🎓 Advanced: Multi-Key Signing
+
+For production releases, use multiple keys:
+
+```bash
+# Developer key (your key)
+python3 signing_keys/sign_binary.py binary
+
+# Release manager key
+python3 signing_keys_release/sign_binary.py binary
+
+# Result: binary.sig and binary.sig.release
+```
+
+Users verify both signatures for maximum trust.
+
+---
+
+## 📋 Checklist
+
+Before distribution:
+- [ ] Generate signing keys (`generate_signing_keys.py`)
+- [ ] Build with auto-signing (`quick_start.sh`)
+- [ ] Verify all signatures manually
+- [ ] Backup private key (encrypted)
+- [ ] Publish public key on website
+- [ ] Include in README how to verify
+- [ ] Anchor ISO to blockchain
+- [ ] Test verification on clean system
+
+---
+
+**Your binaries are now cryptographically signed and verifiable! Users can trust they're getting authentic FurryOS builds.**
+
+🔐 **Go touch grass; your builds are secure!** 🌱

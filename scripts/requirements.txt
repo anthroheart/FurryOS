@@ -1,0 +1,26 @@
+# FurryOS Build System Requirements
+# Install with: pip install -r requirements.txt
+
+# Core Framework
+pyyaml>=6.0
+requests>=2.31.0
+
+# Media Processing
+pillow>=10.0.0
+mutagen>=1.47.0
+
+# Cryptography & Signing
+cryptography>=41.0.0
+
+# Template Engine
+jinja2>=3.1.2
+
+# Build Tools
+pipreqs>=0.5.0
+
+# Additional Requirements
+sudo apt-get install genisoimage xorriso grub-pc-bin grub-efi-amd64-bin
+
+# Optional Dependencies
+python-magic-bin>=0.4.14; platform_system == "Windows"
+python-magic>=0.4.27; platform_system != "Windows"

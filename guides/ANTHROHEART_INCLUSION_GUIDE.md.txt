@@ -1,0 +1,361 @@
+# 🎨 ANTHROHEART Inclusion Guide
+
+## What Changed
+
+**deploy_iso.py now includes the ANTHROHEART media library in the ISO!**
+
+Your 9GB ANTHROHEART folder will be embedded in the ISO, making it a complete self-contained distribution.
+
+---
+
+## 📥 Updated File
+
+**deploy_iso.py (WITH ANTHROHEART)** [code_file:96]
+- Save to: `/TOP/assets/deploy_iso.py`
+
+---
+
+## 📊 Size Comparison
+
+| **Build Type** | **ISO Size** | **Contents** |
+|----------------|--------------|--------------|
+| **Minimal** | ~605 MB | Binaries + BalenaEtcher only |
+| **Full** | ~10-12 GB | + ANTHROHEART media library |
+
+---
+
+## 🚀 How To Build
+
+### If You Have ANTHROHEART.7z File:
+
+```bash
+cd /TOP
+
+# Install 7z if needed
+sudo apt-get install p7zip-full
+
+# Extract ANTHROHEART.7z (if not already extracted)
+7z x ANTHROHEART.7z
+
+# Should create /TOP/ANTHROHEART/ folder
+
+# Verify it exists
+ls -lh ANTHROHEART/
+
+# Build ISO with ANTHROHEART included
+./quick_start.sh
+
+# The script will:
+# 1. Detect ANTHROHEART folder
+# 2. Copy entire folder to ISO (10-20 min)
+# 3. Build ~10 GB ISO
+```
+
+### Auto-Extract Feature:
+
+The updated deploy_iso.py will:
+1. Check for `/TOP/ANTHROHEART/` folder
+2. If not found, look for `/TOP/ANTHROHEART.7z`
+3. Auto-extract if found
+4. Build ISO with contents
+
+---
+
+## 📂 What Gets Included
+
+```
+furryos-8.0.0-origin-x86_64.iso (~10 GB):
+├── Binaries (~10 MB)
+│   ├── heartbeat_core (signed)
+│   └── metadata_wrangler (signed)
+│
+├── BalenaEtcher (~105 MB)
+│   └── balenaEtcher-1.19.25-x64.AppImage
+│
+├── ANTHROHEART (~9 GB) ← YOUR MEDIA LIBRARY
+│   ├── Songs/ (147 tracks)
+│   ├── Videos/
+│   ├── Images/
+│   ├── Character_Designs/
+│   ├── Lore/
+│   ├── Source_Code/
+│   └── Assets/
+│
+├── Scripts (~few KB)
+│   ├── setup-persistence.sh
+│   ├── persistence-status.sh
+│   ├── write-to-usb.sh
+│   └── explore-anthroheart.sh ← NEW! Opens ANTHROHEART
+│
+└── ISO filesystem (~1 GB)
+```
+
+---
+
+## 🎯 User Experience
+
+### Booting FurryOS with ANTHROHEART:
+
+```bash
+# After booting FurryOS from USB:
+
+# Open ANTHROHEART in file manager
+/furryos/scripts/explore-anthroheart.sh
+
+# Browse your media library:
+/furryos/ANTHROHEART/
+├── Songs/
+│   ├── 01-track.mp3
+│   ├── 02-track.mp3
+│   └── ... (147 songs)
+├── Videos/
+├── Images/
+└── ...
+
+# Play songs, view art, read lore
+# Everything is on the USB!
+```
+
+---
+
+## ⏱️ Build Timeline
+
+### With ANTHROHEART:
+
+```
+[1/10] Setup workspace            - 10 seconds
+[2/10] Copy binaries              - 5 seconds
+[3/10] Copy assets                - 5 seconds
+[4/10] Copy ANTHROHEART           - 10-20 minutes ← Largest step
+[5/10] Include BalenaEtcher       - 30 seconds
+[6/10] Create launchers           - 5 seconds
+[7/10] Create persistence scripts - 5 seconds
+[8/10] Create README              - 5 seconds
+[9/10] Build ISO                  - 15-30 minutes ← Second largest
+[10/10] Generate checksum         - 2-5 minutes
+
+Total: 30-60 minutes (depending on disk speed)
+```
+
+---
+
+## 💾 USB Drive Requirements
+
+### Minimal Build:
+- USB Size: 1GB minimum
+- ISO Size: ~605 MB
+- Fast to write: 3-5 minutes
+
+### Full Build (with ANTHROHEART):
+- USB Size: 16GB minimum (32GB recommended)
+- ISO Size: ~10-12 GB
+- Write time: 15-30 minutes
+
+---
+
+## 📝 Updated README (In ISO)
+
+```
+FurryOS 8.0.0-origin - The Origin
+
+====================================
+🎨 ANTHROHEART MEDIA LIBRARY INCLUDED
+====================================
+
+EXPLORE ANTHROHEART:
+Run: /furryos/scripts/explore-anthroheart.sh
+
+Contents:
+• 147 original songs
+• 25+ character designs
+• Trilogy lore documents
+• 10GB+ of creative assets
+• Source code and prototypes
+• AnthrOS media layer
+```
+
+---
+
+## 🎨 New Script: explore-anthroheart.sh
+
+```bash
+#!/bin/bash
+echo "🎨 ANTHROHEART Media Library 🎨"
+
+ANTHROHEART="/furryos/ANTHROHEART"
+
+# Open in file manager
+xdg-open "$ANTHROHEART"
+
+# Or browse via command line
+ls -la "$ANTHROHEART"
+```
+
+**Users can:**
+- Browse all 147 songs
+- View character designs
+- Read trilogy lore
+- Access source code
+- Explore all assets
+- Everything offline!
+
+---
+
+## 🔍 Manual Extraction (If Needed)
+
+If auto-extract fails:
+
+```bash
+cd /TOP
+
+# Install 7z
+sudo apt-get install p7zip-full
+
+# Extract manually
+7z x ANTHROHEART.7z
+
+# Should create ANTHROHEART/ folder
+# Verify:
+du -sh ANTHROHEART/
+# Output: 9.0G    ANTHROHEART/
+
+# Now build
+./quick_start.sh
+```
+
+---
+
+## 📊 What Happens During Build
+
+```
+[4/10] Copying ANTHROHEART media library...
+     This may take 10-20 minutes depending on size...
+     Progress: 15.3% (1.38/9.00 GB)
+     Progress: 34.7% (3.12/9.00 GB)
+     Progress: 56.2% (5.06/9.00 GB)
+     Progress: 78.9% (7.10/9.00 GB)
+     Progress: 100.0% (9.00/9.00 GB)
+  ✓ ANTHROHEART copied: 9.00 GB
+
+[9/10] Building bootable ISO...
+  📀 Building furryos-8.0.0-origin-x86_64.iso...
+  ⏳ This may take 15-30 minutes with ANTHROHEART...
+  🐾 Go touch grass! 🌱
+```
+
+---
+
+## 🎉 Benefits of Including ANTHROHEART
+
+### For You:
+- ✅ Complete portfolio on one USB
+- ✅ Self-contained showcase
+- ✅ No separate downloads needed
+- ✅ Everything in one distribution
+
+### For Users:
+- ✅ Get entire ANTHROHEART library
+- ✅ No internet needed
+- ✅ Play music offline
+- ✅ Browse all assets
+- ✅ Complete experience
+
+### For Distribution:
+- ✅ Single ISO contains everything
+- ✅ Share complete project
+- ✅ Users get full experience
+- ✅ Impressive showcase piece
+
+---
+
+## ⚡ Quick Commands
+
+### Extract 7z:
+```bash
+cd /TOP
+7z x ANTHROHEART.7z
+```
+
+### Build with ANTHROHEART:
+```bash
+cd /TOP
+./quick_start.sh
+# Detects ANTHROHEART automatically
+# Includes in ISO
+```
+
+### Check ISO size:
+```bash
+ls -lh output/furryos-8.0.0-origin-x86_64.iso
+# Output: 10G furryos-8.0.0-origin-x86_64.iso
+```
+
+### Write to USB:
+```bash
+# Use large USB (16GB+)
+./balenaEtcher-1.19.25-x64.AppImage
+# Or dd (be patient, large file!):
+sudo dd if=output/furryos-8.0.0-origin-x86_64.iso of=/dev/sdX bs=4M status=progress
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### "7z: command not found"
+```bash
+sudo apt-get install p7zip-full
+```
+
+### "ANTHROHEART folder not found"
+```bash
+# Make sure it's extracted to /TOP/ANTHROHEART/
+cd /TOP
+7z x ANTHROHEART.7z
+ls -la ANTHROHEART/
+```
+
+### "ISO too large for USB"
+```bash
+# Use larger USB drive (16GB minimum, 32GB recommended)
+# ISO will be ~10-12 GB
+```
+
+### "Build taking too long"
+```bash
+# Normal! Copying 9GB takes time
+# [4/10] step takes 10-20 minutes
+# [9/10] step takes 15-30 minutes
+# Total: 30-60 minutes
+# Be patient! 🐾
+```
+
+---
+
+## ✅ Summary
+
+**What's New:**
+- deploy_iso.py checks for ANTHROHEART folder
+- Auto-extracts ANTHROHEART.7z if found
+- Copies entire 9GB library to ISO
+- Creates explore-anthroheart.sh launcher
+- Updates README with ANTHROHEART info
+
+**Result:**
+- ISO Size: ~10-12 GB (was ~605 MB)
+- Build Time: 30-60 min (was 15-30 min)
+- USB Required: 16GB+ (was 1GB+)
+- **Complete ANTHROHEART showcase included!**
+
+**To Use:**
+1. Extract ANTHROHEART.7z to /TOP/ANTHROHEART/
+2. Replace deploy_iso.py with [code_file:96]
+3. Run: ./quick_start.sh
+4. Wait 30-60 minutes
+5. Get 10GB ISO with everything!
+
+---
+
+**TL;DR**: Updated deploy_iso.py includes your 9GB ANTHROHEART folder in the ISO. Extract ANTHROHEART.7z to /TOP/, rebuild, get ~10GB ISO with complete media library!
+
+🐾 **The Origin + ANTHROHEART = Complete Showcase!** 🌱

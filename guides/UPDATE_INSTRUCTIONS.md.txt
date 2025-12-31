@@ -1,0 +1,379 @@
+# 🔧 FurryOS Update Instructions
+
+## What Needs to Be Updated
+
+To use `/TOP/images/icon.png` and auto-sign binaries, update these files:
+
+---
+
+## 1️⃣ Generate Signing Keys (NEW - Run Once)
+
+```bash
+cd /TOP
+python3 generate_signing_keys.py
+```
+
+This creates:
+- `signing_keys/furryos_signing.key` (private - KEEP SECRET!)
+- `signing_keys/furryos_signing.pub` (public - distribute)
+
+---
+
+## 2️⃣ Create Images Directory
+
+```bash
+cd /TOP
+mkdir -p images
+```
+
+Then move your icon:
+```bash
+# If icon.png is in /TOP root:
+mv icon.png images/
+
+# Or copy from elsewhere:
+cp /path/to/icon.png images/
+```
+
+**Result:**
+```
+/TOP/
+└── images/
+    └── icon.png   ← Your FurryOS icon (PNG format)
+```
+
+---
+
+## 3️⃣ Update launcher.py
+
+### Add Icon Embedding (After compile_sources function)
+
+Add this new function before `main()`:
+
+```python
+def sign_binaries(genome):
+    """Sign all compiled binaries with Ed25519 private key"""
+    log("signing compiled binaries", "step")
+
+    import subprocess
+
+    KEY_PATH = "signing_keys/furryos_signing.key"
+
+    if not os.path.exists(KEY_PATH):
+        log("no signing key found (run generate_signing_keys.py)", "warning")
+        return
+
+    try:
+        from cryptography.hazmat.primitives.asymmetric import ed25519
+        from cryptography.hazmat.primitives import serialization
+    except ImportError:
+        log("cryptography not installed, skipping signing", "warning")
+        return
+
+    # Load private key
+    with open(KEY_PATH, 'rb') as f:
+        private_key = serialization.load_pem_private_key(f.read(), password=None)
+
+    # Sign each binary
+    for binary in Path(BIN_DIR).glob('*'):
+        if binary.is_file():
+            # Read binary
+            with open(binary, 'rb') as f:
+                data = f.read()
+
+            # Sign
+            signature = private_key.sign(data)
+
+            # Save signature
+            sig_path = f"{binary}.sig"
+            with open(sig_path, 'wb') as f:
+                f.write(signature)
+
+            print(f"  ✓ Signed: {binary.name} ({len(signature)} bytes)")
+
+    log("✓ all binaries signed", "success")
+```
+
+### Update main() function
+
+Find the line:
+```python
+compile_sources(genome)
+```
+
+Add after it:
+```python
+sign_binaries(genome)
+```
+
+**Updated main() function:**
+```python
+def main():
+    banner()
+    check_root()
+
+    detect_venv()
+
+    import yaml
+
+    # ... existing config loading ...
+
+    progress = ProgressTracker(8)  # Changed from 7 to 8!
+
+    # ... existing steps 1-6 ...
+
+    # Step 7: Sign binaries (NEW!)
+    step_start = progress.start_step("Signing binaries with Ed25519")
+    sign_binaries(genome)
+    progress.end_step(step_start)
+
+    # Step 8: Verify binaries (was step 7)
+    step_start = progress.start_step("Verifying compiled binaries")
+    # ... existing verification code ...
+```
+
+---
+
+## 4️⃣ Update deploy_iso.py
+
+### Add Icon Copying (In copy_assets function)
+
+Find the `copy_assets()` function and update it:
+
+```python
+def copy_assets():
+    log("copying assets (icons, splash, venv)", "step")
+
+    # Copy icon from /TOP/images/icon.png
+    if os.path.exists("images/icon.png"):
+        run_cmd("mkdir -p {ISO_DIR}/furryos/images", "create images dir")
+        run_cmd("cp images/icon.png {ISO_DIR}/furryos/images/", "copy icon")
+        print("  ✓ icon.png copied")
+    else:
+        print("  ⚠️  No icon found at images/icon.png")
+
+    # Copy signing keys (public only!)
+    if os.path.exists("signing_keys/furryos_signing.pub"):
+        run_cmd("mkdir -p {ISO_DIR}/furryos/signing_keys", "create keys dir")
+        run_cmd("cp signing_keys/furryos_signing.pub {ISO_DIR}/furryos/signing_keys/", "copy public key")
+
+        # Also copy verification script
+        run_cmd("cp signing_keys/verify_signature.py {ISO_DIR}/furryos/signing_keys/ 2>/dev/null || true", "copy verify script")
+        print("  ✓ Signing keys included in ISO")
+
+    # Copy venv if exists
+    if os.path.exists("furryos_venv.tar.gz"):
+        run_cmd("cp furryos_venv.tar.gz {ISO_DIR}/furryos/", "copy venv")
+        venv_size = os.path.getsize("furryos_venv.tar.gz") / (1024*1024)
+        print(f"  ✓ venv bundle: {venv_size:.1f} MB")
+
+    # Copy signature files
+    sig_count = 0
+    for sig_file in Path(BIN_DIR).glob('*.sig'):
+        dest = f"{ISO_DIR}/furryos/bin/{sig_file.name}"
+        run_cmd(f"cp {sig_file} {dest}", f"copy {sig_file.name}")
+        sig_count += 1
+
+    if sig_count > 0:
+        print(f"  ✓ Copied {sig_count} signature files")
+```
+
+---
+
+## 5️⃣ Update quick_start.sh
+
+Add key generation check:
+
+```bash
+#!/bin/bash
+# quick_start.sh - One command to rule them all!
+
+set -e
+
+echo "========================================"
+echo "   🐾 FURRYOS QUICK START 🐾"
+echo "========================================"
+echo ""
+
+# Check signing keys
+if [ ! -f "signing_keys/furryos_signing.key" ]; then
+    echo "🔐 Generating signing keys (one-time setup)..."
+    python3 generate_signing_keys.py
+fi
+
+# Check icon
+if [ ! -f "images/icon.png" ]; then
+    echo "⚠️  No icon found at images/icon.png"
+    echo "   Binaries will be built without embedded icon"
+fi
+
+# ... rest of existing quick_start.sh code ...
+```
+
+---
+
+## 6️⃣ Update GENOME.yaml
+
+Add icon and signing configuration:
+
+```yaml
+build:
+  # ... existing build config ...
+
+  signing:
+    enabled: true
+    algorithm: ed25519
+    key_path: signing_keys/furryos_signing.key
+    public_key_path: signing_keys/furryos_signing.pub
+
+  branding:
+    icon: images/icon.png
+    splash_screen: images/splash.png  # optional
+    logo: images/logo.png  # optional
+```
+
+---
+
+## 📋 Complete Update Checklist
+
+### Before Reboot:
+- [ ] Create `images/` directory: `mkdir images`
+- [ ] Move icon: `mv icon.png images/`
+- [ ] Generate signing keys: `python3 generate_signing_keys.py`
+- [ ] Update `launcher.py` (add signing function)
+- [ ] Update `deploy_iso.py` (copy icon and keys)
+- [ ] Update `quick_start.sh` (add key check)
+- [ ] Update `GENOME.yaml` (add signing config)
+
+### After Updates:
+- [ ] Verify icon exists: `ls -lh images/icon.png`
+- [ ] Verify keys exist: `ls -lh signing_keys/`
+- [ ] Test build: `./quick_start.sh`
+- [ ] Verify signatures: `ls furryos_build/bin/*.sig`
+- [ ] Check ISO contents: `ls furryos_build/iso_workspace/furryos/`
+
+---
+
+## 🎯 What Each Update Does
+
+| **File** | **Update** | **Purpose** |
+|----------|-----------|-------------|
+| `generate_signing_keys.py` | Run once | Creates Ed25519 keypair |
+| `launcher.py` | Add `sign_binaries()` | Auto-signs after compilation |
+| `deploy_iso.py` | Update `copy_assets()` | Includes icon, keys, signatures |
+| `quick_start.sh` | Add key check | Ensures keys exist |
+| `GENOME.yaml` | Add config | Documents signing/branding |
+
+---
+
+## 🚀 Quick Update Commands
+
+```bash
+cd /TOP
+
+# 1. Create directories
+mkdir -p images signing_keys
+
+# 2. Move icon (if in root)
+[ -f icon.png ] && mv icon.png images/
+
+# 3. Generate signing keys
+python3 generate_signing_keys.py
+
+# 4. Update scripts (manual editing required)
+# Edit launcher.py - add sign_binaries() function
+# Edit deploy_iso.py - update copy_assets()
+# Edit quick_start.sh - add key generation check
+
+# 5. Test
+./quick_start.sh
+
+# 6. Verify
+ls images/icon.png
+ls signing_keys/furryos_signing.key
+ls furryos_build/bin/*.sig
+```
+
+---
+
+## 🔍 Verification After Updates
+
+### Check Icon is Used
+```bash
+# After build, ISO should contain:
+ls furryos_build/iso_workspace/furryos/images/icon.png
+```
+
+### Check Binaries are Signed
+```bash
+# Each binary should have a .sig file:
+ls -lh furryos_build/bin/
+# heartbeat_core
+# heartbeat_core.sig
+# metadata_wrangler
+# metadata_wrangler.sig
+```
+
+### Verify Signature Works
+```bash
+python3 signing_keys/verify_signature.py furryos_build/bin/heartbeat_core
+# Should output: ✅ SIGNATURE VALID
+```
+
+---
+
+## ❓ Troubleshooting
+
+### "Icon not found during build"
+```bash
+# Check path
+ls -la images/icon.png
+
+# If missing, copy it:
+cp /path/to/icon.png images/
+```
+
+### "Private key not found"
+```bash
+# Generate keys
+python3 generate_signing_keys.py
+
+# Verify
+ls -la signing_keys/
+```
+
+### "Signature verification failed"
+This means binary was modified after signing. Re-sign:
+```bash
+python3 signing_keys/sign_binary.py furryos_build/bin/binary_name
+```
+
+---
+
+## 🎬 After All Updates
+
+**Reboot and run:**
+```bash
+cd /TOP
+./quick_start.sh
+```
+
+**You'll see:**
+```
+[7/8] 87.5% | Signing binaries with Ed25519
+  ✓ Signed: heartbeat_core (64 bytes)
+  ✓ Signed: metadata_wrangler (64 bytes)
+✓ Completed in 0.3s
+```
+
+**ISO will contain:**
+- `furryos/images/icon.png` ← Your icon
+- `furryos/bin/*.sig` ← Signatures  
+- `furryos/signing_keys/furryos_signing.pub` ← Public key
+- `furryos/signing_keys/verify_signature.py` ← Verification script
+
+---
+
+**Now your binaries are signed and your icon is embedded! Users can verify authenticity and see your branding!**
+
+🔐🎨 **Go touch grass; updates complete!** 🌱

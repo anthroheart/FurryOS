@@ -1,0 +1,3 @@
+Your API Key for OpenAI, Gemini, Perplexity Pro (like for AI Hueristics/analyzing the YAML files, etc. goes here!)
+
+Or you could use another method for storing your key if you desire!

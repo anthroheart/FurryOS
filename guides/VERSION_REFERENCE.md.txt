@@ -1,0 +1,141 @@
+# 🎯 FurryOS Version Reference
+
+## Version History
+
+### 8.0.0-origin "The Origin" (December 2025)
+**Status**: Foundation Release
+**Codename**: "sovereign universe"
+
+This is the foundational first release of FurryOS - "The Origin".
+Not a release candidate, but the actual genesis version.
+
+---
+
+## Version String Usage
+
+### Throughout FurryOS:
+- **Full version**: `8.0.0-origin`
+- **Short version**: `8.0.0`
+- **Codename**: `"sovereign universe"`
+- **Status**: Origin/Foundation Release
+
+### File Naming:
+- ISO: `furryos-8.0.0-origin-x86_64.iso`
+- Checksum: `furryos-8.0.0-origin-x86_64.iso.sha256`
+- Blockchain anchor: Uses full version string
+
+### In Code:
+```python
+VERSION = "8.0.0-origin"
+CODENAME = "sovereign universe"
+```
+
+---
+
+## Semantic Versioning
+
+FurryOS follows semantic versioning with special tags:
+
+- **8.x.x** - Major architecture releases
+- **x.0.x** - Minor feature additions
+- **x.x.0** - Patches and fixes
+- **-origin** - The foundational first release
+- **-rc1, -rc2** - Release candidates (future)
+- **-beta** - Beta releases (future)
+- **-alpha** - Alpha releases (future)
+
+---
+
+## Future Versions
+
+### Next Releases:
+- **8.0.1** - First bugfix patch
+- **8.1.0** - Feature additions
+- **8.1.0-rc1** - Release candidate for 8.1.0
+- **9.0.0-beta** - Major version beta
+
+### Blockchain Anchoring:
+Each version will be anchored to Bitcoin blockchain:
+- 8.0.0-origin → Genesis block anchor
+- Future versions → Subsequent anchors with provenance chain
+
+---
+
+## Why "Origin"?
+
+This is the **foundational release** that establishes:
+- ✅ Core architecture (biological taxonomy)
+- ✅ Build system (progress tracking, signing)
+- ✅ Module framework (C++ + Python)
+- ✅ ISO generation (bootable installer)
+- ✅ Security (Ed25519 signing)
+- ✅ Blockchain integration (anchoring)
+
+**Not a preview or candidate - this IS the foundation.**
+
+---
+
+## Version Display
+
+### In Terminal:
+```
+🐾 FURRYOS LAUNCHER v8.0.0-origin 🐾
+   "sovereign universe"
+```
+
+### In ISO:
+```
+FurryOS 8.0.0-origin "sovereign universe"
+The Origin Release
+```
+
+### In About Dialog:
+```
+FurryOS 8.0.0-origin
+Codename: sovereign universe
+Release: The Origin
+Build Date: December 29, 2025
+```
+
+---
+
+## Changelog
+
+### 8.0.0-origin (December 29, 2025)
+**Initial Release - The Origin**
+
+#### Core Features:
+- Biological taxonomy system (Kingdom → Species)
+- Real-time progress tracking with ETA
+- Ed25519 binary signing
+- Icon embedding (/TOP/images/icon.png)
+- Net installer (300MB target)
+- Live mode with visual indicator
+- Filesystem freedom (ext4/btrfs/zfs/xfs/f2fs/ntfs)
+
+#### Modules:
+- heartbeat_core - Central orchestrator
+- metadata_wrangler - Media file manager
+
+#### Build System:
+- launcher.py - 8-step compilation with signing
+- deploy_iso.py - 9-step ISO generation
+- generate_signing_keys.py - Ed25519 keypair
+- verify_signature.py - Signature verification
+
+#### Security:
+- Ed25519 signing (256-bit)
+- Private key protection (0600)
+- Public key distribution in ISO
+
+#### Infrastructure:
+- venv support (portable Python environment)
+- Debian 12 base
+- Kernel 6.12+ target
+- Hybrid BIOS/UEFI boot
+
+---
+
+**This is The Origin. The foundation. The genesis of FurryOS.**
+
+🐾 **Go touch grass; the Origin is ready!** 🌱

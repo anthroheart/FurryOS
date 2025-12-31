@@ -1,0 +1,229 @@
+# 🔥 FurryOS USB Writing Guide
+
+## ✅ RECOMMENDED: BalenaEtcher 1.18.11 (Stable)
+
+---
+
+## 📥 **DOWNLOAD BALENAETCHER 1.18.11**
+
+```bash
+cd /TOP/assets
+
+# Download stable version
+wget https://github.com/balena-io/etcher/releases/download/v1.18.11/balenaEtcher-1.18.11-x64.AppImage
+
+# Make executable
+chmod +x balenaEtcher-1.18.11-x64.AppImage
+
+# Launch
+./balenaEtcher-1.18.11-x64.AppImage
+```
+
+**Why 1.18.11?**
+- ✅ Stable and tested
+- ✅ No JavaScript errors
+- ✅ Works with hybrid ISOs
+- ❌ Version 1.19.25 has bugs
+
+---
+
+## 🚀 **HOW TO WRITE ISO**
+
+### **Step 1: Launch BalenaEtcher**
+```bash
+./balenaEtcher-1.18.11-x64.AppImage
+```
+
+### **Step 2: Select ISO**
+```
+Click "Flash from file"
+→ Select: /TOP/output/furryos-8.0.0-origin-x86_64.iso
+```
+
+### **Step 3: Select USB Drive**
+```
+Click "Select target"
+→ Choose your USB drive (16GB+ recommended)
+→ Make SURE it's the right drive!
+```
+
+### **Step 4: ⚠️ IMPORTANT - "Missing partition table" Warning**
+
+**YOU WILL SEE THIS WARNING:**
+```
+⚠️  Missing partition table
+
+It looks like this is not a bootable image. The image does not 
+appear to contain a partition table, and might not be recognized 
+as bootable by your device.
+
+[Continue]  [Cancel]
+```
+
+**✅ CLICK "CONTINUE" - THIS IS NORMAL!**
+
+**Why this warning appears:**
+- FurryOS uses **hybrid ISO format** (El Torito)
+- Hybrid ISOs don't have traditional partition tables
+- This is **by design** for bootable live USBs
+- Your USB **will boot perfectly**!
+
+---
+
+### **Step 5: Flash!**
+```
+Click "Flash!"
+→ Enter your password
+→ Wait 5-10 minutes
+→ Done!
+```
+
+---
+
+## 📊 **WHAT'S NORMAL**
+
+### ✅ **Expected Warnings (Safe to Continue):**
+
+**1. "Missing partition table"**
+- **Reason:** Hybrid ISO format
+- **Action:** Click "Continue"
+- **Result:** Will boot perfectly
+
+**2. "Large ISO warning"**
+- **Reason:** 9GB ANTHROHEART included
+- **Action:** Confirm
+- **Result:** Normal for full distribution
+
+**3. "Overwrite disk warning"**
+- **Reason:** Will erase USB
+- **Action:** Confirm (after backing up USB!)
+- **Result:** Creates bootable FurryOS USB
+
+---
+
+## ❌ **ALTERNATIVE METHODS**
+
+### **Method 1: dd (Command Line - Fastest)**
+
+```bash
+# Find USB device
+lsblk
+
+# Unmount
+sudo umount /dev/sdb*
+
+# Write ISO (REPLACE sdb with your device!)
+sudo dd if=/TOP/output/furryos-8.0.0-origin-x86_64.iso \
+        of=/dev/sdb \
+        bs=4M \
+        status=progress \
+        conv=fsync
+
+# Sync and eject
+sync
+sudo eject /dev/sdb
+```
+
+**Advantages:**
+- No warnings
+- Faster
+- More reliable
+- No GUI bugs
+
+---
+
+### **Method 2: Rufus (Windows)**
+
+If you have Windows:
+1. Download Rufus: https://rufus.ie/
+2. Select ISO
+3. Select USB
+4. Click "Start"
+5. Done!
+
+---
+
+### **Method 3: Ventoy (Multi-Boot)**
+
+For multiple ISOs on one USB:
+1. Install Ventoy on USB
+2. Copy ISO to USB (no flashing!)
+3. Boot and select ISO
+4. More info: https://www.ventoy.net/
+
+---
+
+## 🎯 **AFTER WRITING**
+
+### **Verify Write:**
+```bash
+# Check if USB is bootable
+lsblk -f /dev/sdb
+
+# Should show:
+# sdb     iso9660 FURRYOS
+```
+
+### **Eject Safely:**
+```bash
+sync
+sudo eject /dev/sdb
+# Then physically remove USB
+```
+
+---
+
+## ⚡ **QUICK REFERENCE**
+
+| **Method** | **Speed** | **Difficulty** | **Notes** |
+|------------|-----------|----------------|-----------|
+| **BalenaEtcher 1.18.11** | Medium | Easy | Click "Continue" at warning ✅ |
+| **dd** | Fast | Medium | No warnings, direct write |
+| **Rufus** | Medium | Easy | Windows only |
+| **Ventoy** | N/A | Easy | Multi-boot setup |
+
+---
+
+## 🐾 **TROUBLESHOOTING**
+
+### **Problem: BalenaEtcher shows JavaScript error**
+**Solution:** You're using 1.19.25 (buggy). Download 1.18.11 instead.
+
+### **Problem: "Missing partition table" warning**
+**Solution:** **NORMAL!** Click "Continue". Hybrid ISOs don't have partition tables.
+
+### **Problem: USB won't boot**
+**Solutions:**
+1. Check BIOS boot order (USB first)
+2. Try different USB port
+3. Enable "Legacy Boot" or "CSM" in BIOS
+4. Verify ISO checksum: `sha256sum -c furryos-*.sha256`
+
+### **Problem: "Not enough space" error**
+**Solution:** Use 16GB+ USB. Your ISO is ~9GB, needs extra space for persistence.
+
+---
+
+## ✅ **SUMMARY**
+
+**Recommended workflow:**
+```
+1. Download BalenaEtcher 1.18.11
+2. Launch BalenaEtcher
+3. Select ISO
+4. Select USB (16GB+)
+5. See "Missing partition table" warning
+   → Click "Continue" ✅ (This is normal!)
+6. Flash
+7. Eject USB
+8. Boot FurryOS!
+```
+
+**Key takeaway:**  
+⚠️  **"Missing partition table" = NORMAL for hybrid ISOs**  
+✅ **Always click "Continue"**  
+🎉 **Your USB will boot perfectly!**
+
+---
+
+🐾 **From The Origin, all things grow!** 🌱

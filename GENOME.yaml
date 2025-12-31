@@ -1,0 +1,248 @@
+meta:
+  framework_name: furryos genome
+  codename: sovereign universe
+  version: 8.0.0
+  initial: gemini-3-pro-via-api-key
+  revision: claude-4.5-sonnet-via-perplexity-pro
+  timestamp: 2025-12-30 03:47:53 UTC
+  author: thomas b sweet (anthro teacher)
+  owner: anthro entertainment llc
+  license: mit
+  provenance:
+    blockchain_anchor: bitcoin block 929481
+    asset_source: anthroheart.com
+    domains:
+      - furry-os.com
+      - furry-os.org
+      - anthroheart.com
+    repository: https://github.com/anthroheart/furryos
+  philosophy: minimal live installer, maximum user choice
+live_environment:
+  description: boots into live mode with visual indicator
+  visual_indicator:
+    border: animated pulsing border around entire screen
+    color: "#FF6B35"
+    width: 8px
+    animation: pulse 2s infinite
+    message: "\U0001F43E LIVE MODE - NOT INSTALLED YET \U0001F43E"
+    position: top center, always visible
+    dismiss: false
+  capabilities:
+    - test hardware compatibility
+    - preview desktop environment
+    - connect to wifi
+    - browse web
+    - access installer wizard
+  persistence: false
+  ram_usage: 512MB minimum, 2GB recommended
+installer:
+  type: hybrid live-net
+  target_size:
+    live_core: 1.2GB (squashfs with MATE)
+    net_installer: 300MB (minimal kernel only)
+  strategy:
+    offline: installs from USB stick (fast, no internet needed)
+    online: downloads latest packages during install (slower, but up-to-date)
+  size: 300MB ISO (minimal kernel + assets)
+  wizard:
+    step1_welcome:
+      ask_experience: true
+      levels:
+        beginner: granny mode - automatic everything
+        intermediate: gamer mode - guided with choices
+        advanced: hacker mode - full control
+        paranoid: ghost mode - privacy first
+    step2_hardware:
+      auto_detect:
+        - cpu
+        - gpu
+        - ram
+        - storage
+        - wifi
+      ask_proprietary:
+        nvidia: install cuda drivers?
+        amd: install rocm drivers?
+        wifi: install firmware?
+    step3_storage:
+      disk_selection: graphical partition editor
+      filesystem_options:
+        ext4: default - stable, journaled (recommended)
+        btrfs: advanced - snapshots, compression
+        zfs: enterprise - raid, deduplication
+        xfs: performance - large files, databases
+        f2fs: flash - ssd/nvme optimized
+        ntfs: compatibility - windows dual boot
+      encryption:
+        enable: optional
+        method: luks2 aes-256-xts
+        recovery_key: generate and display
+    step4_packages:
+      base_system: minimal kernel + systemd (always installed)
+      desktop:
+        none: server headless
+        mate: recommended - lightweight, stable
+        gnome: modern - touch friendly
+        xfce: minimal - low resources
+        kde: feature rich - customizable
+      bundles:
+        gaming:
+          - steam
+          - lutris
+          - wine
+          - proton
+          - openrgb
+        development:
+          - vscode
+          - git
+          - docker
+          - python
+          - gcc
+          - nodejs
+        multimedia:
+          - gimp
+          - blender
+          - audacity
+          - kdenlive
+          - obs
+        office:
+          - libreoffice
+          - thunderbird
+          - pdf-tools
+        pentesting:
+          - nmap
+          - wireshark
+          - metasploit
+          - burpsuite
+        server:
+          - nginx
+          - mariadb
+          - php
+          - docker
+          - fail2ban
+      post_install: package manager always available
+    step5_network:
+      hostname: ask user or generate furry-{random}
+      domain: furry.local
+      wifi_setup: scan and connect during install
+      firewall: enable ufw by default
+    step6_users:
+      root: locked - console only
+      admin_user: sudo access, password required
+      standard_users: optional additional accounts
+      guest_mode: enable ephemeral guest account?
+  download_packages:
+    method: parallel downloads from debian mirror
+    fallback_mirrors:
+      - deb.debian.org
+      - ftp.us.debian.org
+      - ftp.uk.debian.org
+    cache: save to /var/cache/apt for offline reinstall
+taxonomy:
+  kingdom:
+    desktop: full gui, mate desktop
+    server_full: gui + tui dashboard
+    server_headless: pure tui, 150mb ram
+    embedded: raspberry pi / iot
+    live_usb: portable, no persistence
+  phylum:
+    base_distro: debian
+    release: bookworm 12
+    kernel:
+      source: mainline linux kernel
+      version: 6.12+
+      size: minimal - only essential drivers
+      custom_patches:
+        - zram
+        - realtime-audio
+      firmware: downloaded during install if needed
+    bootloader: grub2 (universal compatibility)
+  class:
+    x86_64: amd64 primary target
+    aarch64: raspberry pi 4/5
+    riscv64: future proof
+  order:
+    granny: maximum ease
+    gamer: performance first
+    hacker: development tools
+    ghost: privacy paranoid
+  family:
+    network:
+      dns: systemd-resolved
+      firewall: ufw
+      ad_blocking: optional post-install
+    security:
+      encryption: luks2
+      keygen: ed25519
+    ui:
+      theme: furryos-midnight (dark)
+      fonts: liberation sans, noto
+    storage:
+      filesystem: user choice
+      swap: zram (auto-sized)
+  genus:
+    modules:
+      heartbeat: system orchestrator
+      healer: watchdog service
+      vault: encryption manager
+      network_guardian: firewall + ad block
+      remote_paw: ssh + rdp manager
+      metadata_wrangler: media file tagger
+build:
+  iso_type: hybrid (bios + uefi)
+  bootloader: grub2
+  compression: xz -9
+  base_iso:
+    auto_download: true
+    url: https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/debian-live-13.2.0-amd64-mate.iso
+    checksum_url: https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/SHA256SUMS
+    verify: true
+  included_assets:
+    splash_screens: /furryos/assets/splash/*.png
+    icons: /furryos/assets/icons/*.svg
+    sounds: /furryos/assets/sounds/*.ogg
+    wallpapers: /furryos/assets/wallpapers/*.jpg
+    fonts: /furryos/assets/fonts/*.ttf
+  output:
+    name: furryos-{version}-{arch}.iso
+    size_target: 300MB
+    bootable_methods:
+      - usb-dd
+      - rufus
+      - etcher
+      - ventoy
+  compiler:
+    cpp: g++
+    standard: c++20
+    flags: -O3 -flto -Wall -pthread
+    linker: -lssl -lcrypto -lsqlite3
+  python:
+    version: 3.12+
+    remove_externally_managed: true
+    packages:
+      - pyyaml
+      - requests
+      - pillow
+      - mutagen
+post_install:
+  package_manager:
+    gui: furryos package browser
+    cli: apt
+    features:
+      - search by category
+      - one click install
+      - dependency resolution
+      - automatic updates (optional)
+  asset_downloader:
+    anthroheart_pack:
+      url: https://anthroheart.com/assets/The_AnthroHeart_Collection_Bundle.7z
+      size: 9GB
+      optional: true
+      description: blockchain verified media library
+pain_points:
+  python_externally_managed: removed on install
+  boot_issues: grub auto-repair + fallback
+  wifi_drivers: firmware-iwlwifi, firmware-realtek included
+  nvidia_pain: auto-detect, offer driver choice
+  sound_issues: pipewire default
+  no_trailing_slash: filesystem enforced
+  no_spaces_filenames: auto convert to underscores

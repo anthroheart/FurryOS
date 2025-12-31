@@ -1,0 +1,306 @@
+# 🚀 FurryOS Build Options - Choose Your Path!
+
+## 🎯 TL;DR - Three Ways to Build
+
+### 🔥 Option 1: ONE COMMAND (Recommended)
+
+```bash
+cd /TOP
+chmod +x quick_start.sh
+./quick_start.sh
+```
+
+**Done!** Creates venv, builds modules, generates ISO automatically.
+
+---
+
+### 🐾 Option 2: Step-by-Step (Full Control)
+
+```bash
+cd /TOP
+
+# Create isolated Python environment
+./setup_venv.sh
+
+# Build C++ modules
+sudo ./launcher.py
+
+# Create bootable ISO
+sudo ./deploy_iso.py
+```
+
+---
+
+### 🌐 Option 3: No venv (System Python)
+
+```bash
+cd /TOP
+
+# Remove externally-managed restriction (one-time)
+sudo rm -f /usr/lib/python3.*/EXTERNALLY-MANAGED
+
+# Install dependencies
+sudo pip3 install pyyaml requests pillow mutagen
+
+# Build
+sudo ./launcher.py
+sudo ./deploy_iso.py
+```
+
+---
+
+## ❓ Do I Need to Reboot?
+
+**NO!** All three options work in your current session. No reboot required.
+
+---
+
+## 🧐 Which Option Should I Choose?
+
+| **Scenario**                 | **Recommended Option**       |
+| ---------------------------- | ---------------------------- |
+| I want it to "just work"     | 🔥 Option 1 - quick_start.sh |
+| I want to see each step      | 🐾 Option 2 - Step-by-step   |
+| I hate venvs                 | 🌐 Option 3 - System Python  |
+| I want offline ISO builds    | 🐾 Option 2 + bundle venv    |
+| I'm building on Debian 12/13 | 🔥 Option 1 or 2 (venv)      |
+| I'm on Ubuntu 22.04+         | 🌐 Option 3 (system works)   |
+
+---
+
+## 📦 Bundling venv WITH the ISO
+
+**Why?** Users can build FurryOS offline without internet.
+
+```bash
+# After Option 2 completes:
+cd /TOP
+
+# Archive the venv
+tar -czf furryos_venv.tar.gz furryos_venv/
+
+# Re-run ISO builder (includes venv automatically)
+sudo ./deploy_iso.py
+```
+
+The ISO will now contain the venv. When users boot the live environment, they can build custom ISOs without downloading anything!
+
+---
+
+## 🔍 What Each Script Does
+
+### setup_venv.sh
+
+- Creates `furryos_venv/` directory
+- Installs Python packages: pyyaml, requests, pillow, mutagen, cryptography
+- Creates `activate_furryos.sh` wrapper
+- Generates `requirements.txt`
+- **Size**: ~150MB uncompressed, ~50MB compressed
+
+### launcher.py
+
+- Auto-detects and uses venv if available
+- Installs system dependencies (g++, libraries)
+- Removes Python PEP 668 restriction
+- Generates C++ source code
+- Compiles modules to `furryos_build/bin/`
+
+### deploy_iso.py
+
+- Creates ISO workspace
+- Copies compiled modules
+- Bundles venv if `furryos_venv.tar.gz` exists
+- Creates GRUB bootloader config
+- Generates installer script
+- Builds hybrid BIOS/UEFI bootable ISO
+- Creates SHA256 checksums
+
+### quick_start.sh
+
+- Runs all three scripts in sequence
+- Handles errors gracefully
+- Provides status updates
+- One command, complete build!
+
+---
+
+## 🛠️ File Structure After Build
+
+```
+/TOP/
+├── GENOME.yaml
+├── USER_CONFIG.yaml
+├── setup_venv.sh          ← Creates venv
+├── launcher.py            ← Builds modules
+├── deploy_iso.py          ← Creates ISO
+├── quick_start.sh         ← Does everything
+├── activate_furryos.sh    ← (created by setup_venv.sh)
+│
+├── furryos_venv/          ← Python environment
+│   ├── bin/
+│   ├── lib/
+│   └── requirements.txt
+│
+├── furryos_build/         ← Build artifacts
+│   ├── src/               ← Generated C++ code
+│   ├── bin/               ← Compiled binaries
+│   ├── logs/              ← Build logs
+│   └── iso_workspace/     ← ISO staging
+│
+└── output/                ← Final deliverables
+    ├── furryos-8.0.0-x86_64.iso
+    └── furryos-8.0.0-x86_64.iso.sha256
+```
+
+---
+
+## 🎨 Customization Before Building
+
+Edit `USER_CONFIG.yaml`:
+
+```yaml
+build_target:
+  kingdom: desktop # desktop, server_headless, live_usb
+  profile: gamer # granny, gamer, hacker, ghost
+
+hardware:
+  proprietary_drivers:
+    nvidia_cuda: true # Enable NVIDIA support
+    wifi_firmware: true # Include WiFi drivers
+
+bundles:
+  gaming: true # Steam, Lutris, Wine
+  development: true # VSCode, Docker, Git
+  multimedia: false # GIMP, Blender, OBS
+```
+
+Then run your chosen build option.
+
+---
+
+## 🚨 Common Issues
+
+### "Permission denied" when running scripts
+
+```bash
+chmod +x *.sh *.py
+```
+
+### "GENOME.yaml not found"
+
+```bash
+# Make sure you're in /TOP
+cd /TOP
+pwd
+ls GENOME.yaml
+```
+
+### "externally-managed-environment" error (Option 3 only)
+
+```bash
+# Remove Python restriction
+sudo rm -f /usr/lib/python3.*/EXTERNALLY-MANAGED
+
+# Or use Option 1/2 with venv
+./setup_venv.sh
+```
+
+### venv won't activate
+
+```bash
+# Recreate it
+rm -rf furryos_venv
+./setup_venv.sh
+```
+
+### ISO build fails
+
+```bash
+# Check logs
+cat furryos_build/logs/*.log
+
+# Try again with verbose output
+sudo bash -x ./deploy_iso.py
+```
+
+---
+
+## ⚡ Pro Tips
+
+### Speed Up Builds
+
+```bash
+# Use all CPU cores for compilation
+export MAKEFLAGS="-j$(nproc)"
+sudo -E ./launcher.py
+```
+
+### Test Without Building ISO
+
+```bash
+# Just compile modules
+sudo ./launcher.py
+
+# Test heartbeat
+./furryos_build/bin/heartbeat_core
+```
+
+### Clean Rebuild
+
+```bash
+rm -rf furryos_build/ output/
+./quick_start.sh
+```
+
+### Multiple Architectures
+
+```bash
+# Edit USER_CONFIG.yaml
+class: aarch64  # or riscv64
+
+./quick_start.sh
+```
+
+---
+
+## 📊 Build Times (Approximate)
+
+| **Hardware**              | **Option 1** | **Option 2** | **Option 3** |
+| ------------------------- | ------------ | ------------ | ------------ |
+| Modern Desktop (8+ cores) | 5-10 min     | 5-10 min     | 3-5 min      |
+| Laptop (4 cores)          | 10-15 min    | 10-15 min    | 5-10 min     |
+| Raspberry Pi 4            | 30-60 min    | 30-60 min    | 20-30 min    |
+| VPS (2 cores)             | 15-30 min    | 15-30 min    | 10-15 min    |
+
+_ISO build takes additional 10-30 minutes depending on selected bundles_
+
+---
+
+## 🎁 Distributing Your Custom ISO
+
+### Minimal
+
+```bash
+# Just the ISO
+scp output/furryos-*.iso user@server:/downloads/
+```
+
+### With venv (Offline Capable)
+
+```bash
+# ISO includes venv
+tar -czf furryos_complete.tar.gz output/ furryos_venv.tar.gz
+```
+
+### Source Code
+
+```bash
+# Include build scripts
+tar -czf furryos_source.tar.gz *.yaml *.py *.sh *.md
+```
+
+---
+
+**Summary**: Use `./quick_start.sh` for easiest path. No reboot needed. venv is optional but recommended for distribution.
+
+🐾 Go touch grass; build options explained! 🌱
