@@ -1,0 +1,27 @@
+
+task-mate-desktop
+mate-utils
+mate-tweak
+firmware-linux
+firmware-iwlwifi
+firmware-misc-nonfree
+# Core Tools
+fastfetch
+htop
+curl
+git
+vim
+# Installer
+calamares
+calamares-settings-debian
+# Branding
+plymouth
+plymouth-themes
+# Admin & Profiles
+zenity
+python3-tk
+network-manager-gnome
+gparted
+# Gaming/Media (Pre-loaded)
+vlc
+mpv

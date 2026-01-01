@@ -1,0 +1,13 @@
+#!/bin/sh
+echo "🎨 Applying FurryOS Branding to MATE..."
+mkdir -p /usr/share/glib-2.0/schemas/
+cat <<EOF > /usr/share/glib-2.0/schemas/99-furryos-mate.gschema.override
+[org.mate.background]
+picture-filename='/usr/share/backgrounds/furryos/wallpaper.jpg'
+
+[org.mate.interface]
+gtk-theme='Menta'
+icon-theme='mate'
+font-name='Noto Sans 10'
+EOF
+glib-compile-schemas /usr/share/glib-2.0/schemas/

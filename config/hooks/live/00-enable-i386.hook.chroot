@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+
+# 1. Add i386 architecture
+dpkg --add-architecture i386
+
+# 2. Update package lists to see the new 32-bit packages
+apt-get update

@@ -1,0 +1,5 @@
+#!/bin/sh
+echo "🧠 Configuring ZRAM Swap (Genome Spec)..."
+apt-get install -y zram-tools
+echo "ALGO=zstd" >> /etc/default/zramswap
+echo "PERCENT=50" >> /etc/default/zramswap

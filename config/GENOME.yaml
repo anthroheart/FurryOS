@@ -1,0 +1,383 @@
+meta:
+  framework_name: furryos genome
+  codename: sovereign universe
+  version: 8.1.0
+  initial: gemini-3-pro-via-api-key
+  revision: claude-4.5-sonnet-via-perplexity-pro
+  timestamp: 2025-12-30 03:47:53 UTC
+  author: thomas b sweet (anthro teacher)
+  owner: anthro entertainment llc
+  license: mit
+  provenance:
+    blockchain_anchor: bitcoin block 929481
+    asset_source: anthroheart.com
+    domains:
+      - furry-os.com
+      - furry-os.org
+      - anthroheart.com
+    repository: https://github.com/anthroheart/furryos
+  philosophy: minimal live installer, maximum user choice, bleeding-edge stability, user empowerment
+  key_features:
+    - Wayland as preferred display server
+    - Enhanced Btrfs integration with automatic snapshots and rollback
+    - Optimized ZRAM with ZSTD compression
+    - Comprehensive dynamic theming capabilities
+    - Default PipeWire audio server
+    - Integrated Flatpak support for universal applications
+    - Secure Boot and TPM 2.0 integration for enhanced security
+    - Systemd-homed for secure and portable user home directories
+    - Advanced power management with TLP
+    - Modern kernel features (PDS scheduler, BPF)
+    - Optional immutable-like root filesystem resilience
+    - Atomic and transactional system updates with robust rollback
+live_environment:
+  description: boots into live mode with visual indicator
+  visual_indicator:
+    border: animated pulsing border around entire screen
+    color: "#FF6B35"
+    width: 8px
+    animation: pulse 2s infinite
+    message: "\U0001F43E LIVE MODE - NOT INSTALLED YET \U0001F43E"
+    position: top center, always visible
+    dismiss: false
+  capabilities:
+    - test hardware compatibility
+    - preview desktop environment (Wayland preferred, X11 fallback)
+    - connect to wifi
+    - browse web
+    - access installer wizard
+    - system diagnostics and repair tools
+  persistence: false
+  ram_usage: 512MB minimum, 2GB recommended
+installer:
+  type: hybrid live-net
+  target_size:
+    live_core: 1.2GB (squashfs with MATE)
+    net_installer: 300MB (minimal kernel only)
+  strategy:
+    offline: installs from USB stick (fast, no internet needed)
+    online: downloads latest packages during install (slower, but up-to-date)
+  size: 300MB ISO (minimal kernel + assets)
+  wizard:
+    step1_welcome:
+      ask_experience: true
+      levels:
+        beginner: granny mode - automatic everything
+        intermediate: gamer mode - guided with choices
+        advanced: hacker mode - full control, includes advanced Btrfs/Wayland/Networking options
+        paranoid: ghost mode - privacy first, immutable root option available, enhanced security
+    step2_hardware:
+      auto_detect:
+        - cpu
+        - gpu
+        - ram
+        - storage
+        - wifi
+        - tpm_chip # Detect presence of TPM 2.0 chip
+        - secure_boot_status # Detect if Secure Boot is enabled/supported
+        - fwupd_support # Detect if system hardware supports fwupd for firmware updates
+      ask_proprietary:
+        nvidia: install cuda drivers? (with Wayland compatibility layers, GL/Vulkan support)
+        amd: install rocm drivers? (for GPU compute)
+        wifi: install firmware?
+    step3_storage:
+      disk_selection: graphical partition editor
+      filesystem_options:
+        ext4: default - stable, journaled (recommended)
+        btrfs:
+          description: advanced - snapshots, compression, subvolumes, send/receive for robust system management
+          features: [snapshots, compression, subvolumes, send/receive, copy-on-write, data_integrity_checksums]
+          subvolume_layout: "@ @home @var @opt @srv @cache @log @tmp @swap" # Standard layout for root, home, and other system directories
+          mount_options: "compress=zstd:3,ssd,noatime,space_cache=v2" # Recommended mount options for performance and efficiency
+          automatic_snapshots:
+            enable: true
+            frequency: daily, pre-update, pre-boot, pre-kernel-upgrade # Automatic snapshots for system resilience
+            tool: snapper/btrfs-assistant # Tools used for managing snapshots
+          snapshot_boot_support: true # Ability to boot into previous system snapshots via GRUB
+          rollback_on_failure: true # Automated rollback if system update or boot fails
+          maintenance_tasks:
+            scrub: monthly # Automatic data integrity check
+            balance: quarterly # Rebalance data across disks (if multi-device) or optimize allocation
+            defrag: optional # On-demand defragmentation for specific files/directories
+        zfs: enterprise - raid, deduplication (external modules, for advanced users)
+        xfs: performance - large files, databases
+        f2fs: flash - ssd/nvme optimized
+        ntfs: compatibility - windows dual boot
+      encryption:
+        enable: optional
+        method: luks2 aes-256-xts
+        recovery_key: generate and display
+        tpm_unlock_support: optional # Use TPM 2.0 for automatic LUKS unlock and integrity verification
+        yubikey_support: optional # FIDO2/U2F support for LUKS unlock
+      root_filesystem_strategy: # Option for an immutable-like root
+        default: mutable_read_write
+        advanced_options:
+          immutable_root:
+            enable: false # Default off, but configurable for advanced/paranoid users
+            description: Read-only root with stateful overlayfs for system resilience and security
+            details: 'Requires Btrfs and overlayfs; user changes persist in overlay, system files are immutable for security and easy rollback. Updates are transactional via Btrfs snapshots and atomic updates.'
+            available_for: [advanced, paranoid]
+            update_method: atomic_with_rollback # Ensures system integrity during updates
+    step4_packages:
+      base_system:
+        components: [minimal kernel, systemd, pipewire, flatpak, systemd-resolved, fwupd] # PipeWire as default audio, Flatpak for app distribution
+        always_installed: true
+      desktop:
+        none: server headless
+        mate: recommended - lightweight, stable (X11 default, Wayland optional session)
+        gnome: modern - touch friendly (Wayland preferred, X11 fallback session)
+        xfce: minimal - low resources (X11 only)
+        kde: feature rich - customizable (Wayland preferred, X11 fallback session)
+        sway: tiling manager (Wayland native, for advanced users, minimal resource)
+        hyprland: dynamic tiling manager (Wayland native, GPU-accelerated, for advanced users)
+      bundles:
+        gaming:
+          - steam
+          - lutris
+          - wine
+          - proton
+          - openrgb
+          - gamemode # Optimize system for gaming performance
+          - mangohud # In-game performance overlay
+        development:
+          - vscode
+          - git
+          - docker
+          - python
+          - gcc
+          - nodejs
+          - podman # Alternative container runtime for rootless containers
+          - nix # Nix package manager for reproducible builds and environments
+          - distrobox # Create containerized developer environments
+          - devcontainers_support # Integration for VS Code Dev Containers
+        multimedia:
+          - gimp
+          - blender
+          - audacity
+          - kdenlive
+          - obs
+          - davinci_resolve_free # Professional video editing (if Debian compatible)
+          - shotcut
+        office:
+          - libreoffice
+          - thunderbird
+          - pdf-tools
+        pentesting:
+          - nmap
+          - wireshark
+          - metasploit
+          - burpsuite
+        server:
+          - nginx
+          - mariadb
+          - php
+          - docker
+          - fail2ban
+          - cockpit # Web-based interface for server administration
+          - cloud_init_tools # For cloud deployments and initial setup
+      post_install: package manager always available
+    step5_network:
+      hostname: ask user or generate furry-{random}
+      domain: furry.local
+      wifi_setup: scan and connect during install
+      firewall: enable ufw by default (with a secure baseline profile)
+      vpn_setup: # Integrated VPN client setup
+        enable: optional
+        protocols: [wireguard, openvpn, ikev2]
+        client_tools: [network-manager-wireguard, openvpn, strongswan]
+        dns_privacy:
+          - dns_over_tls # Configure systemd-resolved for DoT
+          - dns_over_https # Configure systemd-resolved for DoH
+    step6_users:
+      root: locked - console only
+      admin_user: sudo access, password required
+      standard_users: optional additional accounts
+      guest_mode: enable ephemeral guest account?
+      home_directory_encryption: # Option for systemd-homed encrypted home directories
+        enable: optional
+        method: systemd-homed (encrypted, portable, and snapshot-aware home directories)
+        available_for: [intermediate, advanced, paranoid]
+        fido2_passkey_support: optional # Enable FIDO2/Passkey authentication for systemd-homed
+  download_packages:
+    method: parallel downloads from debian mirror
+    fallback_mirrors:
+      - deb.debian.org
+      - ftp.us.debian.org
+      - ftp.uk.debian.org
+    cache: save to /var/cache/apt for offline reinstall
+taxonomy:
+  kingdom:
+    desktop: full gui, mate desktop (X11/Wayland support)
+    server_full: gui + tui dashboard
+    server_headless: pure tui, 150mb ram
+    embedded: raspberry pi / iot
+    live_usb: portable, no persistence
+    immutable_desktop: read-only root, atomic updates, Btrfs snapshots, robust rollback capabilities
+  phylum:
+    base_distro: debian
+    release: bookworm 12
+    kernel:
+      source: mainline linux kernel
+      version: 6.12+
+      size: minimal - only essential drivers
+      custom_patches:
+        - zram
+        - realtime-audio
+        - pds_scheduler # Process Distribution Scheduler for improved responsiveness
+        - bpf_runtime_enhancements # Enhanced BPF for network and security
+        - low_latency_optimizations # General kernel tuning for desktop responsiveness
+      firmware: downloaded during install if needed (via fwupd)
+    bootloader: grub2 (universal compatibility, grub2-efi-signed for Secure Boot compatibility)
+    bootloader_alternatives:
+      systemd_boot: optional (for UEFI systems, integrates well with Btrfs snapshots and atomic updates)
+  class:
+    x86_64: amd64 primary target
+    aarch64: raspberry pi 4/5
+    riscv64: future proof
+  order:
+    granny: maximum ease, automatic updates
+    gamer: performance first (with gamemode and optimal drivers), gaming-specific optimizations
+    hacker: development tools, full control, advanced system options, containerization focus
+    ghost: privacy paranoid, immutable by default, enhanced security, network hardening
+  family:
+    network:
+      dns: systemd-resolved
+      firewall: ufw
+      ad_blocking: optional post-install (system-wide via AdGuard Home/Pi-hole integration)
+      network_manager: networkmanager (with support for advanced configurations)
+    security:
+      encryption: luks2
+      keygen: ed25519
+      secure_boot_support: full # Comprehensive support for UEFI Secure Boot
+      tpm_integration: optional_luks_unlock_and_integrity_check # TPM for LUKS unlock and system integrity verification
+      apparmor_profile: default_enforcing # AppArmor enabled by default with a secure profile
+      kernel_hardening: enabled # Default kernel hardening features
+      user_auth_methods: [password, fido2, tpm_pin] # Support for multiple authentication methods
+    ui:
+      display_server: wayland (preferred), x11 (fallback)
+      wayland_compositors: [gnome-shell, kwin, sway, hyprland] # Pre-configured Wayland compositors
+      theme:
+        name: furryos-midnight (dark)
+        dynamic_accent_color: true # User-configurable dynamic accent colors
+        light_dark_mode_switching: auto_or_manual # Automatic switching based on time/location or manual toggle
+        user_customization: comprehensive # Extensive theming options for all desktop components (GTK, Qt, Shell)
+        icon_theme: furryos-icons-vector # Vector-based icons for scalability
+        cursor_theme: furryos-cursors
+        gtk_theme_engine: adwaita-qt/kvantum (for consistent look)
+        qt_theme_engine: adwaita-qt/kvantum (for consistent look)
+      fonts: liberation sans, noto, nerd-fonts (for power users and development), font_rendering_config (subpixel, hinting)
+      boot_animation: plymouth # Themed boot animation
+    storage:
+      filesystem: user choice (Btrfs recommended for advanced features like snapshots and resilience)
+      swap:
+        method: zram (auto-sized with systemd-zram-generator)
+        auto_size_ratio: 0.5 # 50% of RAM
+        max_size_gb: 16 # Cap ZRAM size to prevent excessive memory usage
+        compression_algorithm: zstd # Faster and more efficient compression for ZRAM
+        priority: 100 # High priority for zram swap
+    audio_server: pipewire # Default and fully configured PipeWire for modern audio management
+    power_management:
+      tool: tlp (default) # TLP for optimized power savings on laptops
+      options: [auto-tune, laptop-mode-tools, powertop (optional for advanced analysis)]
+      earlyoom: enabled # Prevents system freezes during OOM situations
+    app_distribution:
+      flatpak: default (integrated into GUI and CLI package managers, with xdg-desktop-portal support)
+      snap: optional (user choice during install or post-install)
+      appimage: integrated (desktop file generation and execution permissions)
+      distrobox: pre-installed for containerized development environments
+    user_management:
+      systemd_homed: optional (secure, portable, encrypted home directories)
+  genus:
+    modules:
+      heartbeat: system orchestrator
+      healer: watchdog service
+      vault: encryption manager
+      network_guardian: firewall + ad block
+      remote_paw: ssh + rdp manager
+      metadata_wrangler: media file tagger
+      update_manager: # Dedicated update manager for transactional updates
+        description: handles atomic updates, Btrfs snapshots, and rollbacks for system stability using systemd-boot/grub-btrfs/snapper
+        type: offline/transactional (e.g., based on systemd-boot/grub-btrfs/snapper)
+        notification_system: desktop_alerts, system_tray_icon
+build:
+  iso_type: hybrid (bios + uefi)
+  bootloader: grub2
+  compression: xz -9
+  base_iso:
+    auto_download: true
+    url: https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/debian-live-13.2.0-amd64-mate.iso
+    checksum_url: https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/SHA256SUMS
+    verify: true
+  included_assets:
+    splash_screens: /furryos/assets/splash/*.png
+    icons: /furryos/assets/icons/*.svg
+    sounds: /furryos/assets/sounds/*.ogg
+    wallpapers: /furryos/assets/wallpapers/*.jpg
+    fonts: /furryos/assets/fonts/*.ttf
+    wayland_compositors_config: /furryos/assets/wayland/*.conf # Configuration files for Wayland compositors
+    xdg_portal_config: /furryos/assets/xdg-portal/*.conf # Configuration for XDG desktop portals
+  output:
+    name: furryos-{version}-{arch}.iso
+    size_target: 300MB
+    bootable_methods:
+      - usb-dd
+      - rufus
+      - etcher
+      - ventoy
+      - secure-boot-uefi # Explicit support for booting with UEFI Secure Boot enabled
+  compiler:
+    cpp: g++
+    standard: c++20
+    flags: -O3 -flto -Wall -pthread
+    linker: -lssl -lcrypto -lsqlite3
+  python:
+    version: 3.12+
+    remove_externally_managed: true
+    packages:
+      - pyyaml
+      - requests
+      - pillow
+      - mutagen
+post_install:
+  package_manager:
+    gui: furryos package browser
+    cli: apt
+    features:
+      - search by category
+      - one click install
+      - dependency resolution
+      - automatic updates (optional, with transactional safeguards)
+      - flatpak_integration: true # Seamless management of Flatpak applications
+      - snap_integration: optional # Optional management of Snap applications
+      - appimage_management: true # Integrated management for AppImage applications (e.g., desktop entry generation)
+      - btrfs_assistant_integration: true # GUI for Btrfs snapshot management
+      - theming_tool: furryos-theme-manager # GUI for comprehensive system theming
+  asset_downloader:
+    anthroheart_pack:
+      url: https://anthroheart.com/assets/The_AnthroHeart_Collection_Bundle.7z
+      size: 9GB
+      optional: true
+      description: blockchain verified media library
+    furryos_pack:
+      url: https://anthroheart.com/assets/FurryOS.7z
+      size: 6MB
+      description: blockchain verified debian 13 based operating system
+  firmware_updater: fwupd # Integrated tool for updating system firmware
+pain_points:
+  python_externally_managed: removed on install
+  boot_issues: grub auto-repair + fallback (with Btrfs snapshot boot option for recovery, and systemd-boot for advanced UEFI users)
+  wifi_drivers: firmware-iwlwifi, firmware-realtek included (and automatic detection of other needed firmware)
+  nvidia_pain: auto-detect, offer driver choice (with full Wayland compatibility considerations, G/Vulkan support)
+  sound_issues: pipewire default (full-featured, low-latency setup with robust hardware support and easy device switching)
+  no_trailing_slash: filesystem enforced
+  no_spaces_filenames: auto convert to underscores
+  auto_resize_wallpaper: desktop wallpaper scales right at first
+  wayland_app_compatibility:
+    description: Some legacy X11 applications may require XWayland; ensure smooth integration
+    resolution: XWayland enabled by default, clear user guidance and recommended native Wayland apps, robust xdg-desktop-portal implementation
+  atomic_update_resilience:
+    description: Handling of partial updates or power loss during critical system updates
+    resolution: Btrfs snapshots and transactional updates (e.g., via `apt-btrfs-snapshot` or `snapper`) mitigate risks and enable easy rollbacks
+  accessibility:
+    description: Ensuring the OS is usable for individuals with diverse needs
+    resolution: Pre-installed screen readers (Orca), high contrast themes, scalable UI elements, and keyboard navigation support

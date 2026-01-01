@@ -1,0 +1,5 @@
+#!/bin/sh
+echo "🔌 Enabling Server & Hypervisor Services..."
+systemctl enable ssh
+systemctl enable libvirtd
+systemctl enable cockpit.socket

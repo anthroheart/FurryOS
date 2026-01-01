@@ -1,0 +1,64 @@
+user_profile:
+  username: anthro_user
+  fullname: Anthro Architect
+  timezone: America/Chicago
+  shell: /bin/zsh # Supercharged: Modernized default shell to Zsh
+
+build_preference:
+  target_hardware: generic_x86_64
+  selected_kernel: 6.12-mainline
+  experience_level: intermediate # Options: beginner, intermediate, advanced, paranoid
+
+hardware_overrides:
+  force_nvidia_drivers: false
+  enable_wifi_proprietary: true
+  display_server: wayland # Supercharged: Explicitly prefer Wayland for modern display management
+  fractional_scaling: true # Supercharged: Enable fractional scaling for HiDPI displays
+  hdr_support: true # Supercharged: Enable HDR support where available
+  variable_refresh_rate: true # Supercharged: Enable VRR (FreeSync/G-Sync compatible)
+
+software_bundles:
+  gaming: true # Steam, Lutris
+  creative: false # Blender, GIMP
+  dev_tools: true # VSCode, Git, Python
+  office: false # LibreOffice
+
+security:
+  firewall_enabled: true
+  block_ads_dns: true
+  kill_telemetry: true
+  disk_encryption: luks # Supercharged: Added full disk encryption for enhanced security
+  apparmor_enabled: true # Supercharged: Added AppArmor for mandatory access control
+
+persistence:
+  create_partition: true
+  size_mb: 4096
+  filesystem_type: btrfs # Supercharged: Modern default filesystem
+  btrfs_options: # Supercharged: Btrfs specific features
+    snapshots_enabled: true # Automatic snapshots for rollback
+    compression: zstd # Transparent compression for performance and space
+    subvolume_layout: standard # Recommended subvolume structure (/, /home, etc.)
+
+system_optimizations: # Supercharged: New section for core system enhancements
+  zram_enabled: true # Enable ZRAM for improved memory management
+  zram_ratio: 0.5 # Allocate 50% of RAM to ZRAM
+  bootloader_type: systemd-boot # Modern UEFI-native bootloader
+  dns_resolver: systemd-resolved # Centralized, modern DNS resolution
+  ntp_client: chrony # Precision NTP client for accurate time synchronization
+  audio_server: pipewire # Supercharged: Modern audio server for low-latency and advanced features
+
+desktop_experience: # Supercharged: New section for UI/UX enhancements
+  default_desktop_environment: gnome # Common, well-integrated Wayland DE
+  gtk_theme: adw-gtk3 # Modern GTK theme for a consistent look
+  icon_theme: adwaita # Standard Adwaita icon theme
+  cursor_theme: adwaita # Standard Adwaita cursor theme
+  font_rendering: subpixel_rgb # Optimize font rendering for LCD screens
+  font_hinting: full # Enable full font hinting for crisp text
+
+software_distribution: # Supercharged: New section for software delivery
+  flatpak_enabled: true # Enable Flatpak for sandboxed applications
+  snap_enabled: false # Explicitly disable Snap (can be toggled if needed)
+  container_runtime: podman # Modern, daemonless container runtime
+
+power_management: # Supercharged: New section for power efficiency
+  tlp_enabled: true # Enable TLP for advanced power management on laptops

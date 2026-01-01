@@ -1,0 +1,8 @@
+#!/bin/sh
+echo "🦊 Hook: Applying FurryOS Identity..."
+# Update OS Release
+sed -i 's/PRETTY_NAME=.*/PRETTY_NAME="FurryOS (Rolling)"/g' /etc/os-release
+sed -i 's/NAME="Debian GNU\/Linux"/NAME="FurryOS"/g' /etc/os-release
+# Set Hostname
+echo "furryos" > /etc/hostname
+echo "127.0.1.1 furryos" >> /etc/hosts

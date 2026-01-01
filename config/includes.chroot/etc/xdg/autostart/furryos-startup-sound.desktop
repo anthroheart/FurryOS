@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=FurryOS Startup Sound
+Comment=Play sound on startup
+Exec=mpv --no-terminal --volume=100 /usr/share/sounds/furryos/startup.mp3
+StartupNotify=false
+Terminal=false
+Hidden=false
+X-MATE-Autostart-enabled=true

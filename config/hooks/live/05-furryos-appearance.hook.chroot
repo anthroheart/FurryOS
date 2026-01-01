@@ -1,0 +1,30 @@
+#!/bin/sh
+echo "🎨 Applying FurryOS 'Windows Style' Layout..."
+
+# 1. Branding
+sed -i 's/PRETTY_NAME=.*/PRETTY_NAME="FurryOS (Golden Master)"/g' /etc/os-release
+sed -i 's/NAME="Debian GNU\/Linux"/NAME="FurryOS"/g' /etc/os-release
+
+# 2. MATE Desktop Overrides (The 'Windows 7' Feel)
+mkdir -p /usr/share/glib-2.0/schemas/
+cat <<EOF > /usr/share/glib-2.0/schemas/99-furryos.gschema.override
+[org.mate.background]
+picture-filename='/usr/share/backgrounds/furryos/wallpaper.png'
+primary-color='#000000'
+secondary-color='#000000'
+
+[org.mate.interface]
+gtk-theme='Menta'
+icon-theme='mate'
+font-name='Sans 10'
+color-scheme='prefer-dark'
+
+[org.mate.panel]
+default-layout='redmond'
+
+[org.mate.Marco.general]
+theme='Menta'
+EOF
+
+# 3. Apply
+glib-compile-schemas /usr/share/glib-2.0/schemas/

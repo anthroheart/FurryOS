@@ -1,0 +1,126 @@
+# =============================================================================
+# FURRYOS - Optimized C + Assembly Build System
+# =============================================================================
+# Pure C for speed - Assembly for critical paths
+# =============================================================================
+
+# Compiler settings
+CC = gcc
+AS = nasm
+LD = ld
+
+# Optimization flags for C
+CFLAGS = -std=c11 -O3 -march=native -mtune=native \
+         -Wall -Wextra -Wpedantic \
+         -fno-exceptions -fno-rtti \
+         -ffast-math -funroll-loops \
+         -finline-functions -fomit-frame-pointer \
+         -msse4.2 -mavx2 \
+         -D_GNU_SOURCE
+
+# Assembly flags
+ASFLAGS = -f elf64 -g -F dwarf
+
+# Linker flags
+LDFLAGS = -lrt -lpthread
+
+# Output
+TARGET = heartbeat_core
+ASM_OBJ = heartbeat_core_asm.o
+C_OBJ = heartbeat_core.o
+
+# =============================================================================
+# Build Rules
+# =============================================================================
+
+.PHONY: all clean test benchmark
+
+all: $(TARGET)
+
+# Compile C source
+$(C_OBJ): heartbeat_core.c
+	@echo "🔨 Compiling C source..."
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Assemble assembly source
+$(ASM_OBJ): heartbeat_core_asm.s
+	@echo "⚙️  Assembling x86_64 code..."
+	$(AS) $(ASFLAGS) $< -o $@
+
+# Link everything
+$(TARGET): $(C_OBJ) $(ASM_OBJ)
+	@echo "🔗 Linking binary..."
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+	@echo "✅ Built: $(TARGET)"
+	@ls -lh $(TARGET)
+
+# =============================================================================
+# Testing & Benchmarking
+# =============================================================================
+
+test: $(TARGET)
+	@echo "🧪 Running tests..."
+	./$(TARGET)
+
+benchmark: $(TARGET)
+	@echo "⏱️  Running benchmark..."
+	perf stat -e cycles,instructions,cache-misses,cache-references ./$(TARGET)
+
+# =============================================================================
+# Analysis Tools
+# =============================================================================
+
+disasm: $(TARGET)
+	@echo "📖 Disassembly:"
+	objdump -d -M intel $(TARGET) | less
+
+symbols: $(TARGET)
+	@echo "📋 Symbols:"
+	nm -C $(TARGET) | sort
+
+size: $(TARGET)
+	@echo "📊 Size analysis:"
+	size $(TARGET)
+	@echo ""
+	@echo "Object files:"
+	size $(C_OBJ) $(ASM_OBJ)
+
+# =============================================================================
+# Cleanup
+# =============================================================================
+
+clean:
+	@echo "🗑️  Cleaning..."
+	rm -f $(TARGET) $(C_OBJ) $(ASM_OBJ) *.o
+
+# =============================================================================
+# Profile-Guided Optimization (PGO)
+# =============================================================================
+
+pgo-generate:
+	@echo "📊 Building with profiling..."
+	$(CC) $(CFLAGS) -fprofile-generate $(C_OBJ) $(ASM_OBJ) -o $(TARGET) $(LDFLAGS)
+
+pgo-use: pgo-generate
+	@echo "🔬 Collecting profile data..."
+	./$(TARGET)
+	@echo "🔨 Rebuilding with profile optimization..."
+	$(CC) $(CFLAGS) -fprofile-use $(C_OBJ) $(ASM_OBJ) -o $(TARGET) $(LDFLAGS)
+	@echo "✅ PGO optimized build complete!"
+
+# =============================================================================
+# Help
+# =============================================================================
+
+help:
+	@echo "FurryOS Build System"
+	@echo ""
+	@echo "Targets:"
+	@echo "  make           - Build optimized binary"
+	@echo "  make test      - Run tests"
+	@echo "  make benchmark - Run performance benchmark"
+	@echo "  make disasm    - View disassembly"
+	@echo "  make symbols   - View symbol table"
+	@echo "  make size      - Analyze binary size"
+	@echo "  make pgo-use   - Profile-guided optimization"
+	@echo "  make clean     - Remove build artifacts"

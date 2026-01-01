@@ -1,0 +1,4 @@
+#!/bin/sh
+echo "🔋 Configuring TLP Power Management..."
+apt-get install -y tlp tlp-rdw
+systemctl enable tlp

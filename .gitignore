@@ -1,0 +1,33 @@
+
+# OS Artifacts (Heavy)
+*.iso
+*.squashfs
+*.img
+*.bin
+
+# Compiled Binaries
+*.exe
+*.dll
+*.so
+*.o
+*.obj
+*.elf
+
+# Build Systems
+chroot/
+binary/
+cache/
+.build/
+local/
+build_artifacts/
+
+# Python
+__pycache__/
+*.pyc
+venv/
+furryos_venv/
+
+# Secrets
+*.key
+*.pem
+Gemini_API.key.txt

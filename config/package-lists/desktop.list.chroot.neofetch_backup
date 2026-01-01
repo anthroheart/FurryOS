@@ -1,0 +1,12 @@
+task-gnome-desktop
+firmware-linux
+firmware-iwlwifi
+firmware-misc-nonfree
+neofetch
+htop
+curl
+git
+calamares
+calamares-settings-debian
+plymouth
+plymouth-themes
