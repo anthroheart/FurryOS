@@ -1,0 +1,108 @@
+# FurryOS .gitignore
+# "I designed the OS, and AI wrote the code."
+
+################################################################################
+# Build Artifacts - NEVER COMMIT THESE
+################################################################################
+
+# Live-build generated directories
+/chroot/
+/binary/
+/cache/
+/.build/
+/.stage/
+
+# ISO files (too large for Git)
+*.iso
+*.iso.zsync
+*.iso.torrent
+*.iso.sha256
+*.img
+*.hybrid.iso
+
+# Build logs
+build-*.log
+*.log
+
+# Compressed archives
+*.tar.gz
+*.tar.xz
+*.zip
+*.7z
+
+################################################################################
+# Large Asset Files - Use Git LFS or host externally
+################################################################################
+
+# Music files (150 MP3s = too large for Git)
+assets/sounds/*.mp3
+assets/sounds/*.ogg
+assets/sounds/*.flac
+assets/sounds/*.wav
+
+# Large images (if over 1MB each)
+# Uncomment if your wallpapers/assets are huge:
+# assets/wallpapers/*.png
+# assets/wallpapers/*.jpg
+# assets/splash/*.png
+
+################################################################################
+# Temporary/Generated Files
+################################################################################
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.bak
+*.backup
+*~
+\#*\#
+
+################################################################################
+# System/OS Files
+################################################################################
+
+.directory
+desktop.ini
+ehthumbs.db
+
+################################################################################
+# What SHOULD be committed (reference only - not excluded)
+################################################################################
+
+# ✅ config/                    - Live-build configuration
+# ✅ assets/icons/              - Small icon files
+# ✅ assets/wallpapers/         - Wallpapers (if reasonable size)
+# ✅ assets/lore/               - Text/markdown documents
+# ✅ build3.sh                  - Main build script
+# ✅ fix_asset_filenames.sh     - Utility script
+# ✅ generate_*.py              - Generator scripts
+# ✅ README.md                  - Documentation
+# ✅ LICENSE                    - License file
+
+################################################################################
+# Optional: Secrets (if you add any)
+################################################################################
+
+*.key
+*.pem
+*.cert
+secrets/
+.env

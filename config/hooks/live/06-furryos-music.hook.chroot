@@ -1,0 +1,56 @@
+#!/bin/sh
+# 06-furryos-music.hook.chroot
+
+echo "Configuring music player..."
+
+# VLC defaults
+mkdir -p /etc/skel/.local/share/applications
+cat > /etc/skel/.local/share/applications/mimeapps.list << 'EOF'
+[Default Applications]
+audio/mpeg=vlc.desktop
+audio/mp3=vlc.desktop
+audio/ogg=vlc.desktop
+audio/flac=vlc.desktop
+EOF
+
+# Desktop shortcut
+cat > /etc/skel/Desktop/FurryOS_Music.desktop << 'EOF'
+[Desktop Entry]
+Type=Application
+Name=FurryOS Music
+Comment=150 Exclusive Tracks
+Exec=vlc ~/Music/FurryOS_Soundtrack
+Icon=vlc
+Terminal=false
+Categories=AudioVideo;
+EOF
+
+chmod +x /etc/skel/Desktop/FurryOS_Music.desktop
+
+# Welcome doc
+cat > /etc/skel/WELCOME_TO_FURRYOS.txt << 'EOF'
+═══════════════════════════════════════════════════════════
+  🦊 FURRYOS v8.1.0 - SOVEREIGN UNIVERSE 🦊
+═══════════════════════════════════════════════════════════
+
+"I designed the OS, and AI wrote the code."
+
+📁 YOUR CONTENT
+• Music/FurryOS_Soundtrack/ - 150 exclusive tracks
+• Documents/FurryOS_Lore/ - Story and lore
+• Custom wallpapers & icons
+
+🎵 MUSIC
+VLC is your default player. Click "FurryOS Music" on desktop!
+
+🔐 CREDENTIALS
+Username: anthro / Password: anthro
+Root: root / Password: root
+
+Visit: furry-os.com | anthroheart.com
+
+Enjoy your experience!
+═══════════════════════════════════════════════════════════
+EOF
+
+echo "✓ Music player configured"

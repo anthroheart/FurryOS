@@ -372,6 +372,7 @@ pain_points:
   no_trailing_slash: filesystem enforced
   no_spaces_filenames: auto convert to underscores
   auto_resize_wallpaper: desktop wallpaper scales right at first
+  python_naming: python and python3 both default to python3; can be changed
   wayland_app_compatibility:
     description: Some legacy X11 applications may require XWayland; ensure smooth integration
     resolution: XWayland enabled by default, clear user guidance and recommended native Wayland apps, robust xdg-desktop-portal implementation

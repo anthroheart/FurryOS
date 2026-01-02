@@ -1,0 +1,68 @@
+#!/bin/sh
+# 05-furryos-branding.hook.chroot
+
+echo "Configuring FurryOS branding..."
+
+# Default wallpaper
+mkdir -p /usr/share/glib-2.0/schemas
+cat > /usr/share/glib-2.0/schemas/20-furryos.gschema.override << 'EOF'
+[org.mate.background]
+picture-filename='/usr/share/backgrounds/furryos/wallpaper.png'
+picture-options='zoom'
+primary-color='#000000'
+
+[org.mate.interface]
+icon-theme='mate'
+gtk-theme='Menta'
+
+[org.mate.sound]
+event-sounds=true
+EOF
+
+glib-compile-schemas /usr/share/glib-2.0/schemas/ 2>/dev/null || true
+
+# LightDM wallpaper
+mkdir -p /etc/lightdm/lightdm-gtk-greeter.conf.d
+cat > /etc/lightdm/lightdm-gtk-greeter.conf.d/90-furryos.conf << 'EOF'
+[greeter]
+background=/usr/share/backgrounds/furryos/wallpaper.png
+theme-name=Menta
+icon-theme-name=mate
+EOF
+
+# Startup sound
+if [ -f "/usr/share/sounds/furryos/startup.mp3" ]; then
+    mkdir -p /usr/share/sounds/furryos/stereo
+    ln -sf /usr/share/sounds/furryos/startup.mp3 /usr/share/sounds/furryos/stereo/desktop-login.oga 2>/dev/null || true
+fi
+
+# Plymouth splash
+if [ -f "/usr/share/plymouth/themes/furryos/background.png" ]; then
+    cat > /usr/share/plymouth/themes/furryos/furryos.plymouth << 'EOF'
+[Plymouth Theme]
+Name=FurryOS
+Description=FurryOS Boot Splash
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/furryos
+ScriptFile=/usr/share/plymouth/themes/furryos/furryos.script
+EOF
+
+    cat > /usr/share/plymouth/themes/furryos/furryos.script << 'EOF'
+background = Image("background.png");
+sprite = Sprite(background);
+sprite.SetPosition(0, 0, -100);
+EOF
+
+    plymouth-set-default-theme furryos 2>/dev/null || true
+fi
+
+# File manager bookmarks
+mkdir -p /etc/skel/.config/gtk-3.0
+cat > /etc/skel/.config/gtk-3.0/bookmarks << 'EOF'
+file:///usr/share/backgrounds/furryos FurryOS Wallpapers
+file:///usr/share/furryos/lore FurryOS Lore
+EOF
+
+echo "✓ FurryOS branding configured"

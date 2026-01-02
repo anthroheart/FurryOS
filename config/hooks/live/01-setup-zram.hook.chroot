@@ -1,5 +1,18 @@
 #!/bin/sh
-echo "🧠 Configuring ZRAM Swap (Genome Spec)..."
+# 01-setup-zram.hook.chroot
+# Configures ZRAM for improved memory management
+
+echo "Setting up ZRAM..."
+
+# Install zram-tools
 apt-get install -y zram-tools
-echo "ALGO=zstd" >> /etc/default/zramswap
-echo "PERCENT=50" >> /etc/default/zramswap
+
+# Configure ZRAM
+cat > /etc/default/zramswap << EOF
+# ZRAM configuration for FurryOS
+ALGO=zstd
+PERCENT=50
+PRIORITY=100
+EOF
+
+echo "ZRAM configured successfully!"

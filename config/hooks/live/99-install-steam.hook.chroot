@@ -1,0 +1,31 @@
+#!/bin/sh
+# 99-install-steam.hook.chroot
+# Installs Steam via Flatpak (more reliable for Debian Testing/Trixie)
+
+echo "FurryOS: Setting up Gaming Mode..."
+
+# Method 1: Try Flatpak Steam (most reliable)
+if command -v flatpak >/dev/null 2>&1; then
+    echo "Installing Steam via Flatpak..."
+
+    # Add Flathub repository
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo || true
+
+    # Install Steam (system-wide)
+    flatpak install -y flathub com.valvesoftware.Steam || echo "Flatpak Steam install failed, continuing..."
+
+    echo "Steam (Flatpak) installed successfully!"
+    echo "Users can launch Steam from the applications menu after first boot."
+else
+    echo "WARNING: Flatpak not available, Steam installation skipped."
+    echo "Users can manually install Steam after system installation."
+fi
+
+# Enable 32-bit architecture support for compatibility
+dpkg --add-architecture i386 || true
+apt-get update || true
+
+# Install essential 32-bit graphics drivers for gaming
+apt-get install -y     mesa-vulkan-drivers:i386     libglx-mesa0:i386     libgl1-mesa-dri:i386     || echo "Some 32-bit drivers could not be installed, continuing..."
+
+echo "Gaming environment setup complete!"

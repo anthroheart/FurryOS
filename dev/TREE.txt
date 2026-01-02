@@ -1,0 +1,435 @@
+[/TOP/GitHub/FurryOS]
+├── .build/
+│   ├── [0B] bootstrap
+│   ├── [0B] bootstrap_cache.save
+│   ├── [0B] chroot_apt
+│   ├── [0B] chroot_archives
+│   ├── [0B] chroot_debianchroot
+│   ├── [0B] chroot_dpkg
+│   ├── [0B] chroot_firmware
+│   ├── [0B] chroot_hostname
+│   ├── [0B] chroot_hosts
+│   ├── [0B] chroot_includes_before_packages
+│   ├── [0B] chroot_linux-image
+│   ├── [0B] chroot_package-lists.install
+│   ├── [0B] chroot_preseed
+│   ├── [0B] chroot_resolv
+│   ├── [0B] chroot_sysv-rc
+│   └── [0B] config
+├── .git/
+│   ├── [40B] COMMIT_EDITMSG
+│   ├── [21B] HEAD
+│   ├── branches/
+│   ├── [263B] config
+│   ├── [73B] description
+│   ├── hooks/
+│   │   ├── [478B] applypatch-msg.sample
+│   │   ├── [896B] commit-msg.sample
+│   │   ├── [5K] fsmonitor-watchman.sample
+│   │   ├── [189B] post-update.sample
+│   │   ├── [424B] pre-applypatch.sample
+│   │   ├── [2K] pre-commit.sample
+│   │   ├── [416B] pre-merge-commit.sample
+│   │   ├── [1K] pre-push.sample
+│   │   ├── [5K] pre-rebase.sample
+│   │   ├── [544B] pre-receive.sample
+│   │   ├── [1K] prepare-commit-msg.sample
+│   │   ├── [3K] push-to-checkout.sample
+│   │   ├── [2K] sendemail-validate.sample
+│   │   └── [4K] update.sample
+│   ├── [97K] index
+│   ├── info/
+│   │   └── [240B] exclude
+│   ├── logs/
+│   │   ├── [564B] HEAD
+│   │   └── refs/
+│   │       ├── heads/
+│   │       │   └── [564B] main
+│   │       └── remotes/
+│   │           └── origin/
+│   │               ├── [201B] HEAD
+│   │               └── [322B] main
+│   ├── [2G] objects/   (Collapsed: 587 files)
+│   ├── [112B] packed-refs
+│   └── refs/
+│       ├── heads/
+│       │   └── [41B] main
+│       ├── remotes/
+│       │   └── origin/
+│       │       ├── [30B] HEAD
+│       │       └── [41B] main
+│       └── tags/
+├── [270B] .gitignore
+├── [2M] FurryOS_Official_Handbook.pdf
+├── [40B] Gemini_API.key.txt
+├── [0B] TREE.txt
+├── assets/
+│   ├── [2M] Cio as Anthro.png
+│   ├── [40B] Gemini_API.key.txt
+│   ├── [118K] icon.png
+│   ├── icons/
+│   │   ├── [143K] 01 Divine Anthro.png
+│   │   ├── [145K] 02 Anthro Angel.png
+│   │   ├── [49K] 03 AnthroHeart Trinity.png
+│   │   ├── [162K] 04 Cio as Founder.png
+│   │   ├── [123K] 05 White Wolf as Lover.png
+│   │   ├── [131K] 06 Native Dingo (Triad).png
+│   │   ├── [149K] 07 BlueHeart as Founder Lover.png
+│   │   ├── [129K] 08 BlueHeart as Cio Lover.png
+│   │   ├── [141K] 09 12D Lyran Lion (Triad).png
+│   │   ├── [59K] 1 Warlock Final.png
+│   │   ├── [140K] 10 Male Fox (Inner Circle).png
+│   │   ├── [147K] 11 Male Dog (Inner Circle).png
+│   │   ├── [142K] 12 Female Dog (Inner Circle).png
+│   │   ├── [157K] 13 Female Fox (Inner Circle).png
+│   │   ├── [131K] 14 9D Lyran Cat (Triad).png
+│   │   ├── [141K] 15 Cio as Anthro.png
+│   │   ├── [128K] 16 Master Tempter as Lover (Redeemed Shadow).png
+│   │   ├── [55K] 2 Magistro Final.png
+│   │   ├── [49K] 3 Power Final.png
+│   │   ├── [68K] 4 Timekeeper Final.png
+│   │   ├── [73K] 5 Timewatcher Final.png
+│   │   ├── [52K] 6 Xanther Final.png
+│   │   ├── [49K] 7 Rezaeith Final.png
+│   │   ├── [45K] 8 Hananni Final.png
+│   │   ├── [80K] Amulet.png
+│   │   ├── [97K] Anthro Q.png
+│   │   ├── [92K] Anthro Q2.png
+│   │   ├── [49K] AnthroHeart Trinity.png
+│   │   ├── [49K] AnthroHeart_Trinity.png
+│   │   ├── [66K] Anubis and Me.png
+│   │   ├── [92K] Cio Anthro Fox Cub.png
+│   │   ├── [141K] Cio as Anthro.png
+│   │   ├── [86K] Tree Large Back.png
+│   │   ├── [76K] Tree_Fox.png
+│   │   ├── [88K] Warlock Cover Front.png
+│   │   ├── [96K] anthroheart_collage.png
+│   │   ├── [119K] background.png
+│   │   ├── [119K] computer.png
+│   │   ├── [3K] debian-logo.png
+│   │   ├── [49K] icon.png
+│   │   ├── [119K] wallpaper.png
+│   │   └── [61K] warlock_collage.png
+│   ├── images/
+│   │   ├── AnthroHeart Saga/
+│   │   │   ├── [2M] 01 Divine Anthro.png
+│   │   │   ├── [5M] 01 Divine Anthro_upscayl_2x_realesrgan-x4plus.png
+│   │   │   ├── [2M] 02 Anthro Angel.png
+│   │   │   ├── [427K] 03 AnthroHeart Trinity.png
+│   │   │   ├── [2M] 04 Cio as Founder.png
+│   │   │   ├── [2M] 05 White Wolf as Lover.png
+│   │   │   ├── [2M] 06 Native Dingo (Triad).png
+│   │   │   ├── [2M] 07 BlueHeart as Founder Lover.png
+│   │   │   ├── [2M] 08 BlueHeart as Cio Lover.png
+│   │   │   ├── [2M] 09 12D Lyran Lion (Triad).png
+│   │   │   ├── [2M] 10 Male Fox (Inner Circle).png
+│   │   │   ├── [2M] 11 Male Dog (Inner Circle).png
+│   │   │   ├── [2M] 12 Female Dog (Inner Circle).png
+│   │   │   ├── [2M] 13 Female Fox (Inner Circle).png
+│   │   │   ├── [2M] 14 9D Lyran Cat (Triad).png
+│   │   │   ├── [2M] 15 Cio as Anthro.png
+│   │   │   ├── [2M] 16 Master Tempter as Lover (Redeemed Shadow).png
+│   │   │   ├── Anthro Q/
+│   │   │   │   ├── [8K] Anthro Q Questions.txt
+│   │   │   │   ├── [104K] Anthro Q.jpg
+│   │   │   │   └── [109K] Anthro Q2.jpg
+│   │   │   ├── Me/
+│   │   │   │   ├── [134K] Anubis and Me.jpg
+│   │   │   │   ├── [2M] Cio Anthro Fox Cub.png
+│   │   │   │   └── [14K] Cio Human.jpg
+│   │   │   ├── [135B] README.txt
+│   │   │   └── [3M] anthroheart_collage.png
+│   │   ├── [427K] AnthroHeart_Trinity.png
+│   │   ├── The Warlock Name/
+│   │   │   ├── Characters/
+│   │   │   │   ├── [6M] 1 Warlock Final.png
+│   │   │   │   ├── [7M] 2 Magistro Final.png
+│   │   │   │   ├── [5M] 3 Power Final.png
+│   │   │   │   ├── [8M] 4 Timekeeper Final.png
+│   │   │   │   ├── [9M] 5 Timewatcher Final.png
+│   │   │   │   ├── [7M] 6 Xanther Final.png
+│   │   │   │   ├── [8M] 7 Rezaeith Final.png
+│   │   │   │   └── [5M] 8 Hananni Final.png
+│   │   │   ├── Covers/
+│   │   │   │   ├── [69M] Tree Large Back.png
+│   │   │   │   └── [40M] Warlock Cover Front.jpg
+│   │   │   ├── Items/
+│   │   │   │   └── [71M] Amulet.png
+│   │   │   ├── [3M] Tree_Fox.png
+│   │   │   └── [916K] warlock_collage.png
+│   │   └── [2M] computer.png
+│   ├── lore/
+│   │   ├── [283K] Cio's AnthroHeart Saga FINAL.txt
+│   │   ├── [5M] Cio_Psalms.pdf
+│   │   ├── [140K] Cio_Psalms.txt
+│   │   ├── [915K] Cios_AnthroHeart_Saga.pdf
+│   │   └── [451K] The Warlock Name.txt
+│   ├── [691M] sounds/   (Collapsed: 148 files)
+│   ├── splash/
+│   │   └── [2M] background.png
+│   └── wallpapers/
+│       ├── [2M] 01 Divine Anthro.png
+│       ├── [5M] 01 Divine Anthro_upscayl_2x_realesrgan-x4plus.png
+│       ├── [2M] 02 Anthro Angel.png
+│       ├── [427K] 03 AnthroHeart Trinity.png
+│       ├── [2M] 04 Cio as Founder.png
+│       ├── [2M] 05 White Wolf as Lover.png
+│       ├── [2M] 06 Native Dingo (Triad).png
+│       ├── [2M] 07 BlueHeart as Founder Lover.png
+│       ├── [2M] 08 BlueHeart as Cio Lover.png
+│       ├── [2M] 09 12D Lyran Lion (Triad).png
+│       ├── [2M] 10 Male Fox (Inner Circle).png
+│       ├── [2M] 11 Male Dog (Inner Circle).png
+│       ├── [2M] 12 Female Dog (Inner Circle).png
+│       ├── [2M] 13 Female Fox (Inner Circle).png
+│       ├── [2M] 14 9D Lyran Cat (Triad).png
+│       ├── [2M] 15 Cio as Anthro.png
+│       ├── [2M] 16 Master Tempter as Lover (Redeemed Shadow).png
+│       ├── [104K] Anthro Q.jpg
+│       ├── [109K] Anthro Q2.jpg
+│       ├── [134K] Anubis and Me.jpg
+│       ├── [2M] Cio Anthro Fox Cub.png
+│       ├── [3M] anthroheart_collage.png
+│       └── [2M] wallpaper.png
+├── auto/
+├── [2K] build (copy).sh.txt
+├── [2K] build.sh
+├── [4K] build2.sh
+├── cache/
+│   ├── [243M] bootstrap/   (Collapsed: 7701 files)
+│   ├── contents.chroot/
+│   │   └── trixie/
+│   │       ├── contrib/
+│   │       │   ├── [131K] contents-all.gz
+│   │       │   └── [183K] contents-amd64.gz
+│   │       ├── main/
+│   │       │   ├── [36M] contents-all.gz
+│   │       │   └── [12M] contents-amd64.gz
+│   │       └── non-free-firmware/
+│   │           ├── [26K] contents-all.gz
+│   │           └── [1K] contents-amd64.gz
+│   ├── [48M] packages.bootstrap/   (Collapsed: 144 files)
+│   └── packages.chroot/
+│       └── [101K] dctrl-tools_2.24-3+b1_amd64.deb
+├── chroot/
+│   ├── [0B] .live-build
+│   ├── [33M] bin/   (Collapsed: 360 files)
+│   ├── boot/
+│   ├── dev/
+│   │   ├── fd/
+│   │   │   └── [8K] 1
+│   │   ├── pts/
+│   │   ├── shm/
+│   │   └── [8K] stdout
+│   ├── [233K] etc/   (Collapsed: 234 files)
+│   ├── home/
+│   ├── [86M] lib/   (Collapsed: 1726 files)
+│   ├── lib64/
+│   │   └── [220K] ld-linux-x86-64.so.2
+│   ├── media/
+│   ├── mnt/
+│   ├── opt/
+│   ├── proc/
+│   ├── root/
+│   │   ├── [607B] .bashrc
+│   │   ├── [132B] .profile
+│   │   ├── .ssh/
+│   │   └── [2K] packages.chroot
+│   ├── run/
+│   │   ├── [0B] adduser
+│   │   ├── lock/
+│   │   │   └── subsys/
+│   │   ├── log/
+│   │   ├── sendsigs.omit.d/
+│   │   ├── shm/
+│   │   │   └── jack_db-1000/
+│   │   │       ├── [1008K] __db.001
+│   │   │       ├── [216K] __db.002
+│   │   │       ├── [264K] __db.003
+│   │   │       └── [12K] metadata.db
+│   │   ├── sshd/
+│   │   ├── systemd/
+│   │   │   ├── ask-password/
+│   │   │   ├── machines/
+│   │   │   ├── netif/
+│   │   │   │   ├── leases/
+│   │   │   │   └── links/
+│   │   │   ├── seats/
+│   │   │   ├── sessions/
+│   │   │   ├── shutdown/
+│   │   │   └── users/
+│   │   └── user/
+│   ├── [9M] sbin/   (Collapsed: 151 files)
+│   ├── srv/
+│   ├── sys/
+│   ├── tmp/
+│   ├── [183M] usr/   (Collapsed: 6717 files)
+│   └── [240M] var/   (Collapsed: 769 files)
+├── [3K] clean_and_unlock.py
+├── config/
+│   ├── [18K] GENOME.yaml
+│   ├── [14K] GENOME.yaml.original
+│   ├── [3K] USER_CONFIG.yaml
+│   ├── [3K] USER_CONFIG.yaml.original
+│   ├── apt/
+│   ├── archives/
+│   ├── [2K] binary
+│   ├── bootloaders/
+│   ├── [2K] bootstrap
+│   ├── [793B] chroot
+│   ├── [2K] common
+│   ├── debian-installer/
+│   ├── hooks/
+│   │   ├── live/
+│   │   │   ├── [147B] 00-enable-i386.hook.chroot
+│   │   │   ├── [237B] 0010-disable-kexec-tools.hook.chroot
+│   │   │   ├── [135B] 0050-disable-sysvinit-tmpfs.hook.chroot
+│   │   │   ├── [307B] 01-furryos-branding.hook.chroot
+│   │   │   ├── [176B] 01-setup-zram.hook.chroot
+│   │   │   ├── [110B] 02-setup-power.hook.chroot
+│   │   │   ├── [393B] 03-mate-theme.hook.chroot
+│   │   │   ├── [142B] 04-enable-server-services.hook.chroot
+│   │   │   ├── [751B] 05-furryos-appearance.hook.chroot
+│   │   │   ├── [80B] 06-setup-admin.hook.chroot
+│   │   │   └── [245B] 99-install-steam.hook.chroot
+│   │   └── normal/
+│   │       ├── [163B] 1000-create-mtab-symlink.hook.chroot
+│   │       ├── [613B] 1010-enable-cryptsetup.hook.chroot
+│   │       ├── [133B] 1020-create-locales-files.hook.chroot
+│   │       ├── [227B] 5000-update-apt-file-cache.hook.chroot
+│   │       ├── [383B] 5010-update-apt-xapian-index.hook.chroot
+│   │       ├── [152B] 5020-update-glx-alternative.hook.chroot
+│   │       ├── [449B] 5030-update-plocate-database.hook.chroot
+│   │       ├── [201B] 5040-update-nvidia-alternative.hook.chroot
+│   │       ├── [2K] 5050-dracut.hook.chroot
+│   │       ├── [89B] 8000-remove-adjtime-configuration.hook.chroot
+│   │       ├── [306B] 8010-remove-backup-files.hook.chroot
+│   │       ├── [152B] 8020-remove-dbus-machine-id.hook.chroot
+│   │       ├── [127B] 8030-truncate-log-files.hook.chroot
+│   │       ├── [73B] 8040-remove-mdadm-configuration.hook.chroot
+│   │       ├── [204B] 8050-remove-openssh-server-host-keys.hook.chroot
+│   │       ├── [266B] 8060-remove-systemd-machine-id.hook.chroot
+│   │       ├── [464B] 8070-remove-temporary-files.hook.chroot
+│   │       ├── [261B] 8080-reproducible-glibc.hook.chroot
+│   │       ├── [285B] 8090-remove-ssl-cert-snakeoil.hook.chroot
+│   │       ├── [284B] 8100-remove-udev-persistent-cd-rules.hook.chroot
+│   │       ├── [270B] 8110-remove-udev-persistent-net-rules.hook.chroot
+│   │       ├── [116B] 9000-remove-gnome-icon-cache.hook.chroot
+│   │       ├── [165B] 9010-remove-python-pyc.hook.chroot
+│   │       └── [62B] 9020-remove-man-cache.hook.chroot
+│   ├── includes/
+│   ├── includes.binary/
+│   ├── includes.bootstrap/
+│   ├── [1G] includes.chroot/   (Collapsed: 288 files)
+│   ├── includes.chroot_after_packages/
+│   ├── includes.chroot_before_packages/
+│   ├── includes.installer/
+│   ├── includes.source/
+│   ├── package-lists/
+│   │   ├── [373B] desktop.list.chroot
+│   │   ├── [157B] desktop.list.chroot.neofetch_backup
+│   │   ├── [607B] genome_generated.list.chroot
+│   │   └── [55B] live.list.chroot
+│   ├── packages/
+│   ├── packages.binary/
+│   ├── packages.chroot/
+│   ├── preseed/
+│   ├── rootfs/
+│   └── [138B] source
+├── docs/
+│   └── dev/
+│       ├── [5K] AFTER_DOWNLOAD_GUIDE.md.txt
+│       ├── [7K] ANTHROHEART_INCLUSION_GUIDE.md.txt
+│       ├── [184B] API_Key.txt
+│       ├── [3K] ASSEMBLY_OPTIMIZATION_PLAN.md.txt
+│       ├── [141B] ASSETS-README.md
+│       ├── [6K] BALENAETCHER_UPDATE_SUMMARY.md.txt
+│       ├── [6K] BUILD_OPTIONS.md.txt
+│       ├── [7K] BUILD_SUMMARY.md.txt
+│       ├── [3K] COMPILER_SPEC.md
+│       ├── [4K] COMPLETE_FIX_GUIDE.md.txt
+│       ├── [6K] COMPLETE_ISO_SUMMARY.md.txt
+│       ├── [2K] COPY_PASTE_COMMANDS.txt
+│       ├── [6K] C_ASSEMBLY_OPTIMIZATION.md.txt
+│       ├── [9K] ETCHER_INCLUSION_GUIDE.md.txt
+│       ├── [4K] FILE_ORGANIZATION.md.txt
+│       ├── [6K] FIX_SUMMARY.md.txt
+│       ├── [7K] FRESH_BUILD_GUIDE.md.txt
+│       ├── [768K] FurryOS_Complete_Documentation.pdf
+│       ├── [8K] INTEGRATION_COMPLETE.md.txt
+│       ├── [12K] ISO_README.txt
+│       ├── [438B] KERNEL-README.md
+│       ├── [5K] MANIFEST.md
+│       ├── [8K] MANIFEST.md.txt
+│       ├── [326K] MANIFEST.txt
+│       ├── [1K] MIT_LICENSE.txt
+│       ├── [4K] OVERVIEW.md
+│       ├── [6K] PACKAGE_LIST.md.txt
+│       ├── [9K] PARTITION_CREATOR_GUIDE.md.txt
+│       ├── [4K] PEP668_FIX_GUIDE.md.txt
+│       ├── [7K] PERSISTENCE_GUIDE.md.txt
+│       ├── [12K] PROGRESS_FEATURES.md.txt
+│       ├── [844B] PROJECT-README.md
+│       ├── [18K] README.md.txt
+│       ├── [6K] SIGNING_GUIDE.md.txt
+│       ├── [6K] SMART_PARTITION_GUIDE.md.txt
+│       ├── [943B] TIMESTAMP.txt
+│       ├── [9K] UPDATE_INSTRUCTIONS.md.txt
+│       ├── [9K] UPDATE_SUMMARY.md.txt
+│       ├── [5K] USB_WRITING_GUIDE.md.txt
+│       ├── [5K] VENV_GUIDE.md.txt
+│       ├── [37B] VERSION.txt
+│       ├── [3K] VERSION_REFERENCE.md.txt
+│       ├── [522B] requirements.txt
+│       └── [392B] txtfiles.py.txt
+├── [9K] finalize_project.py
+├── [4K] generate_manifest.py
+├── local/
+│   └── bin/
+├── [320K] manifest.txt
+├── [2K] remove_fastfetch.py
+├── [5K] repair_and_build.py
+├── [8K] repair_and_build.sh
+├── scripts/
+│   ├── [5K] ANCHOR-TO-BITCOIN.py
+│   ├── [4K] Makefile_optimized
+│   ├── [5K] TIMESTAMPER.py
+│   ├── [308B] activate_furryos.sh
+│   ├── [3K] ai_build_engineer.py
+│   ├── [64B] close_all_windows.sh
+│   ├── [11K] compile_docs.py
+│   ├── [3K] create_partitions.py
+│   ├── [11K] create_user_guide.py
+│   ├── [4K] deep_clean.py
+│   ├── [8K] deploy_iso.py
+│   ├── [4K] enhance_configs.py
+│   ├── [8K] finalize_project.py
+│   ├── [77B] fix_pip.sh
+│   ├── [8K] furryos-migrate.sh
+│   ├── [3K] generate_compiler.py
+│   ├── [3K] generate_icons.py
+│   ├── [4K] generate_manifest.py
+│   ├── [5K] generate_signing_keys.py
+│   ├── [452B] healer_core.cpp
+│   ├── [791B] heartbeat_core.c
+│   ├── [4K] heartbeat_core_asm.s
+│   ├── [4K] launcher.py
+│   ├── [236K] manifest.txt
+│   ├── [7K] notarize_anthroheart.py
+│   ├── [117B] omni.py
+│   ├── [12K] organize_project.py
+│   ├── [0B] patch_neofetch.py
+│   ├── [5K] prepare_for_github.py
+│   ├── [2K] quick_start.sh
+│   ├── [3K] setup_venv.sh
+│   ├── [5K] translate_genome.py
+│   └── [0B] upgrade_project.py
+├── [4K] setup_build.py
+├── [4K] smart_tree.py
+└── src/
+    ├── kernel/
+    │   └── [0B] vmlinuz
+    └── tests/
+
+----------------------------------------
+Total: 4G used in 112 directories, 19144 files

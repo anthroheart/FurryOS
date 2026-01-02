@@ -1,0 +1,67 @@
+#!/usr/bin/env python3
+# FurryOS Admin Control Panel
+
+import tkinter as tk
+from tkinter import messagebox
+import subprocess
+
+def run_command(cmd):
+    try:
+        subprocess.run(cmd, shell=True, check=True)
+        messagebox.showinfo("Success", "Operation completed!")
+    except Exception as e:
+        messagebox.showerror("Error", f"Failed: {e}")
+
+def set_profile(profile):
+    if profile == "gamer":
+        cmd = "sudo systemctl stop cups bluetooth; echo 'Gamer Mode Active'"
+    elif profile == "paranoid":
+        cmd = "sudo ufw enable; sudo ufw default deny incoming"
+    elif profile == "granny":
+        cmd = "gsettings set org.mate.interface document-font-name 'Sans 14'"
+    elif profile == "hacker":
+        cmd = "x-terminal-emulator &"
+    else:
+        return
+    run_command(cmd)
+
+def launch_snapshot():
+    run_command("sudo timeshift-gtk")
+
+root = tk.Tk()
+root.title("FurryOS Control Center")
+root.geometry("500x550")
+root.configure(bg="#222")
+
+tk.Label(root, text="FurryOS Control Center", bg="#222", fg="#FF6600", 
+         font=("Arial", 20, "bold")).pack(pady=20)
+
+tk.Label(root, text="Select System Profile", bg="#222", fg="#AAA",
+         font=("Arial", 12)).pack(pady=10)
+
+btn_frame = tk.Frame(root, bg="#222")
+btn_frame.pack(pady=10)
+
+def make_button(text, profile, color):
+    tk.Button(btn_frame, text=text, command=lambda: set_profile(profile),
+              width=30, height=2, bg=color, fg="white",
+              font=("Arial", 11, "bold"), relief="flat").pack(pady=5)
+
+make_button("🎮 Gamer Mode", "gamer", "#D32F2F")
+make_button("👵 Granny Mode", "granny", "#1976D2")
+make_button("💻 Hacker Mode", "hacker", "#388E3C")
+make_button("🔒 Paranoid Mode", "paranoid", "#424242")
+
+tk.Label(root, text="System Maintenance", bg="#222", fg="#AAA",
+         font=("Arial", 12)).pack(pady=15)
+
+tk.Button(root, text="📸 System Snapshot & Rollback",
+          command=launch_snapshot, width=30, height=2,
+          bg="#FF9800", fg="black",
+          font=("Arial", 11, "bold")).pack(pady=5)
+
+tk.Button(root, text="EXIT", command=root.quit,
+          bg="black", fg="white", relief="flat",
+          font=("Arial", 10)).pack(pady=20)
+
+root.mainloop()

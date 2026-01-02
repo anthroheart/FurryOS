@@ -1,0 +1,35 @@
+#!/bin/sh
+# 02-create-users.hook.chroot
+# Creates default users for FurryOS Live mode
+
+echo "Creating FurryOS default users..."
+
+# Set root password to 'root' (for live mode only)
+echo "root:root" | chpasswd
+
+# Create anthro user with password 'anthro'
+if ! id "anthro" >/dev/null 2>&1; then
+    useradd -m -s /bin/bash         -c "Anthro User"         -G sudo,audio,video,plugdev,netdev,cdrom         anthro
+
+    echo "anthro:anthro" | chpasswd
+
+    echo "anthro ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/anthro
+    chmod 0440 /etc/sudoers.d/anthro
+
+    echo "✓ User 'anthro' created with password 'anthro'"
+else
+    echo "✓ User 'anthro' already exists"
+fi
+
+# Configure autologin for MATE (LightDM)
+if [ -d "/etc/lightdm" ]; then
+    mkdir -p /etc/lightdm/lightdm.conf.d
+    cat > /etc/lightdm/lightdm.conf.d/50-furryos-autologin.conf << 'EOF'
+[Seat:*]
+autologin-user=anthro
+autologin-user-timeout=0
+EOF
+    echo "✓ Autologin configured for anthro"
+fi
+
+echo "User creation complete!"

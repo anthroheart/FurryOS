@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
-Name=Furry Control Center
-Comment=Manage FurryOS Profiles
+Name=FurryOS Control Center
+Comment=Manage FurryOS system profiles
 Exec=furry-admin
 Icon=utilities-system-monitor
 Terminal=false
