@@ -1,5 +1,0 @@
-#!/bin/sh
-# 06-setup-admin.hook.chroot
-# Ensures the admin panel is executable
-
-chmod +x /usr/local/bin/furry-admin
