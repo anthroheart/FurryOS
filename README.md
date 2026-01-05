@@ -1,8 +1,35 @@
-# FurryOS Gen2 Builder
+# FurryOS Gen2 Builder (FurryOS_Gen2_Builder_GUI.py)
 
 FurryOS Gen2 Builder is a toolchain for creating a customized Debian Live ISO themed for FurryOS (anthro-focused desktop experience). Drop in your own wallpapers, sounds, docs, and desktop scripts, then build a bootable ISO.
 
+It uses GENOME.yaml as the config file for compiling/building your own custom OS.
+
 > This repo is the **builder/template**, not the finished ISO. You add assets locally, then build your own image.
+
+## FurryOS Gen2 Payload Assets (1.1GB):
+
+https://furry-os.org/assets/FurryOS_Gen2_payload.7z
+https://furry-os.org/assets/FurryOS_Gen2_payload.7z.sha256
+
+5e21f21b5b1431a3596e254124105252c762679eb47aa5abf5dafd5e269d6973  FurryOS_Gen2_payload.7z
+
+## FurryOS Gen2 ISO (4.7GB):
+
+https://furry-os.org/assets/furryos-gen2-amd64.iso
+https://furry-os.org/assets/furryos-gen2-amd64.iso.sha256
+
+a2ae0209b65d35fbfc6e8eaf50eabf7e401bec76b5d514bf4a114f89ab2b7691  furryos-gen2-amd64.iso
+
+Debian 13/MATE Live ISO (4.0GB)
+
+## TODO:
+
+Only the desktop app and icon copied over. I reached v9.4.0 with never releasing Gen1 of FurryOS
+and now have released FurryOS Gen2. May others be able to contribute.
+
+## GitHub:
+
+https://github.com/anthroheart/FurryOS
 
 ---
 
