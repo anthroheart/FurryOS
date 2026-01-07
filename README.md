@@ -20,7 +20,10 @@ https://furry-os.org/assets/furryos-gen2.1-amd64.iso.sha256
 
 b1e4b5301d14ca6b66209a6c7668bc4551a45d803661149429b8e5f2444efae6  furryos-gen2.1-amd64.iso
 
-Debian 13/MATE Live ISO (4.0GB)
+## Debian 13/MATE Live ISO (4.0GB)
+
+I use: https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/debian-live-13.2.0-amd64-mate.iso
+But having mirrors may help (used by build_furryos.sh)
 
 ## TODO:
 
