@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=FurryOS Source
+Comment=Open source code folder with wallpapers, splash, and sounds
+Icon=folder
+Exec=xdg-open ~/FurryOS/sourcecode
+Terminal=false
+Categories=System;Utility;
+X-Ubuntu-Gettext-Domain=furryos
+StartupNotify=true

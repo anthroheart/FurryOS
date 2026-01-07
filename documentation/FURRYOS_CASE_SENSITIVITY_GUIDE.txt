@@ -1,0 +1,363 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║              📁 FurryOS - Case Sensitivity Guide for Assets                  ║
+║                    147 MP3s and Folder Names                                 ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+Short Answer: NO, not all files need lowercase - but there are important rules!
+
+═══════════════════════════════════════════════════════════════════════════════
+🎯 WHICH FILES **MUST** BE LOWERCASE (CRITICAL!)
+═══════════════════════════════════════════════════════════════════════════════
+
+Only these 3 core files MUST have EXACT lowercase names:
+
+1. wallpapers/default.jpg          ← MUST be exactly "default.jpg"
+2. splash/splash.png                ← MUST be exactly "splash.png"  
+3. sounds/startup/startup.ogg       ← MUST be exactly "startup.ogg"
+4. sounds/shutdown/shutdown.ogg     ← MUST be exactly "shutdown.ogg" (if used)
+
+WHY? Because the build scripts look for these EXACT filenames!
+
+✅ CORRECT:
+   wallpapers/default.jpg
+   splash/splash.png
+   sounds/startup/startup.ogg
+
+❌ WRONG (will break the build):
+   wallpapers/Default.jpg          ← Capital D breaks it!
+   wallpapers/DEFAULT.JPG          ← All caps breaks it!
+   splash/Splash.png               ← Capital S breaks it!
+   sounds/startup/StartUp.ogg      ← Capital letters break it!
+
+
+═══════════════════════════════════════════════════════════════════════════════
+🎵 YOUR 147 MP3S - CASE DOESN'T MATTER!
+═══════════════════════════════════════════════════════════════════════════════
+
+For your 147 music files, you can use ANY case you want!
+
+✅ ALL OF THESE ARE FINE:
+   music/Song Title.mp3
+   music/SONG_TITLE.mp3
+   music/song-title.mp3
+   music/Song_Title_2024.mp3
+   music/My Awesome Track (Remix).mp3
+   music/01-Track-Name.mp3
+
+Linux is case-sensitive, which means:
+  • "Song.mp3" and "song.mp3" are DIFFERENT files
+  • But both will work fine!
+  • You can use whatever naming you prefer
+
+BEST PRACTICES FOR 147 MP3S:
+────────────────────────────────────────────────────────────────────────────────
+
+✅ Use whatever naming convention you like:
+   • "01 - Artist - Song Title.mp3"
+   • "Song Title.mp3"
+   • "artist-song-title.mp3"
+   • Keep your original filenames!
+
+✅ Spaces are OK:
+   • "My Favorite Song.mp3" works fine
+
+✅ Special characters are mostly OK:
+   • Parentheses: "Song (Remix).mp3" ✅
+   • Hyphens: "song-title.mp3" ✅
+   • Underscores: "song_title.mp3" ✅
+   • Numbers: "01-song.mp3" ✅
+
+⚠️ AVOID (but they won't break anything):
+   • Slashes: "/" (can't use in filenames)
+   • Quotes: " or ' (can cause issues in scripts)
+   • Backslashes: "\" (Windows path separator)
+
+
+═══════════════════════════════════════════════════════════════════════════════
+📁 FOLDER NAMES - CASE DOESN'T MATTER (BUT LOWERCASE RECOMMENDED)
+═══════════════════════════════════════════════════════════════════════════════
+
+The required folder structure has lowercase names, but you can add subfolders
+with any case you want.
+
+REQUIRED FOLDERS (use these exact names):
+────────────────────────────────────────────────────────────────────────────────
+
+payload/assets/
+├── wallpapers/        ← lowercase
+├── splash/            ← lowercase
+├── sounds/            ← lowercase
+│   ├── startup/       ← lowercase
+│   └── shutdown/      ← lowercase
+├── images/            ← lowercase
+├── icons/             ← lowercase
+└── music/             ← lowercase
+
+
+OPTIONAL SUBFOLDERS (any case you want):
+────────────────────────────────────────────────────────────────────────────────
+
+You can organize with subfolders using ANY case:
+
+music/
+├── Ambient/
+├── Electronic/
+├── Rock/
+├── Soundtrack/
+└── Theme Songs/
+
+OR:
+
+music/
+├── 01-ambient/
+├── 02-electronic/
+├── 03-rock/
+├── 04-soundtrack/
+└── 05-theme-songs/
+
+OR:
+
+music/
+├── AMBIENT/
+├── ELECTRONIC/
+├── ROCK/
+└── SOUNDTRACK/
+
+All work fine! Choose what's easiest for you.
+
+
+═══════════════════════════════════════════════════════════════════════════════
+🎨 IMAGES, ICONS - CASE DOESN'T MATTER
+═══════════════════════════════════════════════════════════════════════════════
+
+For images/ and icons/ folders, use whatever naming you prefer:
+
+images/
+├── Background_1.png
+├── Logo.svg
+├── menu-background.jpg
+└── UI Elements/
+    ├── Button_Hover.png
+    └── button-normal.png
+
+icons/
+├── desktop-shortcuts/
+│   ├── Mode-Switcher.png        ← Any case
+│   ├── assets-browser.png       ← Any case
+│   └── Documentation.png        ← Any case
+└── applications/
+    ├── Firefox.png
+    ├── gimp-custom.png
+    └── Steam-FurryOS.png
+
+The only requirement is that your .desktop files reference the correct
+filename with correct case:
+
+  Icon=$HOME/FurryOS/sourcecode/payload/assets/icons/desktop-shortcuts/Mode-Switcher.png
+                                                                        ^^^^^^^^^^^^^^^^^^^
+                                                                        Match exact case!
+
+
+═══════════════════════════════════════════════════════════════════════════════
+⚠️  IMPORTANT: LINUX IS CASE-SENSITIVE
+═══════════════════════════════════════════════════════════════════════════════
+
+On Linux (what FurryOS is based on):
+  • "song.mp3" and "Song.mp3" are TWO DIFFERENT FILES
+  • "Music/" and "music/" are TWO DIFFERENT FOLDERS
+
+This is different from Windows/Mac where case doesn't matter.
+
+PRACTICAL EXAMPLE:
+────────────────────────────────────────────────────────────────────────────────
+
+If you have:
+  music/My Song.mp3
+
+And you reference it as:
+  music/my song.mp3        ← WRONG! Won't find it!
+
+You MUST reference it exactly:
+  music/My Song.mp3        ← CORRECT!
+
+
+═══════════════════════════════════════════════════════════════════════════════
+📋 SUMMARY: WHAT MUST BE EXACT
+═══════════════════════════════════════════════════════════════════════════════
+
+MUST BE EXACT (lowercase, these exact names):
+────────────────────────────────────────────────────────────────────────────────
+
+✅ wallpapers/default.jpg          (exactly this)
+✅ splash/splash.png                (exactly this)
+✅ sounds/startup/startup.ogg       (exactly this)
+✅ sounds/shutdown/shutdown.ogg     (exactly this, if used)
+
+✅ Folder names (use lowercase):
+   • payload/assets/wallpapers/
+   • payload/assets/splash/
+   • payload/assets/sounds/startup/
+   • payload/assets/sounds/shutdown/
+   • payload/assets/images/
+   • payload/assets/icons/
+   • payload/assets/music/
+
+
+CAN BE ANYTHING (your choice):
+────────────────────────────────────────────────────────────────────────────────
+
+✅ Your 147 MP3 files - ANY case, ANY naming
+✅ Additional images - ANY case, ANY naming
+✅ Icon files - ANY case, ANY naming
+✅ Subfolders you create - ANY case, ANY naming
+✅ Extra wallpapers (not default.jpg) - ANY case, ANY naming
+
+
+═══════════════════════════════════════════════════════════════════════════════
+🎵 RECOMMENDED NAMING FOR YOUR 147 MP3S
+═══════════════════════════════════════════════════════════════════════════════
+
+Since you have 147 MP3s, here are some organizational strategies:
+
+OPTION 1: Keep Original Names
+────────────────────────────────────────────────────────────────────────────────
+
+Just copy your MP3s as-is! Keep whatever names they already have.
+
+music/
+├── 01 - Artist Name - Song Title.mp3
+├── 02 - Another Artist - Another Song.mp3
+├── Theme Song (Main Version).mp3
+└── Background Music - Calm.mp3
+
+
+OPTION 2: Organize by Category
+────────────────────────────────────────────────────────────────────────────────
+
+music/
+├── Themes/
+│   ├── Main Theme.mp3
+│   ├── Login Theme.mp3
+│   └── Shutdown Theme.mp3
+├── Background/
+│   ├── Ambient 01.mp3
+│   ├── Ambient 02.mp3
+│   └── Calm Background.mp3
+├── Menu/
+│   └── Menu Music.mp3
+└── System Sounds/
+    ├── Notification.mp3
+    └── Alert.mp3
+
+
+OPTION 3: Numbered for Playlists
+────────────────────────────────────────────────────────────────────────────────
+
+music/
+├── 001-song-name.mp3
+├── 002-song-name.mp3
+├── 003-song-name.mp3
+...
+└── 147-song-name.mp3
+
+
+═══════════════════════════════════════════════════════════════════════════════
+🔧 DO YOU NEED TO CONVERT MP3 TO OGG?
+═══════════════════════════════════════════════════════════════════════════════
+
+SHORT ANSWER: No, keep MP3s as MP3!
+
+DETAILED:
+────────────────────────────────────────────────────────────────────────────────
+
+• startup.ogg and shutdown.ogg MUST be OGG format (system sounds)
+• Your 147 music files can stay as MP3 (music library)
+
+MP3s work perfectly fine in Linux! You don't need to convert them.
+
+OGG is only required for:
+  ✅ sounds/startup/startup.ogg      (system startup sound)
+  ✅ sounds/shutdown/shutdown.ogg    (system shutdown sound)
+
+Everything else can be MP3:
+  ✅ music/*.mp3                      (your 147 songs - keep as MP3!)
+
+
+═══════════════════════════════════════════════════════════════════════════════
+✅ FINAL CHECKLIST FOR YOUR 147 MP3S
+═══════════════════════════════════════════════════════════════════════════════
+
+☐ Copy all 147 MP3s to: payload/assets/music/
+☐ Use whatever filenames they already have (case doesn't matter)
+☐ Organize into subfolders if you want (optional)
+☐ Keep them as MP3 format (no conversion needed)
+☐ Make sure you have the 3-4 required files in correct locations:
+   • wallpapers/default.jpg (EXACT name, lowercase)
+   • splash/splash.png (EXACT name, lowercase)
+   • sounds/startup/startup.ogg (EXACT name, lowercase, must be OGG)
+   • sounds/shutdown/shutdown.ogg (EXACT name, lowercase, must be OGG, optional)
+
+
+═══════════════════════════════════════════════════════════════════════════════
+📂 EXAMPLE STRUCTURE WITH YOUR 147 MP3S
+═══════════════════════════════════════════════════════════════════════════════
+
+payload/assets/
+├── wallpapers/
+│   └── default.jpg                    ← MUST be exactly this (lowercase!)
+├── splash/
+│   └── splash.png                     ← MUST be exactly this (lowercase!)
+├── sounds/
+│   ├── startup/
+│   │   └── startup.ogg                ← MUST be exactly this (lowercase!)
+│   └── shutdown/
+│       └── shutdown.ogg               ← MUST be exactly this (lowercase!)
+├── images/
+│   ├── Background_Image.png           ← Any case/name you want
+│   └── Logo.svg                       ← Any case/name you want
+├── icons/
+│   ├── desktop-shortcuts/
+│   │   ├── Mode-Switcher.png          ← Any case/name you want
+│   │   └── Assets-Browser.png         ← Any case/name you want
+│   └── applications/
+│       ├── Firefox-Custom.png         ← Any case/name you want
+│       └── Gimp-Custom.png            ← Any case/name you want
+└── music/
+    ├── Theme Songs/                   ← Any case/name you want
+    │   ├── Main Theme.mp3             ← Any case/name you want
+    │   ├── Login Music.mp3            ← Any case/name you want
+    │   └── Menu Background.mp3        ← Any case/name you want
+    ├── Ambient/                       ← Any case/name you want
+    │   ├── Calm 01.mp3
+    │   ├── Calm 02.mp3
+    │   └── ... (more MP3s)
+    └── Soundtrack/                    ← Any case/name you want
+        ├── Track 01.mp3
+        ├── Track 02.mp3
+        └── ... (rest of 147 MP3s)
+
+
+═══════════════════════════════════════════════════════════════════════════════
+🦊 TLDR SUMMARY
+═══════════════════════════════════════════════════════════════════════════════
+
+LOWERCASE REQUIRED (exact names):
+  • default.jpg
+  • splash.png
+  • startup.ogg
+  • shutdown.ogg
+  • Folder names: wallpapers/, splash/, sounds/, startup/, shutdown/, images/, icons/, music/
+
+ANY CASE/NAME YOU WANT:
+  • Your 147 MP3s ✅
+  • All other images ✅
+  • All icon files ✅
+  • Any subfolders you create ✅
+  • Extra wallpapers ✅
+
+KEEP YOUR MP3S AS MP3:
+  • Don't convert to OGG
+  • Keep original filenames
+  • Organize however you like
+
+═══════════════════════════════════════════════════════════════════════════════

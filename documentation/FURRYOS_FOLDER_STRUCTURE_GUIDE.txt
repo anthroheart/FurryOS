@@ -1,0 +1,418 @@
+═══════════════════════════════════════════════════════════════════════════════
+           🦊 FurryOS Gen2.1 - Complete Folder Structure Guide
+═══════════════════════════════════════════════════════════════════════════════
+
+This guide explains where to put every file and asset.
+
+═══════════════════════════════════════════════════════════════════════════════
+📁 CREATE THESE FOLDERS FIRST
+═══════════════════════════════════════════════════════════════════════════════
+
+Run this EXACT command:
+
+mkdir -p ~/FurryOS/sourcecode/payload/assets/{wallpapers,splash,sounds/{startup,shutdown}}
+
+What this creates:
+
+~/FurryOS/
+├── sourcecode/
+│   ├── payload/
+│   │   └── assets/
+│   │       ├── wallpapers/      ← Your desktop background
+│   │       ├── splash/          ← Your boot screen
+│   │       └── sounds/
+│   │           ├── startup/     ← Login sound
+│   │           └── shutdown/    ← Logout sound (optional)
+
+═══════════════════════════════════════════════════════════════════════════════
+📋 STEP-BY-STEP FOLDER SETUP
+═══════════════════════════════════════════════════════════════════════════════
+
+STEP 1: Create main sourcecode folder
+  $ mkdir ~/FurryOS
+  $ mkdir ~/FurryOS/sourcecode
+
+STEP 2: Create payload structure
+  $ mkdir -p ~/FurryOS/sourcecode/payload/assets
+
+STEP 3: Create asset subfolders
+  $ mkdir ~/FurryOS/sourcecode/payload/assets/wallpapers
+  $ mkdir ~/FurryOS/sourcecode/payload/assets/splash
+  $ mkdir ~/FurryOS/sourcecode/payload/assets/sounds
+  $ mkdir ~/FurryOS/sourcecode/payload/assets/sounds/startup
+  $ mkdir ~/FurryOS/sourcecode/payload/assets/sounds/shutdown
+
+Or use the one-liner above!
+
+═══════════════════════════════════════════════════════════════════════════════
+🖼️  WALLPAPER SETUP
+═══════════════════════════════════════════════════════════════════════════════
+
+LOCATION:
+  ~/FurryOS/sourcecode/payload/assets/wallpapers/
+
+FILENAME:
+  default.jpg
+
+  ⚠️ CASE SENSITIVE - Must be lowercase!
+  ✅ CORRECT:   default.jpg
+  ❌ WRONG:     Default.jpg
+  ❌ WRONG:     wallpaper.jpg
+  ❌ WRONG:     desktop.jpg
+
+SPECIFICATIONS:
+  Format:    JPEG (.jpg or .jpeg)
+  Size:      1920×1080 pixels MINIMUM (higher is better)
+  Examples:  1920×1080, 2560×1440, 3840×2160
+  Filesize:  Less than 5MB (compress if needed)
+
+HOW TO CREATE/PREPARE WALLPAPER:
+
+Using GIMP (GUI):
+  1. Open GIMP
+  2. Create new image: 1920×1080
+  3. Design your FurryOS branding
+  4. File → Export As
+  5. Filename: default.jpg
+  6. Location: ~/FurryOS/sourcecode/payload/assets/wallpapers/
+  7. Click Export
+
+Using ImageMagick (Command Line):
+  # Convert PNG to JPG
+  convert your_image.png ~/FurryOS/sourcecode/payload/assets/wallpapers/default.jpg
+
+  # Resize image to 1920×1080
+  convert -resize 1920x1080! your_image.png ~/FurryOS/sourcecode/payload/assets/wallpapers/default.jpg
+
+  # Compress quality
+  convert -quality 85 your_image.jpg ~/FurryOS/sourcecode/payload/assets/wallpapers/default.jpg
+
+VERIFY:
+  $ ls -l ~/FurryOS/sourcecode/payload/assets/wallpapers/
+
+  Should show:
+  -rw-r--r-- 1 user user XXXXX default.jpg
+
+═══════════════════════════════════════════════════════════════════════════════
+🎬 SPLASH SCREEN SETUP
+═══════════════════════════════════════════════════════════════════════════════
+
+LOCATION:
+  ~/FurryOS/sourcecode/payload/assets/splash/
+
+FILENAME:
+  splash.png
+
+  ⚠️ CASE SENSITIVE - Must be lowercase!
+  ✅ CORRECT:   splash.png
+  ❌ WRONG:     Splash.png
+  ❌ WRONG:     splash.PNG
+  ❌ WRONG:     boot.png
+
+SPECIFICATIONS:
+  Format:    PNG (.png)
+  Size:      1024×768 OR 1920×1080
+  Filesize:  Less than 2MB
+  Colors:    RGBA (supports transparency)
+
+PURPOSE:
+  Shown during system boot, before login screen
+  Recommended: Dark background with FurryOS logo/name
+
+HOW TO CREATE SPLASH SCREEN:
+
+Using GIMP:
+  1. Open GIMP
+  2. Create new image: 1024×768 OR 1920×1080
+  3. Add background color (dark recommended)
+  4. Add FurryOS logo/branding text
+  5. File → Export As
+  6. Filename: splash.png
+  7. Location: ~/FurryOS/sourcecode/payload/assets/splash/
+  8. Click Export
+
+Using ImageMagick:
+  # Create blank dark background
+  convert -size 1024x768 xc:background     ~/FurryOS/sourcecode/payload/assets/splash/splash.png
+
+  # Convert existing image to PNG
+  convert your_image.jpg ~/FurryOS/sourcecode/payload/assets/splash/splash.png
+
+  # Resize to correct dimensions
+  convert -resize 1024x768! your_image.png     ~/FurryOS/sourcecode/payload/assets/splash/splash.png
+
+Using Inkscape (for vector graphics):
+  1. Create 1024×768 document
+  2. Design splash screen
+  3. File → Save As
+  4. Format: PNG
+  5. Save as splash.png
+
+VERIFY:
+  $ ls -l ~/FurryOS/sourcecode/payload/assets/splash/
+
+  Should show:
+  -rw-r--r-- 1 user user XXXXX splash.png
+
+  Verify it's actually PNG:
+  $ file ~/FurryOS/sourcecode/payload/assets/splash/splash.png
+
+  Output should contain: "PNG image"
+
+═══════════════════════════════════════════════════════════════════════════════
+🔊 STARTUP SOUND SETUP
+═══════════════════════════════════════════════════════════════════════════════
+
+LOCATION:
+  ~/FurryOS/sourcecode/payload/assets/sounds/startup/
+
+FILENAME:
+  startup.ogg
+
+  ⚠️ CASE SENSITIVE - Must be lowercase!
+  ✅ CORRECT:   startup.ogg
+  ❌ WRONG:     StartUp.ogg
+  ❌ WRONG:     startup.mp3
+  ❌ WRONG:     startup.wav
+  ❌ WRONG:     login_sound.ogg
+
+SPECIFICATIONS:
+  Format:    OGG Vorbis (.ogg)
+  Duration:  2-5 seconds
+  Bitrate:   128 kbps or higher
+  Channels:  Mono or Stereo
+  Filesize:  Less than 500KB
+
+PURPOSE:
+  Played when user logs in (GDM/LightDM login)
+  2-5 second intro/ding sound recommended
+
+HOW TO CREATE/CONVERT STARTUP SOUND:
+
+Using FFmpeg (recommended, command line):
+  # Convert MP3 to OGG
+  ffmpeg -i your_sound.mp3 -codec:a libvorbis -q:a 5     ~/FurryOS/sourcecode/payload/assets/sounds/startup/startup.ogg
+
+  # Convert WAV to OGG
+  ffmpeg -i your_sound.wav -codec:a libvorbis -q:a 5     ~/FurryOS/sourcecode/payload/assets/sounds/startup/startup.ogg
+
+  # Trim audio to 5 seconds
+  ffmpeg -i your_sound.mp3 -t 5 -codec:a libvorbis -q:a 5     ~/FurryOS/sourcecode/payload/assets/sounds/startup/startup.ogg
+
+  # Normalize volume (prevent loud/quiet sounds)
+  ffmpeg -i your_sound.mp3 -af "loudnorm" -codec:a libvorbis -q:a 5     ~/FurryOS/sourcecode/payload/assets/sounds/startup/startup.ogg
+
+Using Audacity (GUI):
+  1. Open Audacity
+  2. File → Open → Your sound file
+  3. Edit → Trim Audio (if needed, keep under 5 seconds)
+  4. Audio Track → Audio Track Menu → Normalize
+  5. File → Export → Export Audio
+  6. Format: OGG Vorbis
+  7. Filename: startup.ogg
+  8. Location: ~/FurryOS/sourcecode/payload/assets/sounds/startup/
+  9. Quality: Best (320 kbps) or High (128 kbps)
+  10. Click Export
+
+VERIFY:
+  $ ls -l ~/FurryOS/sourcecode/payload/assets/sounds/startup/
+
+  Should show:
+  -rw-r--r-- 1 user user XXXXX startup.ogg
+
+  Verify format:
+  $ file ~/FurryOS/sourcecode/payload/assets/sounds/startup/startup.ogg
+
+  Output should contain: "Ogg Vorbis audio"
+
+  Check duration:
+  $ ffprobe startup.ogg
+
+  Duration should be 2-5 seconds
+
+═══════════════════════════════════════════════════════════════════════════════
+🔇 SHUTDOWN SOUND SETUP (OPTIONAL)
+═══════════════════════════════════════════════════════════════════════════════
+
+LOCATION:
+  ~/FurryOS/sourcecode/payload/assets/sounds/shutdown/
+
+FILENAME:
+  shutdown.ogg
+
+  ⚠️ CASE SENSITIVE - Must be lowercase!
+  ✅ CORRECT:   shutdown.ogg
+  ❌ WRONG:     Shutdown.ogg
+  ❌ WRONG:     shutdown.mp3
+  ❌ WRONG:     logout.ogg
+
+SPECIFICATIONS:
+  Format:    OGG Vorbis (.ogg)
+  Duration:  2-5 seconds
+  Bitrate:   128 kbps or higher
+
+PURPOSE:
+  Played during system shutdown (if provided)
+  Same process as startup sound
+
+CREATION:
+  Same process as startup sound above
+  Use FFmpeg or Audacity to convert
+
+OPTIONAL:
+  If you don't want shutdown sound, just don't create this file
+  The system will work fine without it
+
+═══════════════════════════════════════════════════════════════════════════════
+📝 COPY BUILD SCRIPTS
+═══════════════════════════════════════════════════════════════════════════════
+
+You need 3 main files in ~/FurryOS/sourcecode/:
+
+1. GENOME_Gen2.1_Final.yaml
+   └─ Configuration file (from previous delivery)
+
+2. build_furryos_gen2.1_enhanced.sh
+   └─ Main build script (from previous delivery)
+
+3. FurryOS_Live_Multimedia_Setup_Post_ISO_Gen2.1.sh
+   └─ Boot-time setup (from previous delivery)
+
+Optional files:
+
+4. FurryOS_Gen2.1_Builder_GUI.py
+   └─ GUI builder tool (makes building easier)
+
+5. install_ghost_mode_security.sh
+   └─ Ghost mode security features
+
+COPY COMMAND:
+  $ cp /path/to/GENOME_Gen2.1_Final.yaml ~/FurryOS/sourcecode/
+  $ cp /path/to/build_furryos_gen2.1_enhanced.sh ~/FurryOS/sourcecode/
+  $ cp /path/to/FurryOS_Live_Multimedia_Setup_Post_ISO_Gen2.1.sh ~/FurryOS/sourcecode/
+
+Make scripts executable:
+  $ chmod +x ~/FurryOS/sourcecode/*.sh
+
+VERIFY:
+  $ ls -la ~/FurryOS/sourcecode/
+
+  Should show:
+  -rw-r--r-- ... GENOME_Gen2.1_Final.yaml
+  -rwxr-xr-x ... build_furryos_gen2.1_enhanced.sh
+  -rwxr-xr-x ... FurryOS_Live_Multimedia_Setup_Post_ISO_Gen2.1.sh
+
+═══════════════════════════════════════════════════════════════════════════════
+✅ FINAL VERIFICATION CHECKLIST
+═══════════════════════════════════════════════════════════════════════════════
+
+Before you build, verify EVERYTHING:
+
+FOLDERS:
+  □ ~/FurryOS/sourcecode/                         exists
+  □ ~/FurryOS/sourcecode/payload/                 exists
+  □ ~/FurryOS/sourcecode/payload/assets/          exists
+  □ ~/FurryOS/sourcecode/payload/assets/wallpapers/     exists
+  □ ~/FurryOS/sourcecode/payload/assets/splash/         exists
+  □ ~/FurryOS/sourcecode/payload/assets/sounds/startup/ exists
+  □ ~/FurryOS/sourcecode/payload/assets/sounds/shutdown/ exists
+
+BUILD SCRIPTS:
+  □ GENOME_Gen2.1_Final.yaml in ~/FurryOS/sourcecode/
+  □ build_furryos_gen2.1_enhanced.sh in ~/FurryOS/sourcecode/
+  □ FurryOS_Live_Multimedia_Setup_Post_ISO_Gen2.1.sh in ~/FurryOS/sourcecode/
+  □ .sh files are executable (ls -la should show x permission)
+
+ASSETS - WALLPAPER:
+  □ ~/FurryOS/sourcecode/payload/assets/wallpapers/default.jpg exists
+  □ Filename is exactly "default.jpg" (lowercase)
+  □ File is JPEG format (file command shows JPEG data)
+  □ Size is 1920×1080 or larger (identify command shows dimensions)
+
+ASSETS - SPLASH:
+  □ ~/FurryOS/sourcecode/payload/assets/splash/splash.png exists
+  □ Filename is exactly "splash.png" (lowercase)
+  □ File is PNG format (file command shows PNG image)
+  □ Size is 1024×768 or 1920×1080 (identify command)
+
+ASSETS - STARTUP SOUND:
+  □ ~/FurryOS/sourcecode/payload/assets/sounds/startup/startup.ogg exists
+  □ Filename is exactly "startup.ogg" (lowercase)
+  □ File is OGG format (file command shows Ogg Vorbis)
+  □ Duration is 2-5 seconds (ffprobe command)
+
+ASSETS - SHUTDOWN SOUND:
+  □ Optional - only needed if you want shutdown sound
+  □ ~/FurryOS/sourcecode/payload/assets/sounds/shutdown/shutdown.ogg exists
+  □ Filename is exactly "shutdown.ogg" (lowercase)
+  □ File is OGG format
+
+VERIFICATION COMMANDS:
+
+Check folder structure:
+  $ find ~/FurryOS/sourcecode -type d
+
+Check all files exist:
+  $ find ~/FurryOS/sourcecode -type f
+
+Check wallpaper:
+  $ file ~/FurryOS/sourcecode/payload/assets/wallpapers/default.jpg
+  $ identify ~/FurryOS/sourcecode/payload/assets/wallpapers/default.jpg
+
+Check splash:
+  $ file ~/FurryOS/sourcecode/payload/assets/splash/splash.png
+  $ identify ~/FurryOS/sourcecode/payload/assets/splash/splash.png
+
+Check startup sound:
+  $ file ~/FurryOS/sourcecode/payload/assets/sounds/startup/startup.ogg
+  $ ffprobe ~/FurryOS/sourcecode/payload/assets/sounds/startup/startup.ogg
+
+═══════════════════════════════════════════════════════════════════════════════
+🚀 READY TO BUILD!
+═══════════════════════════════════════════════════════════════════════════════
+
+Once all checks pass, you're ready to build:
+
+$ cd ~/FurryOS/sourcecode
+$ sudo ./build_furryos_gen2.1_enhanced.sh
+
+This will:
+  1. Read your GENOME_Gen2.1_Final.yaml
+  2. Include your wallpaper, splash, and sounds
+  3. Build the complete FurryOS ISO
+  4. Take 15-30 minutes
+
+Result: ~/FurryOS/sourcecode/_generated/output/furryos-gen2.1-final-amd64.iso
+
+═══════════════════════════════════════════════════════════════════════════════
+❓ COMMON QUESTIONS
+═══════════════════════════════════════════════════════════════════════════════
+
+Q: What if I don't have a wallpaper yet?
+A: Use a default image first, test the build, then replace it later
+
+Q: Can I change wallpaper/splash after building?
+A: Yes! Modify assets and rebuild with updated GENOME file
+
+Q: What if my image is wrong size?
+A: Use ImageMagick to resize:
+   convert -resize 1920x1080! input.jpg default.jpg
+   convert -resize 1024x768! input.png splash.png
+
+Q: Can I use MP3 instead of OGG for sounds?
+A: No, must be OGG Vorbis format. Convert with ffmpeg:
+   ffmpeg -i sound.mp3 -codec:a libvorbis -q:a 5 sound.ogg
+
+Q: Is shutdown sound required?
+A: No, it's optional. Just don't create that folder/file
+
+Q: Why are filenames case-sensitive?
+A: Linux treats "default.jpg" and "Default.jpg" as different files!
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🦊 You're ready to build your custom FurryOS!
+
+See FurryOS_README.pdf for building and mode-switching instructions.
+
+═══════════════════════════════════════════════════════════════════════════════

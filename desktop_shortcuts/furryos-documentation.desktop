@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=FurryOS Documentation
+Comment=Read the complete FurryOS guide and documentation
+Icon=accessories-text-editor
+Exec=xdg-open ~/Desktop/FurryOS_README.pdf
+Terminal=false
+Categories=Documentation;Education;
+Keywords=furryos;documentation;help;guide;readme;
+StartupNotify=true

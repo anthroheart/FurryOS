@@ -1,0 +1,138 @@
+
+═══════════════════════════════════════════════════════════════════
+                    FurryOS Gen2.1 - FINAL FILE LIST
+═══════════════════════════════════════════════════════════════════
+
+📋 SCRIPTS YOU NEED (Only 3 files!)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. build_furryos_gen2.1_final.sh
+   └─ Main build script - runs everything
+   └─ Includes Plymouth splash, modes, live boot setup
+   └─ This is the ONLY build script you need to run
+
+2. FurryOS_Live_Multimedia_Setup_Post_ISO_Gen2.1.sh
+   └─ Auto-runs on live boot
+   └─ Creates ~/FurryOS, sets wallpaper, plays sound
+   └─ Called automatically by the build script
+
+3. FurryOS_Gen2.1_Builder_GUI.py
+   └─ Optional GUI for ease of use
+   └─ Just makes it easier to run the build
+
+📁 PAYLOAD STRUCTURE (Your assets go here)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+payload/
+└── assets/
+    ├── wallpapers/
+    │   └── default.jpg          # Required - 1920x1080+ recommended
+    │
+    ├── splash/
+    │   └── splash.png            # Required - Plymouth boot screen
+    │   └── progress_box.png      # Optional - Progress bar graphic
+    │
+    ├── sounds/
+    │   └── startup.ogg           # Required - Login sound
+    │
+    ├── desktop/
+    │   ├── *.desktop             # Your .desktop launcher files
+    │   ├── README.txt            # Optional readme for desktop
+    │   └── icons/                # Icons for desktop files
+    │
+    ├── music/                    # Optional - Background music
+    ├── docs/                     # Optional - Documentation PDFs
+    └── images/                   # Optional - Additional images
+
+🎨 MODE SWITCHING (Built into Gen2.1)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+The build script automatically creates 4 mode profiles from GENOME.yaml:
+
+• Granny Mode   - Large fonts, high contrast
+• Gamer Mode    - Performance optimized, compositor off
+• Hacker Mode   - Dark theme, terminal-focused
+• Ghost Mode    - Privacy/paranoid settings
+• Normal Mode   - Default balanced settings
+
+Users can switch modes via:
+  Settings → FurryOS Mode Switcher
+  Or command: furryos-mode-switch <mode>
+
+🚫 FILES YOU DON'T NEED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✗ asm.s               - Assembly exploration file (not needed)
+✗ *.c files           - C exploration files (not needed)
+✗ validate_genome.py  - Optional validation (build works without it)
+✗ generate_build_plan.py - Optional planning (build works without it)
+✗ prepare_iso_workspace.sh - If missing, build script handles it
+
+You were exploring C/Assembly to understand how to modify the ISO,
+but now that you know you can write directly to the squashfs, those
+files are no longer needed. The bash script does everything!
+
+⚙️ HOW IT WORKS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Build Time:
+1. Downloads Debian ISO (first time only)
+2. Extracts squashfs filesystem
+3. Installs Plymouth splash theme
+4. Copies all assets to /usr/share/furryos
+5. Creates mode switching system
+6. Sets up autostart for live boot
+7. Repacks into bootable ISO
+
+Live Boot Time:
+1. Plymouth shows your splash.png during boot
+2. User logs into MATE desktop
+3. Autostart runs furryos-live-setup automatically:
+   • Creates ~/FurryOS with all your assets
+   • Sets wallpaper to default.jpg
+   • Plays startup.ogg sound
+   • Places all .desktop files on Desktop
+   • Adds FurryOS to file manager sidebar
+4. User can switch modes via Settings menu
+
+✨ QUICK START
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Step 1: Make executable
+  chmod +x build_furryos_gen2.1_final.sh
+  chmod +x FurryOS_Live_Multimedia_Setup_Post_ISO_Gen2.1.sh
+  chmod +x FurryOS_Gen2.1_Builder_GUI.py
+
+Step 2: Organize your assets
+  - Put default.jpg in payload/assets/wallpapers/
+  - Put splash.png in payload/assets/splash/
+  - Put startup.ogg in payload/assets/sounds/
+  - Put .desktop files in payload/assets/desktop/
+
+Step 3: Build
+  Option A (GUI):    python3 FurryOS_Gen2.1_Builder_GUI.py
+  Option B (CLI):    sudo ./build_furryos_gen2.1_final.sh
+
+Step 4: Test
+  ISO will be in: _generated/output/furryos-gen2.1-amd64.iso
+
+🎯 SPLASH SCREEN REQUIREMENTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+For splash.png:
+  • Format: PNG with transparency
+  • Recommended size: 1920x1080 (will auto-scale)
+  • Keep file size under 2MB for fast loading
+  • Place in: payload/assets/splash/splash.png
+
+Optional progress_box.png:
+  • Small graphic for progress bar (e.g., 400x20 pixels)
+  • Shows boot progress animation
+  • Place in: payload/assets/splash/progress_box.png
+
+═══════════════════════════════════════════════════════════════════
+                         READY TO BUILD!
+═══════════════════════════════════════════════════════════════════
+
+You have everything you need in these 3 new files.
+The C and Assembly files were just for learning - you don't need them!

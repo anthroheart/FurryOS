@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Install Custom Packages
+Comment=Install additional software packages
+Icon=system-software-install
+Exec=x-terminal-emulator -e "bash -c 'echo \"📦 FurryOS Package Installer\"; echo \"\"; echo \"Enter package name to install (or \'q\' to quit):\"; read PKG; if [ \"$PKG\" != \"q\" ]; then sudo apt update && sudo apt install -y $PKG; fi; echo \"\"; echo \"Press Enter to close..\"; read'"
+Terminal=false
+Categories=System;PackageManager;
+Keywords=install;package;apt;software;
+StartupNotify=true
