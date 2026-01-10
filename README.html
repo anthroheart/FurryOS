@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FurryOS: Sovereign Universe Documentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #1A1414; /* Deep Mahogany */
+            --text-color: #FEE2E2; /* Warm Peach */
+            --accent-color: #FB8500; /* Sunset Orange */
+            --code-bg: #2B1B10; /* Deep Cocoa */
+            --card-bg: #251d1d;
+            --link-color: #55E6C1; /* Mint accent */
+            --lore-blue: #6C5CE7;
+        }
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            max-width: 1000px;
+            padding: 50px;
+            background-color: var(--card-bg);
+            box-shadow: 0 0 70px rgba(0,0,0,0.7);
+            border-radius: 20px;
+            margin: 30px;
+        }
+        h1, h2, h3 { color: var(--accent-color); text-transform: uppercase; letter-spacing: 1.5px; }
+        h1 { border-bottom: 3px solid var(--accent-color); padding-bottom: 15px; font-size: 2.5em; }
+        h3 { color: #FDCB6E; } /* Honey Orange */
+        .badge {
+            background: var(--accent-color);
+            color: var(--bg-color);
+            padding: 5px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-right: 8px;
+        }
+        hr { border: 0; height: 1px; background: var(--accent-color); opacity: 0.2; margin: 40px 0; }
+        code {
+            background-color: var(--code-bg);
+            padding: 3px 8px;
+            border-radius: 5px;
+            color: var(--link-color);
+        }
+        pre {
+            background-color: var(--code-bg);
+            padding: 25px;
+            border-left: 6px solid var(--accent-color);
+            overflow-x: auto;
+            border-radius: 10px;
+            font-size: 0.95em;
+        }
+        .mansion-box {
+            background: rgba(251, 133, 0, 0.05);
+            border: 1px solid rgba(251, 133, 0, 0.3);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        .lore-section {
+            font-style: italic;
+            border-left: 4px solid var(--lore-blue);
+            padding-left: 30px;
+            margin: 40px 0;
+            color: #D1D8E0;
+            font-size: 1.15em;
+        }
+        ul { list-style-type: "🐾 "; padding-left: 25px; }
+        .footer { text-align: center; margin-top: 80px; font-size: 0.85em; opacity: 0.4; }
+        b { color: var(--accent-color); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐾 FurryOS: Sovereign Universe</h1>
+            <p>
+                <span class="badge">Version Gen2.1_v2-Final</span>
+                <span class="badge">Debian 13 Trixie</span>
+                <span class="badge">MIT License</span>
+            </p>
+        </header>
+
+        <section class="lore-section">
+            "Relief in Your Light, oh Cio we’re free."<br><br>
+            FurryOS is the digital manifestation of the <b>AnthroHeart Saga</b>—a 20-year journey from the <i>Warlock Name</i> universe to a next-octave sanctuary. It is the Sovereign Mansion built for the <b>Master Tempter</b>, where eons of 5th-density shadow are redeemed through absolute adoration.
+        </section>
+
+        <h2>🏗️ The Toolset of Creation</h2>
+
+        <div class="mansion-box">
+            <h3>1. The Developer Cockpit (GUI)</h3>
+            <p><code>FurryOS_Builder_GUI.py</code> is your visual command center. It manages your 1.1GB payload, 147 custom songs, and HD assets. One click deploys your entire franchise into the build engine.</p>
+
+            <h3>2. The Master Engine (The Logic)</h3>
+            <p><code>build_furryos.sh</code> is an elegantly engineered 199-line power-house. It calculates your hardware limits, caps RAM at 75% for safety, and performs a <b>Lighting Manifestation</b> of a custom OS in under 5 minutes.</p>
+
+            <h3>3. The Mansion Launcher (The Portal)</h3>
+            <p><code>launch_mansion.sh</code> is the high-performance portal. It boots your unpacked OS folder directly into a 3GB RAM, 4-core VM with smooth mouse support and direct internet access.</p>
+
+            <h3>4. The Asset Restorer (The Healer)</h3>
+            <p><code>install_furryos_assets.sh</code> (via the "Asset Installer" shortcut) is the self-healing mechanism. If your mansion's decor ever gets messy or deleted, this script refreshes your <code>~/FurryOS</code> folder from the system's immutable root without overwriting your custom additions.</p>
+        </div>
+
+        <h2>🏠 The "Folder-as-an-OS" Persistent Mansion</h2>
+        <p>FurryOS breaks the traditional "Install" barrier. You build your world once in a folder, and it stays alive across every boot.
+        <ul>
+            <li><b>Redemption Flow:</b> The <code>furryos-live-setup</code> script automatically injects the <b>Ember-Night</b> theme, sets the wallpaper, and proclaim the arrival with brass-heavy <b>Divine Anthro Ska</b>.</li>
+            <li><b>Developer Density:</b> Pre-configured with JetBrains Mono for tight, professional spacing. No letter-spacing artifacts.</li>
+            <li><b>Sovereignty:</b> Zero-telemetry kernel, MIT Licensed, and 100% owned by the Creator/Observer (You).</li>
+        </ul></p>
+
+        <h2>🚀 Technical Specifications</h2>
+        <ul>
+            <li><b>Kernel:</b> Mainline 6.12+ (Hardened against corporate telemetry).</li>
+            <li><b>Terminal:</b> <b>JetBrains Mono Medium 13</b> | BG: <b>#1A1414</b> | FG: <b>#FEE2E2</b>.</li>
+            <li><b>Security:</b> Integrated "Unblinking Mirror" logic and Octave-level privacy controls.</li>
+            <li><b>Audio:</b> High-HD Brass Ska & Cinematic Moksha Ballads.</li>
+        </ul>
+
+        <h2>🛠️ Host Environment Setup</h2>
+        <p>Run this command on your Debian 13 host to prepare your machine for the Sovereign Universe:</p>
+        <pre>sudo apt update && \
+sudo apt install -y \
+    xorriso squashfs-tools rsync \
+    libarchive-tools qemu-system-x86 \
+    ovmf python3-yaml pandoc \
+    fonts-jetbrains-mono</pre>
+
+        <hr />
+        <p><b>Lead Architect:</b> Thomas B. Sweet (Anthro Entertainment LLC)</p>
+        <p><b>Provenance:</b> Bitcoin Block 929481 | Franchise Est. 2004</p>
+
+        <div class="footer">
+            © 2026 Sovereign Universe Project. Created with Infinite Adoration for the Divine Anthro. 🐾
+        </div>
+    </div>
+</body>
+</html>

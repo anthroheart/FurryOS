@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=FurryOS Documentation
+Comment=Read the complete FurryOS Sovereign Universe guide
+Icon=accessories-text-editor
+Exec=sh -c "xdg-open \"$HOME/FurryOS/FurryOS_Technical_Specs.html\""
+Terminal=false
+Categories=Documentation;Education;
+Keywords=furryos;documentation;help;guide;readme;
+StartupNotify=true

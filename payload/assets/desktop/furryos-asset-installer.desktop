@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=FurryOS Asset Installer
+Comment=Restore missing FurryOS wallpapers, sounds, and docs
+Icon=emblem-downloads
+# FIXED PATH: Points to docs/sourcecode
+Exec=sh -c "x-terminal-emulator -e \"$HOME/FurryOS/docs/sourcecode/install_furryos_assets.sh\""
+Terminal=false
+Categories=System;Settings;
+Keywords=furryos;assets;installer;download;restore;
+StartupNotify=true

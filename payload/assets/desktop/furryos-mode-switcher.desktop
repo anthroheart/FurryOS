@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=FurryOS Mode Switcher
+Comment=Switch between Granny, Normal, Gamer, Hacker, and Ghost modes
+Icon=preferences-desktop-theme
+Exec=x-terminal-emulator -e "bash -c 'echo \"🐾 FurryOS Mode Selector\"; echo; echo \"1. 🔧 Normal (Balanced)\"; echo \"2. 🎮 Gamer (Performance)\"; echo \"3. 👨‍💻 Hacker (Dev/Dark)\"; echo \"4. 👴 Granny (Accessible)\"; echo \"5. 🕵️ Ghost (Privacy)\"; echo; read -p \"Select Mode (type name): \" m; /usr/local/bin/furryos-mode \$m; echo \"Mode Active. Re-login recommended.\"; sleep 3'"
+Terminal=true
+Categories=System;Settings;
+Keywords=mode;theme;switch;furryos;gamer;normal;
+StartupNotify=true

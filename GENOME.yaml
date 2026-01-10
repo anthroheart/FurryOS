@@ -1,6 +1,6 @@
 # ----------
 # FurryOS GENOME Configuration
-# Version: Gen2.1 Final
+# Version: Gen2.1_v2 Final
 # License: MIT
 # Owner: Anthro Entertainment LLC
 # ----------
@@ -8,8 +8,8 @@
 meta:
   framework_name: "FurryOS GENOME"
   codename: "Sovereign Universe"
-  version: "Gen2.1-Final"
-  timestamp: "2026-01-06T13:30:00Z"
+  version: "Gen2.1_v2-Final"
+  timestamp: "2026-01-07T12:09:14Z"
   author: "Thomas B. Sweet (Anthro Teacher)"
   owner: "Anthro Entertainment LLC"
   license: "MIT"
@@ -27,7 +27,7 @@ meta:
 
 identity:
   name: "FurryOS"
-  generation: "Gen2.1"
+  generation: "Gen2.1_v2"
   tagline: "User Sovereignty Through Technology"
 
   philosophy: |
@@ -750,7 +750,7 @@ installer:
 build:
   iso_type: "hybrid_bios_uefi"
   output:
-    name: "furryos-gen2.1-final-{arch}.iso"
+    name: "furryos-Gen2.1_v2-final-{arch}.iso"
 
 authority_hierarchy:
   highest:
@@ -759,4 +759,3 @@ authority_hierarchy:
   principle: |
     Implementation must serve the specification, ensuring
     user sovereignty, privacy, and accessibility for all.
-

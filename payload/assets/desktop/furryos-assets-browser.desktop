@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=FurryOS Assets Browser
+Comment=Browse and edit FurryOS wallpapers and sounds
+Icon=folder-pictures
+Exec=sh -c "xdg-open \"$HOME/FurryOS/payload/assets\""
+Terminal=false
+Categories=System;Utility;FileManager;
+Keywords=furryos;assets;wallpaper;splash;sounds;images;icons;music;
+StartupNotify=true
