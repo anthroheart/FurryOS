@@ -15,6 +15,36 @@ It is not merely an operating system, but a lived universe — persistent, creat
 
 ---
 
+## 📥 Downloads & Access
+
+Everything required to experience or build **FurryOS: Sovereign Universe** is hosted at the official project site:
+
+🔗 **https://furry-os.org**
+
+### Available Downloads
+
+- **🐾 FurryOS ISO (Gen2.1_v2-Final)**  
+  A ready-to-run live environment for immediate exploration, testing, and daily use.
+
+- **🏗️ Complete Builder Workspace**  
+  The full sovereign creation toolkit, including:
+  - The Developer Cockpit (GUI)
+  - The Master Engine build scripts
+  - Asset payload framework
+  - Launchers, restorers, and configuration logic
+
+This workspace allows you to **build, modify, and manifest** your own persistent FurryOS universe from a folder — no forced installation, no telemetry, no gatekeeping.
+
+### Recommended Flow
+
+1. **New Explorers:**  
+   Download the **ISO** and boot directly into the Sovereign Mansion.
+
+2. **Creators & Developers:**  
+   Download the **Complete Builder Workspace** to customize, rebuild, and extend FurryOS at the source level.
+
+All releases are **MIT licensed**, creator-owned, and distributed without tracking or hidden dependencies.
+
 ## 🏗️ The Toolset of Creation
 
 ### 1. The Developer Cockpit (GUI)
