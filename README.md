@@ -15,6 +15,9 @@ It is not merely an operating system, but a lived universe — persistent, creat
 
 ---
 
+<img width="1280" height="800" alt="FurryOS_Gen2 1_v2_Desktop_Screenshot" src="https://github.com/user-attachments/assets/79d4b24e-07bb-4c0d-9804-425eb9f47abd" />
+
+
 ## 📥 Downloads & Access
 
 Everything required to experience or build **FurryOS: Sovereign Universe** is hosted at the official project site:
