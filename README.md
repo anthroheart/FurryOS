@@ -45,10 +45,15 @@ This workspace allows you to **build, modify, and manifest** your own persistent
    Link: https://furry-os.org/assets/iso/furryos-gen2.1-v2.iso
    Checksum: d7c152e97262dbfa122ba3a4ed640b4cd1c804fa05e440aff1abdf2f2bed6bb8
 
-3. **Creators & Developers:**  
+2. **Creators & Developers:**  
    Download the **Complete Builder Workspace** to customize, rebuild, and extend FurryOS at the source level.
    Link: https://furry-os.org/assets/workspaces/FurryOS_Gen2.1_v2_Workspace.7z
    Checksum: af7ed9b8f4fc67e0e1a0fe0d047e0acdb1d932747027e8c1a4b553988ee5855e
+
+3. **Music Lovers:**
+   Download the **147-WAV FurryOS Collection**
+   Link: https://furry-os.org/assets/FurryOS_WAV_Masters.7z
+   Checksum: 2131d7e6350b17f0dd8d807370bf86b5f325922b356467e670216f5e7b7ee182
 
 All releases are **MIT licensed**, creator-owned, and distributed without tracking or hidden dependencies.
 
