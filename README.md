@@ -40,6 +40,8 @@ This workspace allows you to **build, modify, and manifest** your own persistent
 
 ### Recommended Flow
 
+## Note: FurryOS_Gen2.1_v2 ISO Bitcoin Blockchain Block Height: 933392 [Provenance 1/22/2026]
+
 1. **New Explorers:**  
    Download the **ISO** and boot directly into the Sovereign Mansion.
    Link: https://furry-os.org/assets/iso/furryos-gen2.1-v2.iso
